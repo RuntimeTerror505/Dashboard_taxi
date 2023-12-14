@@ -207,3 +207,36 @@ select option {
 .triangle {
     clip-path: polygon(29% 0, 100% 0, 100% 100%, 0% 100%);
 } 
+
+
+
+:where(.dateSelect).ant-select .ant-select-arrow  {
+    inset-inline-end: 3px !important;
+    width: 5px !important;
+    height: 5px !important;
+    top: 55% !important;
+    border-left-width: 1px !important;
+    border-top-width: 1px !important;
+}
+
+:where(.dateSelect).ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    background-color: rgba(0,0,0,0);
+}
+
+
+.dateSelect {
+    border: black solid 0px !important;
+}
+:where(.filterSelect).ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+    padding-inline-end:24px !important;
+}
+
+:where(.dateSelect).ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+    padding-inline-end:14px !important;
+    text-align: end !important;
+    text-overflow: initial;
+}
+:where(.dateSelect).ant-select-single.ant-select-show-arrow .ant-select-selection-item {
+    text-align: end !important;
+    padding-inline-end: 10px !important;
+}

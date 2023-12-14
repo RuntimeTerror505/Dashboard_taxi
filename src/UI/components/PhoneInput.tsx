@@ -310,7 +310,7 @@ function PhoneNumberInput({ value, onChange, type, setValidation }: IPhone):Reac
                     setRes(res)
                     return true
                 }}
-                dropdownClass='max-w-[200px] z-40'
+                dropdownClass='max-w-[200px] z-60 '
                 priority={{ca: 1, us: 0,kz: 0, ru: 1}  }
                 country={'us'}
                 value={value || countryCode}
@@ -329,7 +329,7 @@ function PhoneNumberInput({ value, onChange, type, setValidation }: IPhone):Reac
                     return true
                 }}
                 
-                dropdownClass='max-w-[200px] z-40'
+                dropdownClass='max-w-[200px] z-60 '
                 priority={{ca: 0, us: 1,kz: 0, ru: 1} }
                 country={'ca'}
                 value={value || countryCode}
@@ -345,9 +345,10 @@ function PhoneNumberInput({ value, onChange, type, setValidation }: IPhone):Reac
 
 export default PhoneNumberInput
 
-const subMenu ='absolute bg-white z-20 top-[110%] left-0 shadow-xl rounded-lg overflow-hidden px-1'
+const subMenu ='absolute bg-white top-[110%] left-0 shadow-xl rounded-lg overflow-hidden px-1 z-10'
+
 const subItem ='flex text-sm px-3 py-2 items-end hover:bg-blue-50 rounded'
-const phoneLabel = ' flex relative items-center pl-1 h-[38px] cursor-pointer hover:bg-gray-100 border-r-[1px] border-gray-200'
-const container = 'flex items-center bg-white rounded w-full'
+const phoneLabel = ' flex min-w-[70px] relative items-center pl-1 h-[38px] cursor-pointer hover:bg-gray-100 border-r-[1px] border-gray-200'
+const container = 'flex items-center bg-white rounded-lg w-full'
 
 

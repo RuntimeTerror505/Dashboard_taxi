@@ -103,7 +103,7 @@ export interface ITaxi {
     departure2R: string;
 
     //options information
-    carType: string;
+    carType: number | string;
     adults: number;
     kids: number[],
     babies: number
@@ -128,7 +128,7 @@ interface IStore {
     list: ITaxi[];
     //info methods
     setDay: (value: boolean) => void;
-    setType: (value: string) => void;
+    setType: (value: number) => void;
     setIsFrench: (value: boolean) => void;
     setActiveCarId: (value: number) => void;
     setFilled: (value: boolean, id: number) => void;
@@ -231,7 +231,7 @@ interface IStore {
     resetReturn: () => void;
 
     //options methods
-    setCarType: (value: string) => void;
+    setCarType: (value: number| string) => void;
     setAdults: (value: number) => void;
     setKids: (value: number[]) => void;
     setBabies: (value: number) => void;
@@ -332,7 +332,7 @@ export const useMain = create<IStore>()(
                 departureR: '', departure2R: '',
 
                 //options information
-                carType: 'Sedan',
+                carType: 1,
 
                 adults: 1, kids: [], babies: 0,
 

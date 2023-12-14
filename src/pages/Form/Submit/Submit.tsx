@@ -25,7 +25,7 @@ const Submit = (): React.ReactNode => {
         <section className={section}>
             {list.filter(item => item.filled).length > 0 
             ? list.filter(item => item.filled).map((item) => (
-                <CarCard item={item} key={item.name + item.phone}/>
+                <CarCard  key={item.name + item.phone}/>
             ))
             :<div className='w-full h-[100px] text-center'> no orders yet</div>  }
             <div className="flex justify-between">

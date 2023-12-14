@@ -10,7 +10,7 @@ const LocationSection = ():React.ReactNode => {
     const {store} = useStore()
     const {isFrench, list,setIsReturnStatus, setIsReturnTrip, activeCarId } = useMain()
     useEffect(()=>{
-        if(['Boost', 'Unlocking door'].includes(list[activeCarId-1].type)) {
+        if(list[activeCarId-1].type>2) {
             setIsReturnTrip(false)
             setIsReturnStatus(false)
         }
@@ -28,7 +28,7 @@ const LocationSection = ():React.ReactNode => {
                 <div 
                     className={!tabs ? carCard + ' rounded-bl-[50px]  rounded-t-[30px] border-l ': carCardActive +' border-b-0 rounded-tl-[20px] border-l-0'} 
                     onClick={()=>{
-                        if(['Boost', 'Unlocking door'].includes(list[activeCarId-1].type)) return;
+                        // if(['Boost', 'Unlocking door'].includes(list[activeCarId-1].type)) return;
                         if(list[activeCarId-1].isReturnStatus) setTabs(true)
                     }}
                 >

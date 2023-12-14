@@ -2,7 +2,6 @@ import { ChangeEvent, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Input, Select } from "antd";
 
-import GoogleAddressInput from "../../../UI/components/GoogleAddressInput";
 import TimePicker from "../../../UI/components/TimePicker";
 import DatePicker from "../../../UI/components/DatePicker";
 import useOnclickOutside from "react-cool-onclickoutside";
@@ -28,6 +27,7 @@ import orderTaxi from './../../../assets/taxiOrder.png'
 import carBooster from './../../../assets/carBooster.png'
 import lostKey from './../../../assets/lostKeys.png'
 import { useValidation } from "../../../Store/useValidation";
+import GoogleAddressInput from "../../../UI/components/GoogleAddressInput";
 
 
 interface IObj {[key:number]: string}
@@ -178,7 +178,7 @@ const TripContent = ():React.ReactNode => {
     },[])
 
     useEffect(()=>{
-        if(list[activeCarId-1].type === 'Boost' || list[activeCarId-1].type === 'Unlocking door') return setDateNow(true);
+        if(list[activeCarId-1].type > 2) return setDateNow(true);
     },[list[activeCarId-1].type])
     
     useEffect(()=>{
@@ -229,7 +229,7 @@ const TripContent = ():React.ReactNode => {
                             className={typeItem}
                             onClick={()=> {
                                 setTypePost(index+1)
-                                setType(item)
+                                setType(index+1)
                             }}
                         >
                             <span className=' px-[2px] border-b h-6 flex items-center border-black w-full text-[8px] '><span>{item}</span></span>
@@ -244,11 +244,11 @@ const TripContent = ():React.ReactNode => {
                         </div>
                     ))}
                 <div 
-                    className={trickster+ `${(list[activeCarId-1].type==='Delivery' || list[activeCarId-1].type==='Livraison')
+                    className={trickster+ `${(list[activeCarId-1].type===2)
                                     ? ' translate-x-[100%]'
-                                    : (list[activeCarId-1].type==='Boost' || list[activeCarId-1].type==='Survoltage')
+                                    : (list[activeCarId-1].type===3)
                                     ? ' translate-x-[200%] '
-                                    : (list[activeCarId-1].type==='Débarrage de portes' || list[activeCarId-1].type==='Unlocking doors')
+                                    : (list[activeCarId-1].type===4)
                                     ? ' translate-x-[300%] ' 
                                     : ' border-l-green-400 '}`}
                 >
@@ -289,7 +289,7 @@ const TripContent = ():React.ReactNode => {
                 <div className={dateRow}>
                     <div className='flex flex-col w-1/2 '>
                         <div className={!list[activeCarId-1].dateNow ? toggle+ ' ' : toggle +' bg-white'} onClick={()=>{
-                                    if(['Boost', 'Unlocking door','Survoltage', 'Débarrage de portes'].includes(list[activeCarId-1].type)) return setDateNow(true);
+                                    if(list[activeCarId-1].type>2) return setDateNow(true);
                                     setDateNow(!list[activeCarId-1].dateNow)
                                     if(list[activeCarId-1].dateNow) {
                                         setTime('')
@@ -445,8 +445,7 @@ const TripContent = ():React.ReactNode => {
                     />
                 </div>}
             </div>
-            {/* ['Transport', 'Livraison', 'Survoltage', 'Débarrage de portes'], */}
-            {['Boost', 'Unlocking door','Survoltage', 'Débarrage de portes'].includes(list[activeCarId-1].type) && <div className={locationCard}>
+            {list[activeCarId-1].type>2 && <div className={locationCard}>
                 <div className={extraCardPickUp}>
                 <div className={list[activeCarId-1].carType ? typeCard : typeCard + ' border-red-500'}>
                     {carList.map(item => (
@@ -469,7 +468,7 @@ const TripContent = ():React.ReactNode => {
                 
             </div>}
         
-            {['Transport', 'Delivery','Transport', 'Livraison',].includes(list[activeCarId-1].type) && <div className={extraCardStop}>
+            {list[activeCarId-1].type<3 && <div className={extraCardStop}>
                 <div className={(stop > 0)? box: box + ' opacity-0 '}>
                     <span className='icon text-orange-400'><SlLocationPin/></span>  
                     <GoogleAddressInput
@@ -498,7 +497,7 @@ const TripContent = ():React.ReactNode => {
                 ><span className='scale-[150%] font-bold rotate-45'>+</span></div> 
             </div>}
             
-            {['Transport', 'Delivery','Transport', 'Livraison',].includes(list[activeCarId-1].type) && <div className={(stop > 0) ?  extraCardStop: 'hidden'}>
+            {list[activeCarId-1].type<3 && <div className={(stop > 0) ?  extraCardStop: 'hidden'}>
                 <div className={stop > 1 ? box: box + ' opacity-0 '}>
                     <span className='icon  text-orange-400'><SlLocationPin/></span>
                     <GoogleAddressInput
@@ -526,7 +525,7 @@ const TripContent = ():React.ReactNode => {
                 ><span className='scale-[150%] font-bold rotate-45'>+</span></div>
             </div>}
 
-            {['Transport', 'Delivery','Transport', 'Livraison',].includes(list[activeCarId-1].type) && <div className={(stop > 1 ) ?  extraCardStop: 'hidden'}>
+            {list[activeCarId-1].type<3 && <div className={(stop > 1 ) ?  extraCardStop: 'hidden'}>
                     <div className={stop > 2 ? box : box + ' opacity-0 '}>
                         <span className='icon  text-orange-400'><SlLocationPin/></span>
                         <GoogleAddressInput
@@ -556,7 +555,7 @@ const TripContent = ():React.ReactNode => {
                     ><span className='scale-[150%] font-bold rotate-45'>+</span></div> 
             </div>}
 
-            {[ 'Transport', 'Delivery','Transport', 'Livraison',].includes(list[activeCarId-1].type) && <div className={(stop > 2 ) ?  extraCardStop: 'hidden'}>
+            {list[activeCarId-1].type<3 && <div className={(stop > 2 ) ?  extraCardStop: 'hidden'}>
                 <div className={stop > 3 ? box : box + ' opacity-0 '}>
                     <span className='icon  text-orange-400'><SlLocationPin/></span>
                     <GoogleAddressInput
@@ -588,7 +587,7 @@ const TripContent = ():React.ReactNode => {
             </div>}
 
 
-            {['Transport', 'Delivery','Transport', 'Livraison',].includes(list[activeCarId-1].type) && <div className={locationCard}>
+            {list[activeCarId-1].type<3 && <div className={locationCard}>
                 <div className={isTo ? extraCardPickUp : extraCardPickUp +' border-red-500'}>
                     <span className='icon text-red-500'><SlLocationPin/></span>
                     <GoogleAddressInput
@@ -612,7 +611,7 @@ const TripContent = ():React.ReactNode => {
                 </div>}
             </div>}
 
-            {[ 'Transport', 'Delivery','Transport', 'Livraison',].includes(list[activeCarId-1].type) && list[activeCarId-1].icon2>0 &&  <div className={iconsType}>
+            {list[activeCarId-1].type<3 && list[activeCarId-1].icon2>0 &&  <div className={iconsType}>
                 
                 <div className={icons}>           
                     <span className={list[activeCarId-1].icon2 == 1 ? iconCard + ' rounded-l' : iconCardActive}>
@@ -676,11 +675,11 @@ const TripContent = ():React.ReactNode => {
                 </div>}
             </div>}
 
-            {[ 'Transport', 'Delivery','Transport', 'Livraison',].includes(list[activeCarId-1].type) &&<div className={list[activeCarId-1].type + ' pt-4'}>
+            {list[activeCarId-1].type<3 &&<div className={list[activeCarId-1].type + ' pt-4'}>
                 <button className={reset} onClick={resetForm}>{isFrench? 'Réinitialiser': 'Reset'}</button>
             </div>}
 
-            {['Transport', 'Delivery','Transport', 'Livraison',].includes(list[activeCarId-1].type) && 
+            {list[activeCarId-1].type<3 && 
             <div className='w-full flex justify-between max-w-[400px] mx-auto pt-10'>
                 <div className="bg-red-500 p-2 px-3 rounded-full text-white cursor-pointer border border-black active:bg-red-400" onClick={()=>setSteps(1)}>{isFrench? 'Précédent': 'Back'}</div>
                 <div 
@@ -689,7 +688,7 @@ const TripContent = ():React.ReactNode => {
                 >{isFrench? 'Suivant': 'Next'}</div>
             </div>}
 
-            {['Boost', 'Unlocking door', 'Survoltage', 'Débarrage de portes'].includes(list[activeCarId-1].type) && 
+            {list[activeCarId-1].type>2 && 
             <div className='flex pt-10'> 
                 {
                     list[activeCarId-1].filled 

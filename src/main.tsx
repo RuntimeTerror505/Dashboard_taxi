@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -14,7 +13,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import Dashboard from './pages/Dashboard/Dashboard';
 import Calendar from './pages/Dashboard/Calendar.tsx';
 import Customers from './pages/Dashboard/Customers.tsx';
-import Orders from './pages/Dashboard/Orders.tsx';
+import Orders from './pages/Dashboard/Order.tsx';
 import Drivers from './pages/Dashboard/Drivers.tsx';
 import Prices from './pages/Dashboard/Prices.tsx';
 import Settings from './pages/Dashboard/Settings.tsx';

@@ -61,7 +61,7 @@ const OptionsSection = ():React.ReactNode => {
             <div className='w-full flex justify-between max-w-[400px] mx-auto pt-10'>
                 <div className="bg-red-500 p-2 px-3 rounded text-white cursor-pointer border border-black active:bg-red-400" onClick={()=>setSteps(2)}>{isFrench? 'Précédent': 'Back'}</div>
                 <div className="bg-green-400 p-2 px-3 rounded text-white cursor-pointer border border-black active:bg-green-300" onClick={()=>{
-                    (list[activeCarId-1].adults === 0  && !['Delivery', 'Livraison',].includes(list[activeCarId-1].type))
+                    (list[activeCarId-1].adults === 0  && list[activeCarId-1].type!=2)
                     ? alert('need adults')
                     : setSteps(4)
                 }}>{isFrench? 'Suivant': 'Next'}</div>

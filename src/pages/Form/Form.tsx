@@ -27,7 +27,7 @@ const Form = (): React.ReactNode => {
 
         list.map((item,index)=>{
 
-            if(['Boost', 'Unlocking door'].includes(item.type)
+            if(item.type>2
                 && item.from 
                 && item.name.length > 3 
                 && item.title 
@@ -59,7 +59,7 @@ const Form = (): React.ReactNode => {
                     && item.toR 
                     && item.from 
                     && item.to
-                    && (item.adults>0 || (!item.adults && ['Delivery', 'Livraison',].includes(list[activeCarId-1].type)))
+                    && (item.adults>0 || (!item.adults && list[activeCarId-1].type===2))
                 ){
                         return cars = {...cars, [index+1]: true}
                 } else if(
@@ -70,7 +70,7 @@ const Form = (): React.ReactNode => {
                     && item.phone.length >= 11
                     && item.from 
                     && item.to
-                    && (item.adults>0 || (!item.adults && ['Delivery', 'Livraison',].includes(list[activeCarId-1].type)))
+                    && (item.adults>0 || (!item.adults && list[activeCarId-1].type===2))
                 ){
 
                     return cars = {...cars, [index+1]: true}

@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { ITaxi, useMain } from '../../../Store/useMain';
-import dayjs from 'dayjs';
+import React from 'react';
+// import { ITaxi, useMain } from Store/useMain';
+// import dayjs from 'dayjs';
 
-import { SlLocationPin } from "react-icons/sl";
-import { IoCarSportOutline, IoTimeOutline } from "react-icons/io5";
-import { GiPalmTree } from "react-icons/gi";
-import { useStore } from '../../../Store';
-import { AiOutlineStop } from 'react-icons/ai';
-import { LiaShuttleVanSolid } from 'react-icons/lia';
-import { PiCreditCard, PiJeepLight } from 'react-icons/pi';
-import { BsChatSquareText } from 'react-icons/bs';
+// import { SlLocationPin } from "react-icons/sl";
+// import { IoCarSportOutline, IoTimeOutline } from "react-icons/io5";
+// import { GiPalmTree } from "react-icons/gi";
+// import { useStore } from '../../../Store';
+// import { AiOutlineStop } from 'react-icons/ai';
+// import { LiaShuttleVanSolid } from 'react-icons/lia';
+// import { PiCreditCard, PiJeepLight } from 'react-icons/pi';
+// import { BsChatSquareText } from 'react-icons/bs';
 
-const CarCard = ({item}:{item: ITaxi}):React.ReactNode => {
-    const [open, setOpen] = useState(false)
-    const {store} = useStore()
-    const {list, setFilled, isFrench } = useMain()
-    const [openModal, setOpenModal] = useState(false)
+const CarCard = ():React.ReactNode => {
+    // const [open, setOpen] = useState(false)
+    // const {store} = useStore()
+    // const {list, setFilled, isFrench } = useMain()
+    // const [openModal, setOpenModal] = useState(false)
 
     return ( 
         <div className={car}>
-        {openModal && <div className="absolute flex flex-col bg-white shadow p-4 rounded">
+        {/* {openModal && <div className="absolute flex flex-col bg-white shadow p-4 rounded">
             <h1>Do you want decline car?</h1>
             <div className='flex space-x-2 self-end'>
                 <button className={bm2} onClick={()=>{
@@ -28,8 +28,8 @@ const CarCard = ({item}:{item: ITaxi}):React.ReactNode => {
                     }}>yes</button>
                 <button className={bm} onClick={()=>setOpenModal(false)}>not</button>
             </div>
-        </div>}
-        <div className="flex w-full">
+        </div>} */}
+        {/* <div className="flex w-full">
             <div className='flex flex-col w-1/6'>
                 <h1 className='text-sm text-gray-600 mb-0 pt-1'> {item.carType.split(' ')[0]}</h1>
                 <div 
@@ -293,46 +293,46 @@ const CarCard = ({item}:{item: ITaxi}):React.ReactNode => {
             
                 
 
-        </div>
+        </div> */}
     </div>
     );
 };
 
 export default CarCard;
 
-const contentItem= 'flex items-center space-x-2'
+// const contentItem= 'flex items-center space-x-2'
 
 
-const bm ='text-sm bg-red-400 rounded px-2 text-white py-1 text-xs'
-const bm2 ='text-sm bg-green-400 rounded px-2 text-white py-1 text-xs'
+// const bm ='text-sm bg-red-400 rounded px-2 text-white py-1 text-xs'
+// const bm2 ='text-sm bg-green-400 rounded px-2 text-white py-1 text-xs'
 
-const type = 'flex border rounded border-black divide-x overflow-hidden w-full mb-4'
-const titles = 'flex border rounded border-black divide-x overflow-hidden w-3/4 mb-4'
-const titles2 = 'flex border rounded border-black divide-x overflow-hidden w-ful mb-4'
-const typeItem = 'flex items-center px-2 py-1 cursor-pointer text-sm sm:text-[10px] px-0 w-1/4'
-const typeItem2 = 'flex items-center px-2 py-1 cursor-pointer text-sm sm:text-[10px] px-0 w-1/3'
+// const type = 'flex border rounded border-black divide-x overflow-hidden w-full mb-4'
+// const titles = 'flex border rounded border-black divide-x overflow-hidden w-3/4 mb-4'
+// const titles2 = 'flex border rounded border-black divide-x overflow-hidden w-ful mb-4'
+// const typeItem = 'flex items-center px-2 py-1 cursor-pointer text-sm sm:text-[10px] px-0 w-1/4'
+// const typeItem2 = 'flex items-center px-2 py-1 cursor-pointer text-sm sm:text-[10px] px-0 w-1/3'
 
-const optionItem = 'flex w-1/3 flex-col items-center'
-const options = 'flex w-full text-xs flex-col space-y-3'
+// const optionItem = 'flex w-1/3 flex-col items-center'
+// const options = 'flex w-full text-xs flex-col space-y-3'
 
-const icon = 'mr-1 min-w-[12px] h-3'
-const text= 'flex items-center truncate overflow-hidden mb-1'
-const tripContent = ''
-const tripItem = 'w-1/2'
-const tripHeader = 'flex justify-center'
-const trip = 'flex space-x-1 w-full text-xs'
+// const icon = 'mr-1 min-w-[12px] h-3'
+// const text= 'flex items-center truncate overflow-hidden mb-1'
+// const tripContent = ''
+// const tripItem = 'w-1/2'
+// const tripHeader = 'flex justify-center'
+// const trip = 'flex space-x-1 w-full text-xs'
 
-const headItem = 'flex w-1/3  text-xs px-2 flex-col'
-const headers = 'flex divide-x w-full'
+// const headItem = 'flex w-1/3  text-xs px-2 flex-col'
+// const headers = 'flex divide-x w-full'
 
-const submit2 =' rounded px-2 text-black py-[2px] text-xl'
+// const submit2 =' rounded px-2 text-black py-[2px] text-xl'
 const car = 'relative flex flex-col border w-full px-2 py-2 items-center bg-white rounded'
 
 
-const stopIcon = 'min-w-[22px] text-yellow-400'
+// const stopIcon = 'min-w-[22px] text-yellow-400'
 
-const header = ' mb-2 bg-white px-1 absolute -top-2 left-3 text-xs'
+// const header = ' mb-2 bg-white px-1 absolute -top-2 left-3 text-xs'
 
-const InfoCard = 'flex w-full  py-4 pt-4 border-t   relative text-sm'
+// const InfoCard = 'flex w-full  py-4 pt-4 border-t   relative text-sm'
 
 // const kidsIcon ='w-4 mr-2 h-[16px] overflow-hidden bg-contain bg-[url("https://cdn0.iconfinder.com/data/icons/child-1-1/70/boy-child-children-girl-512.png")] bg-no-repeat scale-[140%]'
