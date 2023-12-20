@@ -8,7 +8,7 @@ import { addDays } from 'date-fns';
 import { Calendar as CalendarContent, dayjsLocalizer } from 'react-big-calendar'
 import dayjs from 'dayjs'
 import '../../index.css'
-import myEventsList from './db' 
+import { IEvent, IOrder, useDashboard } from '../../Store/useDashboard';
 
 const localizer = dayjsLocalizer(dayjs)
 
@@ -17,6 +17,27 @@ interface FilterType {
     value:string,
 }
 const Calendar = (): React.ReactNode => {
+    const { orders } = useDashboard()
+    const createEvents = (data:IOrder[]) =>{
+        if(data[0]){
+            const i  =data[0]
+            const res = dayjs(`${i.date} ${i.time}`).toDate()
+
+            console.log(res)
+            
+        }
+        return data.map((item)=>{
+            const res:IEvent  = {
+                data:item,
+                title: `order ${item.date}`,
+                start: dayjs(`${item.date} ${item.time}`).toDate(),
+                end: dayjs(`${item.date} ${item.time}`).add(30, 'minute').toDate()
+            }
+            return res
+        })
+    }
+
+
     const [range, setRange] = useState(1)
     const [ timeRange, setTimeRange ] = useState({
         selection: {
@@ -25,13 +46,24 @@ const Calendar = (): React.ReactNode => {
             key: 'selection'
         }
     });
+
     const [filter,setFilter]= useState<FilterType>({type:'date', value:''})
     const [calendarDate, setCalendarDate] = useState(dayjs().toDate())
-    const [events, setEvents] = useState(myEventsList)
+    const [events, setEvents] = useState<IEvent[]>([])
     const [trigger, setTrigger] = useState(false)
     useEffect(()=>{
+        setEvents(createEvents(orders))
+    },[orders])
+
+    useEffect(()=>{
         if(trigger) {
-            const res = myEventsList.filter(item=> (item.start > timeRange.selection.startDate && item.end < timeRange.selection.endDate))
+            console.log(timeRange.selection.startDate,'start')
+            console.log(timeRange.selection.endDate,'end')
+            
+            const res = createEvents(orders).filter(item=> {
+                
+                (item.start >= timeRange.selection.startDate && item.end <= timeRange.selection.endDate)
+            })
             setEvents(res)
         }
     },[timeRange])
@@ -63,7 +95,7 @@ const Calendar = (): React.ReactNode => {
         setCalendarDate(res)
     }
 
-
+    // console.log(events, 'events')
     return (
         <div className={container}>
 {/*_________________________________________________MENU_______________________________________________________________________________   */}
@@ -130,7 +162,7 @@ const Calendar = (): React.ReactNode => {
             </div>
 
 {/*_________________________________________________CALENDAR_______________________________________________________________________________   */}
-            <div className={content}>
+            <div className={orders? content: 'hidden'}>
                 {/* ______________________________PICKER_______________________________________ */}
                 <div className={calendarSection}>
                     <DateRange
@@ -148,7 +180,7 @@ const Calendar = (): React.ReactNode => {
                             className='ml-auto mb-2 cursor-pointer text-rose-500'
                             onClick={()=>{
                                 setTrigger(false)
-                                setEvents(myEventsList)
+                                setEvents(createEvents(orders))
                             }}
                         >clear filters</h1>
                         {events
@@ -156,7 +188,7 @@ const Calendar = (): React.ReactNode => {
                             .map(item=>(
                             <div 
                                 onClick={()=> handleClickEvent(item.data.date)}
-                                key={item.title} 
+                                key={item.title+item.data._id} 
                                 className={listItem}
                             >{item.data.name}, {item.data.email}</div>
                         ))}
@@ -177,6 +209,7 @@ const Calendar = (): React.ReactNode => {
                     />
                 </div>
             </div>
+            <div className={orders? 'hidden': 'flex w-screen h-screen items-center justify-center'}><span>Loading...</span> </div>
         </div>
     );
 };

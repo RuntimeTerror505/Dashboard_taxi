@@ -1,19 +1,22 @@
-import { useDashboard } from "../../Store/dashboard";
+import { useDashboard } from "../../Store/useDashboard";
 import { NavLink, Outlet } from "react-router-dom";
 import { PiUsers } from "react-icons/pi";
 import { PiTaxiThin } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
 import { IoCashOutline } from "react-icons/io5";
 import { CiSettings } from "react-icons/ci";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose, IoIosArrowForward } from "react-icons/io";
 import { GoSearch } from "react-icons/go";
 
 
 
 const Dashboard = ():React.ReactNode => {
-    const {isFrench } = useDashboard()
+    const {isFrench, getOrders } = useDashboard()
     const [openMenu, setOpenMenu] = useState(false)
+    useEffect(()=>{
+        getOrders()
+    },[])
     
     return (
         <div className={screen}>

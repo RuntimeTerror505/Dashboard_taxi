@@ -190,7 +190,7 @@ export default TimePicker;
 
 const input ='pr-2 py-1 text-end pr-[2px] w-[24px] outline-none'
 const input2 ='pr-2 py-1 pl-[2px] w-[35px] outline-none'
-const button ='absolute top-[120px] rounded left-2 bg-blue-600 px-3 py-1 text-xs text-white active:bg-blue-400'
+const button ='absolute top-[120px] rounded left-2 bg-purple-500 px-3 py-1 text-xs text-white active:bg-purple-700'
 const submenu = "absolute flex shadow-xl top-[104%] overflow-hidden pb-6 max-h-[150px] bg-white z-30 rounded "
 
-const container = 'flex cursor-pointer relative h-[40px] bg-white items-center border text-sm relative w-[100px] outline-none hover:border hover:border-blue-800 cursor-text rounded'
+const container = 'flex cursor-pointer relative h-[40px] bg-white items-center border text-sm relative w-[100px] outline-none  cursor-text rounded-lg'

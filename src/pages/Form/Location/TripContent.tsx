@@ -170,7 +170,6 @@ const TripContent = ():React.ReactNode => {
 
     useEffect(()=>{
         setStops(localStops)
-
     },[localStops])
 
     useEffect(()=>{

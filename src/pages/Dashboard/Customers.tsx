@@ -1,5 +1,5 @@
 import React,{ useEffect } from "react";
-import { useDashboard } from "../../Store/dashboard";
+import { useDashboard } from "../../Store/useDashboard";
 
 const Customers = ():React.ReactNode => {
     const {users,  getUsers } = useDashboard()
