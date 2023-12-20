@@ -16,27 +16,20 @@ interface FilterType {
     type: 'time' |'date' |'name' |'phone' | 'email',
     value:string,
 }
-const Calendar = (): React.ReactNode => {
-    const { orders } = useDashboard()
-    const createEvents = (data:IOrder[]) =>{
-        if(data[0]){
-            const i  =data[0]
-            const res = dayjs(`${i.date} ${i.time}`).toDate()
 
-            console.log(res)
-            
-        }
+const Calendar = (): React.ReactNode => {
+    const { orders, activeEvents, setActiveEvents} = useDashboard()
+    const createEvents = (data:IOrder[]) =>{
         return data.map((item)=>{
             const res:IEvent  = {
                 data:item,
-                title: `order ${item.date}`,
-                start: dayjs(`${item.date} ${item.time}`).toDate(),
-                end: dayjs(`${item.date} ${item.time}`).add(30, 'minute').toDate()
+                title: `${item.date} ${item.status}`,
+                start: dayjs(`${item.date} ${item.time}`, 'MM/DD/YYYY hh:mm').toDate(),
+                end: dayjs(`${item.date} ${item.time}`, 'MM/DD/YYYY hh:mm').add(30, 'minute').toDate(),
             }
             return res
         })
     }
-
 
     const [range, setRange] = useState(1)
     const [ timeRange, setTimeRange ] = useState({
@@ -57,45 +50,30 @@ const Calendar = (): React.ReactNode => {
 
     useEffect(()=>{
         if(trigger) {
-            console.log(timeRange.selection.startDate,'start')
-            console.log(timeRange.selection.endDate,'end')
-            
-            const res = createEvents(orders).filter(item=> {
-                
-                (item.start >= timeRange.selection.startDate && item.end <= timeRange.selection.endDate)
-            })
+            const res = createEvents(orders)
+                .filter(item => (
+                    (dayjs(item.start).isBefore(dayjs(timeRange.selection.endDate)) 
+                        && dayjs(item.end).isAfter(dayjs(timeRange.selection.startDate))
+                    ) || dayjs(item?.start).startOf('day').isSame(dayjs(timeRange.selection.startDate).startOf('day'))))
+
             setEvents(res)
         }
     },[timeRange])
-
     const options = ['time', 'date', 'name', 'phone']
-    // const monthsNames = [
-    //     "January",
-    //     "February",
-    //     "March",
-    //     "April",
-    //     "May",
-    //     "June",
-    //     "July",
-    //     "August",
-    //     "September",
-    //     "October",
-    //     "November",
-    //     "December"
-    // ];
+
     var days = Array.from({ length: 31 }, (_, index) => index + 1);
     var months = Array.from({ length: 12 }, (_, index) => index + 1);
     var years = Array.from({ length: 50 }, (_, index) => index + 2001);
 
-    const handleEvent =(event:any) =>{
-        console.log(event)
+    const handleEvent =(event:IEvent) =>{
+        if(activeEvents.find(item => item.data._id === event.data._id)) return setActiveEvents(activeEvents.filter(i => i.data._id !== event.data._id))
+        setActiveEvents([event,...activeEvents])
     }
     const handleClickEvent = (data:string) => {
         const res = dayjs(data).toDate()
         setCalendarDate(res)
     }
-
-    // console.log(events, 'events')
+    console.log(activeEvents)
     return (
         <div className={container}>
 {/*_________________________________________________MENU_______________________________________________________________________________   */}
@@ -150,6 +128,7 @@ const Calendar = (): React.ReactNode => {
                             ))}
                         />
                         <Input
+                            allowClear
                             value={filter.value}
                             onChange={(e)=>setFilter({...filter, value:e.target.value})}
                             className='w-1/2 rounded-r-full'
@@ -162,11 +141,13 @@ const Calendar = (): React.ReactNode => {
             </div>
 
 {/*_________________________________________________CALENDAR_______________________________________________________________________________   */}
-            <div className={orders? content: 'hidden'}>
+            <div className={content}>
                 {/* ______________________________PICKER_______________________________________ */}
                 <div className={calendarSection}>
                     <DateRange
+                        editableDateInputs={true}
                         onChange={item => {
+                            setCalendarDate(dayjs(item.selection.startDate).toDate())
                             setTrigger(true)
                             setTimeRange({ ...timeRange, ...item })
                         }}
@@ -175,24 +156,32 @@ const Calendar = (): React.ReactNode => {
                         maxDate={addDays(new Date(), 2300)}
                         ranges={[timeRange.selection]}
                     />
-                    <div className={eventList}>
-                        <h1 
-                            className='ml-auto mb-2 cursor-pointer text-rose-500'
-                            onClick={()=>{
+                    <div className={clearButton} onClick={()=>{
+                            setTimeRange({
+                                selection: {
+                                    startDate: dayjs().toDate(),
+                                    endDate: dayjs().toDate(),
+                                    key: 'selection'
+                                }
+                                })
+                                setFilter({ type :'date', value:''})
                                 setTrigger(false)
                                 setEvents(createEvents(orders))
                             }}
-                        >clear filters</h1>
-                        {events
-                            .filter(item => item.data[filter.type].toLowerCase().includes(filter.value.toLowerCase()) )
-                            .map(item=>(
-                            <div 
-                                onClick={()=> handleClickEvent(item.data.date)}
-                                key={item.title+item.data._id} 
-                                className={listItem}
-                            >{item.data.name}, {item.data.email}</div>
-                        ))}
+                    >clear</div>
+                    <div className={activeEventsList}>
+                        {
+                            activeEvents.map(item=>(
+                                <div className={activeEventItem}>
+                                    <div>{item.data.date}</div>
+                                    <div>{item.data.time}</div>
+                                    <div>{item.data.status}</div>
+                                    <button className={closeButton} onClick={()=>setActiveEvents(activeEvents.filter(i => i.data._id !== item.data._id))}>x</button>
+                                </div>
+                            ))
+                        }
                     </div>
+
                 </div>
 
                 {/* ______________________________CALENDAR_______________________________________ */}
@@ -207,19 +196,66 @@ const Calendar = (): React.ReactNode => {
                         date={calendarDate}
                         onNavigate={(event)=> setCalendarDate(dayjs(event).toDate())}
                     />
+                    <div className={eventList}>
+                        <h1 
+                            className='ml-auto mb-2 cursor-pointer text-rose-500'
+                            onClick={()=>{
+                                setTimeRange({
+                                    selection: {
+                                        startDate: dayjs().toDate(),
+                                        endDate: dayjs().toDate(),
+                                        key: 'selection'
+                                    }
+                                })
+                                setFilter({ type :'date', value:''})
+                                setTrigger(false)
+                                setEvents(createEvents(orders))
+                            }}
+                        >clear filters</h1>
+                        {events
+                            .filter(item => item.data[filter.type].toLowerCase().includes(filter.value.toLowerCase()) )
+                            .map(item=>(
+                            <div 
+                                onClick={()=> {
+                                    if(activeEvents.find(i => i.data._id === item.data._id)) return setActiveEvents(activeEvents.filter(i => i.data._id !== item.data._id))
+                                    setActiveEvents([item,...activeEvents])
+                                    
+                                    handleClickEvent(item.data.date)
+                                }}
+                                key={item.title+item.data._id} 
+                                className={ activeEvents.find(i=>item.data._id ===i.data._id) ? activeListItem :listItem}
+                            >
+                                <span className={tableItem}>{item.data.status}</span>
+                                <span className={tableItem}>{item.data.type}</span>
+                                <span className={tableItem}>{item.data.orderType}</span>
+                                <span className={tableItem} >{item.data.date}</span>
+                                <span className={tableItem}>{item.data.time}</span>
+                                <span className={tableItem}>{item.data.email}</span>
+                                <span className={tableItem}>{item.data.name}</span>
+                                <span className={tableItem}>{item.data.carType}</span>
+                                <span className={tableItem}>{item.data.phone}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
-            <div className={orders? 'hidden': 'flex w-screen h-screen items-center justify-center'}><span>Loading...</span> </div>
         </div>
     );
 };
 
 export default Calendar;
 
-const listItem = ' border-b hover:bg-purple-500 hover:text-white cursor-pointer px-2 py-1 rounded-full '
-const eventList = ' flex flex-col bg-white shadow-lg rounded-lg m-2 mr-0 p-2'
+const closeButton = ' absolute top-1 right-1 w-5 h-5 flex items-center justify-center rounded-full bg-rose-500 text-white cursor-pointer'
+const activeEventItem = 'relative flex p-4 rounded-lg shadow-xl mb-2 bg-white '
+const activeEventsList = ''
+const tableItem = 'px-2'
+
+const clearButton = ' flex border-rose-500 border-2 rounded-full px-2 self-start -translate-y-6 text-rose-500 cursor-pointer ml-4 active:text-white active:bg-rose-500'
+const activeListItem = ' border-b bg-purple-500   cursor-pointer px-2 py-1 rounded-lg text-white'
+const listItem = ' border-b hover:bg-purple-300 hover:text-white cursor-pointer px-2 py-1 rounded-lg '
+const eventList = ' flex flex-col  p-2 overflow-y-scroll max-h-[500px] border border-purple-500 rounded-3xl mt-4'
 const calendarContent = 'w-full p-6 bg-white rounded-xl shadow-xl m-6 '
-const calendarSection = 'flex flex-col'
+const calendarSection = 'flex flex-col '
 
 const content = 'flex'
 
