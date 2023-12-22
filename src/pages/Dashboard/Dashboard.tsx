@@ -17,7 +17,6 @@ const Dashboard = ():React.ReactNode => {
     useEffect(()=>{
         getOrders()
     },[])
-    
     return (
         <div className={screen}>
             <nav className={openMenu?navMenu : navMenuClosed}>
@@ -43,7 +42,6 @@ const Dashboard = ():React.ReactNode => {
                     <NavLink to='settings' className={({ isActive }) =>isActive ?( openMenu ? navItemActive:navItemActiveClosed ):( openMenu? navItem: navItemClosed)}> 
                         {({isActive})=>(<><div className={isActive ? activeIcon:icon}><CiSettings /></div><span className={openMenu? 'duration-[2000ms]':' opacity-0 duration-200'}>{isFrench? 'Paramètres' : 'Setting(only for Admin)'}</span></>)}
                     </NavLink>
-
                 </div>
             </nav>
             <Outlet />  

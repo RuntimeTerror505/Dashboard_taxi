@@ -7,9 +7,9 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import {
   createBrowserRouter,
+  Navigate,
   RouterProvider,
 } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from 'react-query'
 import Dashboard from './pages/Dashboard/Dashboard';
 import Calendar from './pages/Dashboard/Calendar.tsx';
 import Customers from './pages/Dashboard/Customers.tsx';
@@ -21,64 +21,79 @@ import Confirm from './pages/Dashboard/Links/Confirm.tsx';
 import Cancel from './pages/Dashboard/Links/Cancel.tsx';
 import Pending from './pages/Dashboard/Links/Pending.tsx';
 import Edit from './pages/Dashboard/Links/Edit.tsx';
+import Login from './pages/Dashboard/auth/Login.tsx';
+import Registration from './pages/Dashboard/auth/Registration.tsx';
+import AuthRouter from './pages/AuthRouter.tsx';
 
-const queryClient = new QueryClient()
+
+
+
 
 const router = createBrowserRouter([
-
   {
     path: "/",
-    element: <Dashboard />,
+    element: <AuthRouter />,
     children:[
       {
-        index: true,
-        element: <Calendar />,
-      },
-      {
-        path: "Customers",
-        element: <Customers />,
-      },
-
-      {
-        path: "orders",
-        element: <Orders />,
-      },
-      {
-        path: "drivers",
-        element: <Drivers />,
-      },
-      {
-        path: "prices",
-        element: <Prices />,
-      },
-      {
-        path: "settings",
-        element: <Settings />,
-      },
+        element: <Dashboard />,
+        children:[
+          {
+            index: true,
+            element: <Calendar />,
+          },
+          {
+            path: "Customers",
+            element: <Customers />,
+          },
+          {
+            path: "orders",
+            element: <Orders />,
+          },
+          {
+            path: "drivers",
+            element: <Drivers />,
+          },
+          {
+            path: "prices",
+            element: <Prices />,
+          },
+          {
+            path: "settings",
+            element: <Settings />,
+          },
+        ],
+      }
     ]
   },
   {
-    path: "/confirm/:id",
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "registration",
+    element: <Registration />,
+  },
+  {
+    path: "confirm/:id",
     element: <Confirm />,
   },
   {
-    path: "/cancel/:id",
+    path: "cancel/:id",
     element: <Cancel />,
   },
   {
-    path: "/pending/:id",
+    path: "pending/:id",
     element: <Pending />,
   },
   {
-    path: "/editOrder/:id",
+    path: "editOrder/:id",
     element: <Edit />,
   },
+  { path: "*", element: <Navigate to="/login" replace /> }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-    </QueryClientProvider>
   </React.StrictMode>,
 )
