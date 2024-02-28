@@ -1179,5 +1179,7 @@ button.rbc-input::-moz-focus-inner {
     background-color: #74ad31;
     pointer-events: none;
 }
-
+.css-dev-only-do-not-override-amq5gd {
+    border: none !important;
+}
 /*# sourceMappingURL=react-big-calendar.css.map */

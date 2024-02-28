@@ -11,7 +11,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Dashboard from './pages/Dashboard/Dashboard';
-import Calendar from './pages/Dashboard/Calendar.tsx';
+import Calendar from './pages/Dashboard/Calendar/Calendar.tsx';
 import Customers from './pages/Dashboard/Customers.tsx';
 import Orders from './pages/Dashboard/Order.tsx';
 import Drivers from './pages/Dashboard/Drivers.tsx';
@@ -24,9 +24,6 @@ import Edit from './pages/Dashboard/Links/Edit.tsx';
 import Login from './pages/Dashboard/auth/Login.tsx';
 import Registration from './pages/Dashboard/auth/Registration.tsx';
 import AuthRouter from './pages/AuthRouter.tsx';
-
-
-
 
 
 const router = createBrowserRouter([

@@ -58,9 +58,10 @@ interface Store {
     orders: IOrder[];
     users: IUser[],
     isFrench: boolean,
-    activeEvents: IEvent[],
+    activeEvents: IOrder[],
     setIsFrench:(value: boolean) => void;
-    setActiveEvents:(value: IEvent[]) => void;
+    setActiveEvents:(value: IOrder[]) => void;
+    setOrders:(value: IOrder[]) => void;
     getOrders: () => void;
     getUsers: () => void;
 }
@@ -71,10 +72,10 @@ export const useDashboard = create<Store>((set) => ({
     activeEvents:[],
     setIsFrench: (data) => set((state) => ({ ...state,isFrench: data})),
     setActiveEvents: (data) => set((state) => ({ ...state,activeEvents: data})),
-
+    setOrders: (data) => set((state) => ({ ...state, orders: data})),
     getOrders: async  () => {
         // const res:IOrder[] = await axios.get('https://taxibeckend.onrender.com/order').then(res => res.data)
-        const res:IOrder[] = await axios.get('http://localhost:7010/order').then(res => res.data)
+        const res:IOrder[] = await axios.get('https://server.taxi/order').then(res => res.data)
         set((state) =>({...state, orders: res}))
     },
     getUsers: async  () => {

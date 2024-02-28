@@ -7,8 +7,8 @@ import { DateRange } from 'react-date-range';
 import { addDays } from 'date-fns';
 import { Calendar as CalendarContent, dayjsLocalizer } from 'react-big-calendar'
 import dayjs from 'dayjs'
-import '../../index.css'
-import { IEvent, IOrder, useDashboard } from '../../Store/useDashboard';
+import { IEvent, IOrder, useDashboard } from '../../../Store/useDashboard';
+import OrderCard from './OrderCard';
 
 const localizer = dayjsLocalizer(dayjs)
 
@@ -18,7 +18,8 @@ interface FilterType {
 }
 
 const Calendar = (): React.ReactNode => {
-    const { orders, activeEvents, setActiveEvents} = useDashboard()
+    const { orders, activeEvents, setActiveEvents } = useDashboard()
+
     const createEvents = (data:IOrder[]) =>{
         return data.map((item)=>{
             const res:IEvent  = {
@@ -44,6 +45,7 @@ const Calendar = (): React.ReactNode => {
     const [calendarDate, setCalendarDate] = useState(dayjs().toDate())
     const [events, setEvents] = useState<IEvent[]>([])
     const [trigger, setTrigger] = useState(false)
+    
     useEffect(()=>{
         setEvents(createEvents(orders))
     },[orders])
@@ -66,19 +68,19 @@ const Calendar = (): React.ReactNode => {
     var years = Array.from({ length: 50 }, (_, index) => index + 2001);
 
     const handleEvent =(event:IEvent) =>{
-        if(activeEvents.find(item => item.data._id === event.data._id)) return setActiveEvents(activeEvents.filter(i => i.data._id !== event.data._id))
-        setActiveEvents([event,...activeEvents])
+        if(activeEvents.find(item => item._id === event.data._id)) return setActiveEvents(activeEvents.filter(i => i._id !== event.data._id))
+        setActiveEvents([event.data,...activeEvents])
     }
+
     const handleClickEvent = (data:string) => {
         const res = dayjs(data).toDate()
         setCalendarDate(res)
     }
-    console.log(activeEvents)
     return (
         <div className={container}>
-{/*_________________________________________________MENU_______________________________________________________________________________   */}
+            {/*_________________________________________________MENU_______________________________________________________________________________   */}
             <div className={menu}>
-                {/* ______________DATE____________________________________________ */}
+                {/* ___________________________________________________DATE__________________________________________________________________________ */}
                 <div className={dateName}>
                     Monday,
                     <Select className=' w-7 ml-1 dateSelect ' placeholder='d' options={days.map(item => ({ value: item, label: item, }))} />/
@@ -86,7 +88,7 @@ const Calendar = (): React.ReactNode => {
                     <Select className=' w-[54px] dateSelect ' placeholder='year' options={years.map(item => ({ value: item, label: item, }))} />
                 </div>
 
-                {/* ______________ TABS _________________________________________ */}
+                {/* ___________________________________________________ TABS ________________________________________________________________________ */}
                 <div className={tabs}>
                     <div className={range === 1 ? menuTabActive : menuTab} onClick={() => {
                             setRange(1)
@@ -140,9 +142,9 @@ const Calendar = (): React.ReactNode => {
 
             </div>
 
-{/*_________________________________________________CALENDAR_______________________________________________________________________________   */}
+            {/*_________________________________________________CALENDAR________________________________________________   */}
             <div className={content}>
-                {/* ______________________________PICKER_______________________________________ */}
+                {/* _____________________________________________PICKER___________________________________________________ */}
                 <div className={calendarSection}>
                     <DateRange
                         editableDateInputs={true}
@@ -169,22 +171,18 @@ const Calendar = (): React.ReactNode => {
                                 setEvents(createEvents(orders))
                             }}
                     >clear</div>
+                    {/* ______________________________________________ORDER LIST___________________________________________ */}
                     <div className={activeEventsList}>
                         {
                             activeEvents.map(item=>(
-                                <div className={activeEventItem}>
-                                    <div>{item.data.date}</div>
-                                    <div>{item.data.time}</div>
-                                    <div>{item.data.status}</div>
-                                    <button className={closeButton} onClick={()=>setActiveEvents(activeEvents.filter(i => i.data._id !== item.data._id))}>x</button>
-                                </div>
+                                <OrderCard item={item} />
                             ))
                         }
                     </div>
 
                 </div>
 
-                {/* ______________________________CALENDAR_______________________________________ */}
+                {/* __________________________________________________CALENDAR_________________________________________________ */}
                 <div className={calendarContent}>
                     <CalendarContent
                         localizer={localizer}
@@ -217,13 +215,13 @@ const Calendar = (): React.ReactNode => {
                             .map(item=>(
                             <div 
                                 onClick={()=> {
-                                    if(activeEvents.find(i => i.data._id === item.data._id)) return setActiveEvents(activeEvents.filter(i => i.data._id !== item.data._id))
-                                    setActiveEvents([item,...activeEvents])
+                                    if(activeEvents.find(i => i._id === item.data._id)) return setActiveEvents(activeEvents.filter(i => i._id !== item.data._id))
+                                    setActiveEvents([item.data,...activeEvents])
                                     
                                     handleClickEvent(item.data.date)
                                 }}
                                 key={item.title+item.data._id} 
-                                className={ activeEvents.find(i=>item.data._id ===i.data._id) ? activeListItem :listItem}
+                                className={ activeEvents.find(i=>item.data._id ===i._id) ? activeListItem :listItem}
                             >
                                 <span className={tableItem}>{item.data.status}</span>
                                 <span className={tableItem}>{item.data.type}</span>
@@ -245,9 +243,9 @@ const Calendar = (): React.ReactNode => {
 
 export default Calendar;
 
-const closeButton = ' absolute top-1 right-1 w-5 h-5 flex items-center justify-center rounded-full bg-rose-500 text-white cursor-pointer'
-const activeEventItem = 'relative flex p-4 rounded-lg shadow-xl mb-2 bg-white '
-const activeEventsList = ''
+
+
+const activeEventsList = '   rounded p-2 bg-white h-full'
 const tableItem = 'px-2'
 
 const clearButton = ' flex border-rose-500 border-2 rounded-full px-2 self-start -translate-y-6 text-rose-500 cursor-pointer ml-4 active:text-white active:bg-rose-500'
@@ -267,4 +265,4 @@ const menuTabActive = 'text-purple-500 border-b border-purple-500 px-2 pt-1 curs
 const tabs = 'flex'
 const dateName = ' flex items-center px-4'
 const menu = " flex min-w-[430px] pt-6 text-gray-400 text-xs justify-between items-center"
-const container = '  w-full ml-[55px] min-h-screen border'
+const container = '  w-full ml-[100px] min-h-screen border'
