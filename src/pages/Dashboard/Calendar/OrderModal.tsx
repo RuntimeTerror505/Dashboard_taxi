@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React from 'react';
 import {  Modal } from 'antd';
 import { IOrder, useDashboard } from '../../../Store/useDashboard';
 
@@ -9,8 +9,7 @@ const cars: { [keys: number]:string} =  {
     4:'Limo',
 }
 const OrderModal = ({ item, setIsModalOpen, open}:{setIsModalOpen:(data:boolean)=>void, open:boolean , item:IOrder} ): React.ReactNode => {
-    const [value, setValue ] = useState('')
-    const { orders, setOrders, setActiveEvents, activeEvents } = useDashboard()
+    const { orders, setOrders, setActiveEvents, activeEvents, sendOrder,sendOrderToDriver, driverNumber, setDriverNumber } = useDashboard()
     const changeStatus = (status: string) => {
         
         setOrders(orders.map(i => i._id === item._id? { ...i, data: { ...item, status }}: i))
@@ -48,9 +47,9 @@ console.log(item)
             <div>{item.to}</div>
         </div>
         <div className={buttons}>
-            <button className={buttonYellow}>Taxi Caller</button>
-            <button className={buttonInput}>Assign to driver</button>
-            <input value={value}  onChange={(e)=>setValue(e.target.value.replace(/[^\d]+/g, ''))} type="text" placeholder='Driver#' className={driverInput} maxLength={4}/>
+            <button className={buttonYellow} onClick={()=>{sendOrder(item)}}>Taxi Caller</button>
+            <button className={buttonInput} onClick={()=>{sendOrderToDriver(item, driverNumber)}}>Assign to driver</button>
+            <input value={driverNumber}  onChange={(e)=>setDriverNumber(+e.target.value.replace(/[^\d]+/g, ''))} type="text" placeholder='Driver#' className={driverInput} maxLength={4}/>
 
             <button onClick={()=>changeStatus('canceled')} className={item.status === 'canceled' ? buttonToggleLActive : buttonToggleL}>Canceled</button>
             <button onClick={()=>changeStatus('pending')} className={item.status === 'pending' ? buttonToggleCActive : buttonToggleC }>Pending</button>

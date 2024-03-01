@@ -18,7 +18,7 @@ interface FilterType {
 }
 
 const Calendar = (): React.ReactNode => {
-    const { orders, activeEvents, setActiveEvents } = useDashboard()
+    const { orders, activeEvents, setActiveEvents, getToken } = useDashboard()
 
     const createEvents = (data:IOrder[]) =>{
         return data.map((item)=>{
@@ -47,6 +47,7 @@ const Calendar = (): React.ReactNode => {
     const [trigger, setTrigger] = useState(false)
     
     useEffect(()=>{
+        getToken()
         setEvents(createEvents(orders))
     },[orders])
 
