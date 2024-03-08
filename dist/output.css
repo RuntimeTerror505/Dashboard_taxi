@@ -1745,6 +1745,10 @@ video {
   transition-timing-function: linear;
 }
 
+.\[key\:string\]{
+  key: string;
+}
+
 * {
   font-family: 'Nunito', sans-serif;
 }
