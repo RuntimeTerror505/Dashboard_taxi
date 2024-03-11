@@ -23,7 +23,7 @@ const TimePicker: React.FC<InputProps> = ({ isAm, style, onChange, date, time })
         "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
         "20", "21", "22", "23", 
     ]
-    const { list, activeCarId } = useMain()
+    const { list, index } = useMain()
 
     const ref = useOnclickOutside(() => setIsOpen(false));
 
@@ -35,24 +35,24 @@ const TimePicker: React.FC<InputProps> = ({ isAm, style, onChange, date, time })
     const [filteredHours, setFilteredHours] = useState<string[]>(hours)
 
     useEffect(()=>{
-        if(list[activeCarId-1].dateNow){
+        if(list[index].dateNow){
             setHour(dayjs().format('HH'))
             setMinute(dayjs().format('mm'))
         } else {
             setHour(time.replace(/:/g, '') ? time.slice(0,2): (dayjs().format('mm') > '30') ? dayjs().add(1, 'hours').format('HH'): dayjs().format('HH'))
             setMinute(time.replace(/:/g, '') ? time.slice(3): dayjs().add(30, 'minutes').format('mm'))
         }
-    },[list[activeCarId-1].dateNow])
+    },[list[index].dateNow])
 
     useEffect(()=>{
 
-        if(!list[activeCarId-1].dateNow && JSON.stringify(dayjs().format('DD/MM/YYYY')) === JSON.stringify(date)) {
+        if(!list[index].dateNow && JSON.stringify(dayjs().format('DD/MM/YYYY')) === JSON.stringify(date)) {
             //if 24 hours time 
             hour === dayjs().format('HH')
                 ? setFilteredMinutes(minutes.filter(item => item > dayjs().add(30, 'minutes').format('mm') ))
                 : setFilteredMinutes(minutes)
 
-            if(list[activeCarId-1].time < dayjs().format('HH:mm')) {
+            if(list[index].time < dayjs().format('HH:mm')) {
                 setMinute(dayjs().add(30, 'minutes').format('mm'))
                 setHour(dayjs().add(1, 'hours').format('HH'))
                 onChange(dayjs().add(30, 'minutes').add(1, 'hours').format('HH:mm'))
@@ -85,7 +85,7 @@ const TimePicker: React.FC<InputProps> = ({ isAm, style, onChange, date, time })
             }
             
         }
-    },[date, list[activeCarId-1].dateNow, list[activeCarId-1].date, list[activeCarId-1].time, isAm])
+    },[date, list[index].dateNow, list[index].date, list[index].time, isAm])
 
     useEffect(() => {
         onChange((hour) + ':' + (minute))

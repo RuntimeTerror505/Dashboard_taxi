@@ -13,7 +13,7 @@ import {
 import Dashboard from './pages/Dashboard/Dashboard';
 import Calendar from './pages/Dashboard/Calendar/Calendar.tsx';
 import Customers from './pages/Dashboard/Customers.tsx';
-import Orders from './pages/Dashboard/Order.tsx';
+import Orders from './pages/Dashboard/Order/Order.tsx';
 import Drivers from './pages/Dashboard/Drivers.tsx';
 import Prices from './pages/Dashboard/Prices.tsx';
 import Settings from './pages/Dashboard/Settings.tsx';

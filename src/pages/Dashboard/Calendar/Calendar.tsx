@@ -4,8 +4,9 @@ import { Select, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import { GoSearch } from "react-icons/go";
 import { DateRange } from 'react-date-range';
-import { addDays } from 'date-fns';
-import { Calendar as CalendarContent, dayjsLocalizer } from 'react-big-calendar'
+import { addMonths, addWeeks, subMonths, subWeeks, addDays, subDays } from 'date-fns';
+
+import { Calendar as CalendarContent, dayjsLocalizer, NavigateAction, ToolbarProps, View } from 'react-big-calendar'
 import dayjs from 'dayjs'
 import { IEvent, IOrder, useDashboard } from '../../../Store/useDashboard';
 import OrderCard from './OrderCard';
@@ -16,6 +17,43 @@ interface FilterType {
     type: 'time' |'date' |'name' |'phone' | 'email',
     value:string,
 }
+
+interface CustomToolbarProps extends ToolbarProps {
+    onNavigate: (action: NavigateAction, newDate?: Date) => void;
+    onView: (view: View) => void; // Убедитесь, что вы добавили этот тип
+  }
+
+const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate,onView, label, date }) => {
+  const navigate = (action: NavigateAction, newDate?: Date, newView?: View) => {
+    onNavigate(action, newDate);
+    if (newView) {
+        onView(newView);
+    }
+  };
+
+  return (
+  <div className='flex'>
+    <div className="rbc-toolbar">
+      <div className="rbc-btn-group">
+        <button type="button" onClick={() => navigate('DATE', subDays(date, 1), 'day')}>Yesterday</button>
+        <button type="button" onClick={() => navigate('TODAY', undefined, 'day')}>Today</button>
+        <button type="button" onClick={() => navigate('DATE', addDays(date, 1), 'day')}>Tomorrow</button>
+      </div>
+      <div className="rbc-btn-group">
+        <button type="button" onClick={() => navigate('DATE', subWeeks(date, 1), 'week')}>Last week</button>
+        <button type="button" onClick={() => navigate('DATE', date, 'week')}>This week</button>
+        <button type="button" onClick={() => navigate('DATE', addWeeks(date, 1), 'week')}>Next week</button>
+      </div>
+      <div className="rbc-btn-group">
+        <button type="button" onClick={() => navigate('DATE', subMonths(date, 1), 'month')}>Last month</button>
+        <button type="button" onClick={() => navigate('DATE', date, 'month')}>This month</button>
+        <button type="button" onClick={() => navigate('DATE', addMonths(date, 1), 'month')}>Next month</button>
+      </div>
+    </div>
+    <span className="ml-auto px-2 py-1">{label}</span>
+  </div>
+  );
+};
 
 const Calendar = (): React.ReactNode => {
     const { orders, activeEvents, setActiveEvents, getToken } = useDashboard()
@@ -194,6 +232,9 @@ const Calendar = (): React.ReactNode => {
                         onSelectEvent={handleEvent}
                         date={calendarDate}
                         onNavigate={(event)=> setCalendarDate(dayjs(event).toDate())}
+                        components={{
+                            toolbar: CustomToolbar
+                          }}
                     />
                     <div className={eventList}>
                         <h1 

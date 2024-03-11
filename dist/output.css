@@ -1052,6 +1052,10 @@ video {
   flex-wrap: wrap;
 }
 
+.items-start{
+  align-items: flex-start;
+}
+
 .items-end{
   align-items: flex-end;
 }
@@ -1523,6 +1527,10 @@ video {
   padding-top: 0.25rem;
 }
 
+.pt-10{
+  padding-top: 2.5rem;
+}
+
 .pt-4{
   padding-top: 1rem;
 }
@@ -1589,6 +1597,10 @@ video {
 
 .font-bold{
   font-weight: 700;
+}
+
+.uppercase{
+  text-transform: uppercase;
 }
 
 .text-\[\#0066ff\]{
@@ -2163,8 +2175,9 @@ button.rbc-input::-moz-focus-inner {
 .rbc-toolbar {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   margin-bottom: 10px;
   font-size: 16px;
 }
@@ -2179,14 +2192,16 @@ button.rbc-input::-moz-focus-inner {
   color: #373a3c;
   display: inline-block;
   margin: 0;
+  font-size:12px;
+  font-weight: bold;
   text-align: center;
   color: #a855f7;
   vertical-align: middle;
   background: none;
   background-image: none;
-  border: 2px solid #a855f7;
+  border: 1px solid #a855f7;
   padding: 4px 8px;
-  border-radius: 50px;
+  border-radius: 10px;
   line-height: normal;
   white-space: nowrap;
   border-left: 0px;
@@ -2222,6 +2237,7 @@ button.rbc-input::-moz-focus-inner {
 .rbc-btn-group {
   display: inline-block;
   white-space: nowrap;
+  margin-bottom:8px;
 }
 
 .rbc-btn-group>button:first-child:not(:last-child) {
@@ -2236,13 +2252,13 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-rtl .rbc-btn-group>button:first-child:not(:last-child) {
-  border-radius: 50px;
+  border-radius: 5px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
 .rbc-rtl .rbc-btn-group>button:last-child:not(:first-child) {
-  border-radius: 50px;
+  border-radius: 5px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -2262,7 +2278,7 @@ button.rbc-input::-moz-focus-inner {
 
 .rbc-btn-group+.rbc-btn-group,
 .rbc-btn-group+button {
-  margin-left: 10px;
+  margin-left: 0px;
 }
 
 .rbc-event,
