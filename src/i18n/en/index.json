@@ -1,0 +1,123 @@
+{
+    
+    "edit": "Editing",
+    "add": "Adding",
+    "car": "Car",
+    "1st": "1st",
+    "2nd": "2nd",
+    "3rd": "3rd",
+    "4th": "4th",
+    "5th": "5th",
+
+    "type_title": "Make a choice of service, please!",
+    "type_transport":"Transport",
+    "type_delivery":"Delivery",
+    "type_boost":"Boost",
+    "type_unlock": "Unlocking doors",
+
+    "next":"Next",
+    "prev": "Previous",
+    "delete": "delete",
+
+    "select": "Select",
+
+    "reset_section": "Reset all Fields",
+    "restore_section": "Use available data",
+
+    "service_type":"Service Type",
+    "contacts": "Contacts",
+    "one-way":"One-Way",
+    "return":"Return",
+    "passengers":"Vehicle & Passengers",
+    "seats": "Seats & Strollers",
+    "sport":"Sport & Pets",
+    "payment":"Payment",
+    "confirmation":"Confirmation",
+
+    "first_car": "First Car",
+    "second_car": "Second Car",
+    "third_car": "Third Car",
+    "fourth_car": "Fourth Car",
+    "fifth_car": "Fifth Car",
+
+
+    "modal_text": "Do you want to delete the car?",
+
+    "adults": "Adults",
+    "kids": "Kids",
+    "babies": "Babies",
+
+    
+
+    "name_alert": "At least one name are mandatory.",
+    "title_alert": "At least one title are mandatory.",
+    "email_alert": "At least one email address are mandatory.",
+    "phone_alert": "At least one phone are mandatory.",
+    "date_alert": "At least one name are mandatory.",
+    "time_alert": "At least one name are mandatory.",
+    "from_alert": "At least one name are mandatory.",
+    "to_alert": "At least one name are mandatory.",
+
+    "title": "Title",
+    "+name": "+ name",
+    "+email": "+ email",
+    "+phone": "+ phone",
+
+    "name_placeholder": "Your name",
+    "name_placeholder2": "Second name",
+    "name_placeholder3": "Third name",
+
+    "email_placeholder": "Your e-mail",
+    "email_placeholder2": "Second e-mail",
+    "email_placeholder3": "Third e-mail",
+
+    "thanks": "Thanks",
+    "day fare": "Day fare",
+    "night fare": "Day fare",
+    "now": "Now",
+    "later": "Later",
+
+    "monday": "Monday",
+    "tuesday":"Tuesday",
+    "wednesday":"Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday":"Saturday",
+    "sunday": "Sunday",
+
+    "date required": "Date Required",
+
+    "pick up": "Pick Up",
+    "drop of": "Drop Of",
+
+    "first stop": "First Stop",
+    "second stop": "Second Stop",
+    "third stop": "Third Stop",
+    "fourth stop": "Fourth Stop",
+
+    "reset address": "Reset Addresses",
+    "restore address": "Same Addresses as One-Way",
+    "return date": "Choose return date",
+    "add return": "+ add Return",
+    "remove return": "- take off Return",
+
+    "sedan": "Sedan",
+    "suv": "SUV",
+    "mobile":"Mobile",
+    "home": "Home",
+    "work": "Work",
+
+    "totalPassengers": "Total passengers",
+    "totalBaggage": "Total baggage",
+    "totalSeats": "Total seats",
+    "totalStrollers": "Total strollers",
+    "totalSport": "Total sport",
+    "totalPets": "Total pets",
+
+    "checkedBag": "Checked baggage",
+    "carryOnBag": "Carry-on baggage",
+    "backpacks":"Backpacks"
+
+
+
+}

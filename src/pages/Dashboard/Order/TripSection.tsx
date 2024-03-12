@@ -21,7 +21,7 @@ const TripSection = () => {
     const {orders, id, setOrder} = useMain()
     const [isFrom] = useState(true)
     const ref = useOnclickOutside(() => setIsDateOpen(false));
-
+    
     const [fullDate, setFullDate] = useState(dayjs())
     const [localStops, setLocalStops] = useState<{ [key: number]: string }>(orders[0].stops)
     const [isDateOpen, setIsDateOpen] = useState(false)

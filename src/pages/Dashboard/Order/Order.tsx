@@ -7,7 +7,7 @@ import PersonalInfoSection from "./PersonalInfoSection";
 import TripSection from "./TripSection";
 import ReturnSection from "./ReturnSection";
 import BoostSection from "./BoostSection";
-import OptionsSection from "./OptionsSection";
+import OptionsSection from "./options/OptionsSection";
 
 
 const Orders = (): React.ReactNode => {
