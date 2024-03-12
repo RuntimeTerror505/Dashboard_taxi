@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { create } from 'zustand';
 
 export interface IPet {
@@ -124,14 +125,14 @@ interface IStore {
         4: boolean,
         5: boolean,
     }
-    index: number;
-    list: ITaxi[];
+    id: number;
+    orders: ITaxi[];
     //info methods
     setOrder: (data: any, title:string) => void;
     setDay: (value: boolean) => void;
     setType: (value: number) => void;
     setIsFrench: (value: boolean) => void;
-    setIndex: (value: number) => void;
+    setId: (value: number) => void;
     setFilled: (value: boolean, id: number) => void;
     setTimeType: (value: number) => void;
     setTimeTypeR: (value: number) => void;
@@ -253,8 +254,8 @@ export const useMain = create<IStore>()(
         isCars: {
             1: false, 2: false, 3: false, 4: false, 5: false,
         },
-        index: 0,
-        list: [
+        id: 0,
+        orders: [
             {
                 id: 1,
                 type: 1,
@@ -277,7 +278,7 @@ export const useMain = create<IStore>()(
                 phone2: '',
                 phone3: '',
 
-                date: '', time: '', dateNow: true,
+                date: dayjs().format('MM/DD/YYYY'), time: '', dateNow: true,
 
                 //trip information
                 from: '', to: '',
@@ -391,40 +392,40 @@ export const useMain = create<IStore>()(
             },
         ],
 
-        setOrder: (data, title) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index+1 ? {...item,  [title] : data } : item ) })),
+        setOrder: (data, title) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id+1 ? {...item,  [title] : data } : item ) })),
         setDay: (data) => set((state) => ({ ...state, day: data })),
-        setType: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, type: data } : item) })),
+        setType: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, type: data } : item) })),
 
         setIsFrench: (data) => set((state) => ({ ...state, isFrench: data })),
-        setIndex: (data) => set((state) => ({ ...state, index: data })),
+        setId: (data) => set((state) => ({ ...state, id: data })),
         setIsCars: (data) => set((state) => ({ ...state, isCars: data })),
-        setTimeType: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, timeType: data } : item) })),
-        setTimeTypeR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, timeTypeR: data } : item) })),
-        setFilled: (data, id) => set((state) => ({ ...state, list: state.list.map(item => item.id === id ? { ...item, filled: data } : item) })),
+        setTimeType: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, timeType: data } : item) })),
+        setTimeTypeR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, timeTypeR: data } : item) })),
+        setFilled: (data, id) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === id ? { ...item, filled: data } : item) })),
 
 
         //info methods
 
-        setTitle: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, title: data } : item) })),
-        setTitle2: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, title2: data } : item) })),
-        setTitle3: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, title3: data } : item) })),
+        setTitle: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, title: data } : item) })),
+        setTitle2: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, title2: data } : item) })),
+        setTitle3: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, title3: data } : item) })),
 
-        setName: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, name: data } : item) })),
-        setName2: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, name2: data } : item) })),
-        setName3: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, name3: data } : item) })),
+        setName: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, name: data } : item) })),
+        setName2: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, name2: data } : item) })),
+        setName3: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, name3: data } : item) })),
 
-        setEmail: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, email: data } : item) })),
-        setEmail2: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, email2: data } : item) })),
-        setEmail3: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, email3: data } : item) })),
+        setEmail: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, email: data } : item) })),
+        setEmail2: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, email2: data } : item) })),
+        setEmail3: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, email3: data } : item) })),
 
-        setPhone: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, phone: data } : item) })),
-        setPhone2: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, phone2: data } : item) })),
-        setPhone3: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, phone3: data } : item) })),
+        setPhone: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, phone: data } : item) })),
+        setPhone2: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, phone2: data } : item) })),
+        setPhone3: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, phone3: data } : item) })),
 
-        setPaymentMethod: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, paymentMethod: data } : item) })),
-        setAdditionalText: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, additionalText: data } : item) })),
+        setPaymentMethod: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, paymentMethod: data } : item) })),
+        setAdditionalText: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, additionalText: data } : item) })),
         resetForm: () => set((state) => ({
-            ...state, list: state.list.map(item => item.id === state.index ? {
+            ...state, orders: state.orders.map(item => item.id === state.id ? {
                 ...item,
 
                 date: '', time: '', dateNow: true,
@@ -482,30 +483,30 @@ export const useMain = create<IStore>()(
 
         //trip methods 
 
-        setFrom: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, from: data } : item) })),
-        setTo: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, to: data } : item) })),
-        setStops: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, stops: data } : item) })),
+        setFrom: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, from: data } : item) })),
+        setTo: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, to: data } : item) })),
+        setStops: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, stops: data } : item) })),
 
-        setDate: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, date: data } : item) })),
-        setTime: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, time: data } : item) })),
-        setDateNow: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, dateNow: data } : item) })),
-
-
-        setIcon: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, icon: data } : item) })),
-        setIcon2: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, icon2: data } : item) })),
-
-        setDeparture: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, departure: data } : item) })),
-        setDeparture2: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, departure2: data } : item) })),
+        setDate: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, date: data } : item) })),
+        setTime: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, time: data } : item) })),
+        setDateNow: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, dateNow: data } : item) })),
 
 
-        setFlight: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, flight: data } : item) })),
-        setFlight2: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, flight2: data } : item) })),
-        setTripType: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, tripType: data } : item) })),
-        setAirlines: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, airlines: data } : item) })),
-        setAirlinesBack: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, airlineBacks: data } : item) })),
+        setIcon: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, icon: data } : item) })),
+        setIcon2: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, icon2: data } : item) })),
+
+        setDeparture: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, departure: data } : item) })),
+        setDeparture2: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, departure2: data } : item) })),
+
+
+        setFlight: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, flight: data } : item) })),
+        setFlight2: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, flight2: data } : item) })),
+        setTripType: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, tripType: data } : item) })),
+        setAirlines: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, airlines: data } : item) })),
+        setAirlinesBack: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, airlineBacks: data } : item) })),
 
         resetLocation: () => set((state) => ({
-            ...state, list: state.list.map(item => item.id === state.index ? {
+            ...state, orders: state.orders.map(item => item.id === state.id ? {
                 ...item,
                 from: '',
                 to: '',
@@ -535,32 +536,32 @@ export const useMain = create<IStore>()(
         })),
 
         //return trip methods 
-        setIsReturnTrip: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, isReturnTrip: data } : item) })),
-        setIsReturnStatus: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, isReturnStatus: data } : item) })),
+        setIsReturnTrip: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, isReturnTrip: data } : item) })),
+        setIsReturnStatus: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, isReturnStatus: data } : item) })),
 
-        setFromR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, fromR: data } : item) })),
-        setToR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, toR: data } : item) })),
-        setStopsR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, stopsR: data } : item) })),
+        setFromR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, fromR: data } : item) })),
+        setToR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, toR: data } : item) })),
+        setStopsR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, stopsR: data } : item) })),
 
-        setDateR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, dateR: data } : item) })),
-        setTimeR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, timeR: data } : item) })),
-
-
-        setIconR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, iconR: data } : item) })),
-        setIcon2R: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, icon2R: data } : item) })),
-
-        setDepartureR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, departureR: data } : item) })),
-        setDeparture2R: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, departure2R: data } : item) })),
+        setDateR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, dateR: data } : item) })),
+        setTimeR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, timeR: data } : item) })),
 
 
-        setFlightR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, flightR: data } : item) })),
-        setFlight2R: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, flight2R: data } : item) })),
-        setTripTypeR: (data: string) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, tripTypeR: data } : item) })),
-        setAirlinesR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, airlinesR: data } : item) })),
-        setAirlinesBackR: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, airlinesBackR: data } : item) })),
+        setIconR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, iconR: data } : item) })),
+        setIcon2R: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, icon2R: data } : item) })),
+
+        setDepartureR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, departureR: data } : item) })),
+        setDeparture2R: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, departure2R: data } : item) })),
+
+
+        setFlightR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, flightR: data } : item) })),
+        setFlight2R: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, flight2R: data } : item) })),
+        setTripTypeR: (data: string) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, tripTypeR: data } : item) })),
+        setAirlinesR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, airlinesR: data } : item) })),
+        setAirlinesBackR: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, airlinesBackR: data } : item) })),
 
         resetReturn: () => set((state) => ({
-            ...state, list: state.list.map(item => item.id === state.index ? {
+            ...state, orders: state.orders.map(item => item.id === state.id ? {
                 ...item,
                 fromR: '', toR: '',
                 stopsR: {
@@ -586,17 +587,17 @@ export const useMain = create<IStore>()(
         })),
 
 
-        setCarType: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, carType: data } : item) })),
+        setCarType: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, carType: data } : item) })),
 
-        setAdults: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, adults: data } : item) })),
-        setKids: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, kids: data } : item) })),
-        setBabies: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, babies: data } : item) })),
+        setAdults: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, adults: data } : item) })),
+        setKids: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, kids: data } : item) })),
+        setBabies: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, babies: data } : item) })),
 
-        setBaggage: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, baggage: data } : item) })),
-        setPets: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, pets: data } : item) })),
-        setSport: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, sport: data } : item) })),
-        setCarSeats: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, carSeats: data } : item) })),
+        setBaggage: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, baggage: data } : item) })),
+        setPets: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, pets: data } : item) })),
+        setSport: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, sport: data } : item) })),
+        setCarSeats: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, carSeats: data } : item) })),
 
-        setSteps: (data) => set((state) => ({ ...state, list: state.list.map(item => item.id === state.index ? { ...item, steps: data } : item) })),
+        setSteps: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id ? { ...item, steps: data } : item) })),
     }))
 

@@ -1,5 +1,7 @@
+import { useMain } from "../../../Store/useMain";
 
-const ApPm = ({type, title, setOrder }:{ type:number,title:string, setOrder: (data: number, title:string)=>void;}) => {
+const AmPm = ({type, title }:{ type:number,title:string,}) => {
+    const { setOrder} = useMain()
     
     return (
         <div className={type === 1 ? timeToggle + ' bg-gray-600 ' : timeToggle}>
@@ -10,7 +12,7 @@ const ApPm = ({type, title, setOrder }:{ type:number,title:string, setOrder: (da
     );
 };
 
-export default ApPm;
+export default AmPm;
 
 const pmText = 'px-2 pl-4 rounded-tl triangle flex bg-white items-center py-1 '
 const pmTextActive = 'px-2 pl-4 text-white bg-gray-600  rounded-tl triangle flex items-center py-1 '

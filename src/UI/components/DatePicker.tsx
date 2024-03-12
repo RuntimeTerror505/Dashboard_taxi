@@ -15,7 +15,7 @@ interface IDate {
 
 export default function DatePicker({onChange, getFullDate, isReturn, value}:IDate):React.ReactNode {
     const [date, setDate] = useState<dayjs.Dayjs>(dayjs());
-    const {list, index} = useMain()
+    const {orders, id} = useMain()
 
     const handleDate = (date: string | number | dayjs.Dayjs | Date | null | undefined) => {
             const parsedDate = dayjs(date);
@@ -23,7 +23,7 @@ export default function DatePicker({onChange, getFullDate, isReturn, value}:IDat
             if(getFullDate) getFullDate(parsedDate)
             onChange(parsedDate.format('MM/DD/YYYY'))
     }
-console.log(dayjs(list[index].date))
+console.log(dayjs(orders[id].date))
     return (
         <div className="relative" >
             <div className={pickUpTime}>
@@ -42,7 +42,7 @@ console.log(dayjs(list[index].date))
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <StaticDatePicker
                     className='sm:w-[280px] mt-8 '
-                    minDate={isReturn ? list[index].date ? dayjs(list[index].date) : dayjs(): dayjs()}
+                    minDate={isReturn ? orders[id].date ? dayjs(orders[id].date) : dayjs(): dayjs()}
                     value={dayjs(value)}
                     onChange={handleDate}
                 />

@@ -7,25 +7,22 @@ import { PiCalendarCheckLight } from 'react-icons/pi';
 import DatePicker from '../../../UI/components/DatePicker';
 import TimePicker from '../../../UI/components/TimePicker';
 import { MdFlightLand, MdFlightTakeoff, MdLocalHotel } from 'react-icons/md';
-import { FaBus, FaRegCircleCheck } from 'react-icons/fa6';
+import { FaBus } from 'react-icons/fa6';
 
 import train from '../../../assets/train.png'
 import boat from '../../../assets/boat.png'
 import { SlLocationPin } from 'react-icons/sl';
 import { useStore } from '../../../Store';
 import useOnclickOutside from 'react-cool-onclickoutside';
-import { FaRegQuestionCircle } from 'react-icons/fa';
 
-const TripSection = () => {
+const BoostSection = () => {
     const { store } = useStore()
     const {orders, id, setOrder} = useMain()
-    const [isFrom] = useState(true)
     const ref = useOnclickOutside(() => setIsDateOpen(false));
 
     const [fullDate, setFullDate] = useState(dayjs())
-    const [localStops, setLocalStops] = useState<{ [key: number]: string }>(orders[0].stops)
     const [isDateOpen, setIsDateOpen] = useState(false)
-    const [stop, setStop] = useState(0)
+    
     const prefixes: { [key: string]: string } = {
         'AIR CANADA': "AC",
         'Air Transat': "AT",
@@ -60,25 +57,12 @@ const TripSection = () => {
     }
 
     useEffect(() => {
-        setStop(Object.values(orders[0].stops).filter(i => i.length > 0).length)
-    }, [])
-    useEffect(() => {
-        setOrder(localStops, 'stops')
-    }, [localStops])
-
-    const getLength = (data: { [key: string]: string }) => Object.values(data).filter(item => item.length).length
-    const sort = (data: { [key: string]: string }) => {
-        const newObj: { [key: string]: string } = {}
-        Object.values(data).filter(i => i.length).map((item, index) => newObj[index + 1] = item)
-        return newObj;
-    }
-    useEffect(() => {
         if (orders[id].dateNow) setOrder(dayjs().format('MM/DD/YYYY'),'date')
     }, [orders[id].dateNow])
     const isFrench = false;
 
     return (
-        <div className={(orders[0].type < 3) ? trip : 'hidden'}>
+        <div className={(orders[0].type >2) ? trip : 'hidden'}>
         <div className='flex mb-2'>
             <div className='text-red-600 mr-2'>one way</div>
             <div className={ mainTypeBox} onClick={() => {
@@ -87,9 +71,6 @@ const TripSection = () => {
             }}>
                 <span className={orders[0].dateNow ? mainTypeItemActive : mainTypeItem}>{isFrench ? 'Maintenant' : 'Now'}</span>
                 <span className={orders[0].dateNow ? mainTypeItem : mainTypeItemActive}>{isFrench ? 'Après' : 'Later'}</span>
-            </div>
-            <div className={orders[id].isReturnTrip ? returnButtonActive : returnButton} onClick={() => setOrder(!orders[0].isReturnTrip, 'isReturnTrip')}>
-                return trip
             </div>
         </div>
 
@@ -212,115 +193,18 @@ const TripSection = () => {
                         />
                     </div>}
             </div>
-            <div className={stopsContent}>
-                <div className={stopStepper}>
-                    <span className={stop > 0 ? stepperItem : 'hidden'}>{getLength(localStops) > 0 ? <FaRegCircleCheck /> : <FaRegQuestionCircle />}</span>
-                    <span className={stop > 1 ? stepperItem : ' hidden'}>{getLength(localStops) > 1 ? <><FaRegCircleCheck /><span className={stepLine}></span></> : <FaRegQuestionCircle />}</span>
-                    <span className={stop > 2 ? stepperItem : ' hidden'}>{getLength(localStops) > 2 ? <><FaRegCircleCheck /><span className={stepLine}></span></> : <FaRegQuestionCircle />}</span>
-                    <span className={stop > 3 ? stepperItem : ' hidden'}>{getLength(localStops) > 3 ? <><FaRegCircleCheck /><span className={stepLine}></span></> : <FaRegQuestionCircle />}</span>
-                </div>
-
-                <div className={stopContainer}>
-                    <div className={stop === 0 ? addStopButton : 'hidden'} onClick={() => setStop(1)}>+ stop</div>
-                    <div className={stop > 0 ? locationBox : 'hidden'}>
-                        <span className='icon text-orange-400'><SlLocationPin /></span>
-                        <GoogleAddressInput
-                            style='w-full'
-                            defaultLocation={localStops[1] || ''}
-                            onChange={(e) => setLocalStops({ ...localStops, 1: e })}
-                            placeholder={isFrench ? store.locationListF[2] : store.locationList[2]}
-                        />
-                        <div className={nameClose} onClick={() => {
-                            setLocalStops(sort({ ...orders[0].stops, 1: '' }))
-                            setOrder({ ...orders[0].stops, 1: '' },'stops')
-                            setStop(stop - 1)
-                        }}>+</div>
-                    </div>
-
-                    <div className={(stop === 1 && getLength(localStops) > 0) ? addStopButton : 'hidden'} onClick={() => setStop(2)}>+ stop</div>
-                    <div className={(stop > 1 && getLength(localStops) > 0) ? locationBox : 'hidden'}>
-                        <span className='icon text-orange-400'><SlLocationPin /></span>
-                        <GoogleAddressInput
-                            style='w-full'
-                            defaultLocation={localStops[2] || ''}
-                            onChange={(e) => setLocalStops({ ...localStops, 2: e })}
-                            placeholder={isFrench ? store.locationListF[3] : store.locationList[3]}
-                        />
-                        <div className={nameClose} onClick={() => {
-                            setLocalStops(sort({ ...orders[0].stops, 2: '' }))
-                            setOrder({ ...orders[0].stops, 2: '' },'stops')
-                            setStop(stop - 1)
-                        }}>+</div>
-                    </div>
-
-                    <div className={(stop === 2 && getLength(localStops) > 1) ? addStopButton : 'hidden'} onClick={() => setStop(3)}>+ stop</div>
-                    <div className={(stop > 2 && getLength(localStops) > 1) ? locationBox : 'hidden'}>
-                        <span className='icon text-orange-400'><SlLocationPin /></span>
-                        <GoogleAddressInput
-                            style='w-full'
-                            defaultLocation={localStops[3] || ''}
-                            onChange={(e) => setLocalStops({ ...localStops, 3: e })}
-                            placeholder={isFrench ? store.locationListF[4] : store.locationList[4]}
-                        />
-                        <div className={nameClose} onClick={() => {
-                            setLocalStops(sort({ ...orders[0].stops, 3: '' }))
-                            setOrder({ ...orders[0].stops, 3: '' },'stops')
-                            setStop(stop - 1)
-                        }}>+</div>
-                    </div>
-
-                    <div className={(stop === 3 && getLength(localStops) > 2) ? addStopButton : 'hidden'} onClick={() => setStop(4)}>+ stop</div>
-                    <div className={(stop > 3 && getLength(localStops) > 2) ? locationBox : 'hidden'}>
-                        <span className='icon text-orange-400'><SlLocationPin /></span>
-                        <GoogleAddressInput
-                            style='w-full'
-                            defaultLocation={localStops[4] || ''}
-                            onChange={(e) => setLocalStops({ ...localStops, 4: e })}
-                            placeholder={isFrench ? store.locationListF[5] : store.locationList[5]}
-                        />
-                        <div className={nameClose} onClick={() => {
-                            setLocalStops(sort({ ...orders[0].stops, 4: '' }))
-                            setOrder({ ...orders[0].stops, 4: '' },'stops')
-                            setStop(stop - 1)
-                        }}>+</div>
-                    </div>
-                </div>
-            </div>
-            <div className={locationCard}>
-                <div className={isFrom ? locationBox : locationBox + ' border-red-500'}>
-                    <span className='icon text-green-500 '><SlLocationPin /></span>
-                    <GoogleAddressInput
-                        style='w-full'
-                        defaultLocation={orders[0].to || ''}
-                        onChange={(value)=> setOrder(value,'to')}
-                        placeholder={isFrench ? store.locationListF[0] : store.locationList[0]}
-                    />
-                </div>
-                {orders[0].icon2 === 1 &&
-                    <div className="border border-purple-500 flex items-center w-1/3 rounded-lg py-1">
-                        <Select
-                            className='favorite truncate'
-                            style={{ borderRadius: 5 }}
-                            options={store.departureSections.map(item => (
-                                { value: item, label: item }
-                            ))}
-                            onChange={(value)=>setOrder(value,'departure2')}
-                            placeholder='Departure'
-                        />
-                    </div>}
-            </div>
-
+            
             <div className={orders[0].icon2 > 0 ? iconsType : 'hidden'}>
                 <span className={iconCard}>
                     {orders[0].icon2 === 1
                         ? <MdFlightTakeoff className={iconItem + 'text-xl '} />
                         : orders[0].icon2 === 2
-                            ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                            : orders[0].icon2 === 3
-                                ? <FaBus className={iconItem} />
-                                : orders[0].icon2 === 4
-                                    ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
-                                    : <MdLocalHotel className={iconItem + ' text-lg'} />
+                        ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
+                        : orders[0].icon2 === 3
+                        ? <FaBus className={iconItem} />
+                        : orders[0].icon2 === 4
+                        ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
+                        : <MdLocalHotel className={iconItem + ' text-lg'} />
                     }
                 </span>
 
@@ -370,24 +254,13 @@ const TripSection = () => {
     );
 };
 
-export default TripSection;
+export default BoostSection;
 
-const returnButton = 'ml-auto px-2 py-1 text-white bg-green-500 self-start rounded-full border-b-2 border-green-300 border-r-2 active:border-r-[1px]'
-const returnButtonActive = 'ml-auto px-2 py-1 text-white bg-rose-500 self-start rounded-full border-b-2 border-rose-300 border-r-2 active:border-r-0'
 const iconCard = 'flex items-center justify-center w-8 h-8 bg-purple-500 shadow-xl text-white rounded-lg'
 const iconItem = ' '
 const iconsType = 'flex items-center justify-between w-full sm:space-x-0 xl:space-x-4  lg:space-x-4 2xl:space-x-4'
 const flightCard = 'flex relative items-center border w-4/5  rounded-lg border-purple-500 py-1'
 
-const addStopButton = 'text-purple-500 cursor-pointer hover:text-purple-700 pl-4 w-[60px]'
-
-const nameClose = ' absolute -top-2 -right-2 px-[6px] rotate-45 py-[2px] text-center bg-rose-600 text-white rounded-full cursor-pointer z-10'
-
-const stepLine = 'absolute border-l border-black h-[75%] -top-[38%]'
-const stepperItem = 'relative min-h-[48px] h-1/4 flex items-center justify-center w-full text-purple-500 '
-const stopContainer = 'w-[90%] space-y-2'
-const stopStepper = 'w-[10%] h-full flex flex-col mt-2'
-const stopsContent = ' flex '
 const locationBox = ' relative flex items-center border rounded-lg shadow-inner w-full mb-2'
 const locationCard = 'flex relative items-center w-full  space-x-2'
 const dateBox = 'flex relative border pr-3 rounded-lg py-1 cursor-pointer'
