@@ -590,6 +590,10 @@ video {
   right: -0.5rem;
 }
 
+.-top-11{
+  top: -2.75rem;
+}
+
 .-top-2{
   top: -0.5rem;
 }
@@ -800,6 +804,10 @@ video {
 
 .mt-4{
   margin-top: 1rem;
+}
+
+.mt-6{
+  margin-top: 1.5rem;
 }
 
 .mt-8{

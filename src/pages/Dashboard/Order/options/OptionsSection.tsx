@@ -3,6 +3,7 @@ import { useMain } from "../../../../Store/useMain";
 
 import PassengersSelect from "./PassengersSelect";
 import BagsSelect from "./BaggageSelect";
+import CarSeatsSelect from "./CarSeatsSelect";
 
 const OptionsSection = () => {
     const { orders } = useMain()
@@ -22,16 +23,7 @@ const OptionsSection = () => {
         </div>
         {option === 1 && <PassengersSelect />        }
         {option === 2 && <BagsSelect />}
-        {option === 3 && <div className={optionsContent}>
-            {orders[0].carSeats.map(item => (
-                <div className="p-2 flex items-center text-base w-full ">
-                    <span className={passTitle}>{item.title}</span>
-                    <span className={btnQuantity + ' ml-auto'}>-</span>
-                    <span className={passNumber}>{item.quantity}</span>
-                    <span className={btnQuantity}>+</span>
-                </div>
-            ))}
-        </div>}
+        {option === 3 && <CarSeatsSelect />}
         {option === 4 && <div className={optionsContent}>
             {orders[0].sport.map(item => (
                 <div className="p-2 flex items-center text-base w-full ">
@@ -66,5 +58,5 @@ const mainTypeItem = ' px-2 py-1 font-bold duration-500'
 const mainTypeItemActive = ' px-2 py-1 font-bold bg-purple-400 text-white duration-500'
 
 
-const optionsSection = 'flex flex-col w-[49%] bg-white rounded-xl mb-5 p-4 text-xs shadow-xl'
+const optionsSection = 'flex flex-col w-[49%] bg-white rounded mb-5 p-4 text-xs border '
 
