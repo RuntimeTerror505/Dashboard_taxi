@@ -29,7 +29,6 @@ const CarSeatsSelect = () => {
     },[orders[id].totalSeats, orders[id].totalStroller])
 
 
-
     const addTotalSeats = () => {
         if(orders[id].totalSeats ===10) return
         setOrder(+orders[id].totalSeats+1,'totalSeats')
