@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useMain } from '../../../../Store/useMain';
 // import { useTranslation } from 'react-i18next';
-
 const CarSeatsSelect = () => {
     const { orders,id, setOrder} = useMain()
 
