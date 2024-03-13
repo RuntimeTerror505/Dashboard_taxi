@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useMain } from '../../../../Store/useMain';
-// import { useTranslation } from 'react-i18next';
 
 const CarSeatsSelect = () => {
     const { orders,id, setOrder} = useMain()
 
     const [maxSeats, setMaxSeats ] = useState(orders[id].carSeats.filter((_,index)=> index <3).reduce((sum, item) => sum + item.quantity, 0))
     const [maxStroll, setMaxStroll ] = useState(orders[id].carSeats.filter((_,index)=> index >2).reduce((sum, item) => sum + item.quantity, 0))
-    // const { t } = useTranslation();
     useEffect(()=>{
         setMaxSeats(orders[id].carSeats.filter((_,index)=> index <3).reduce((sum, item) => sum + item.quantity, 0))
         setMaxStroll(orders[id].carSeats.filter((_,index)=> index >2).reduce((sum, item) => sum + item.quantity, 0))
