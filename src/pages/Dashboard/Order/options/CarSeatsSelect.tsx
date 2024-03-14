@@ -49,7 +49,7 @@ const CarSeatsSelect = () => {
 
     return (
         <div className={optionsContent}>
-            <h2 className=' absolute -top-11 text-red-500 self-end'>Maximum 10 items </h2>
+            <h2 className=' absolute top-2  text-red-500 self-end'>Maximum 10 items </h2>
             <div className="p-2 flex items-center text-base w-full border-b font-bold">
                 <span className={passTitle}>Total Seats: </span>
                 <span className={btnQuantity + ' ml-auto'} onClick={removeTotalSeats}>-</span>
@@ -113,8 +113,8 @@ const CarSeatsSelect = () => {
 
 export default CarSeatsSelect;
 
-const passTitle = 'text-sm text-gray-600 mr-5 '
+const passTitle = 'text-sm text-gray-600 w-3/5 '
 const passNumber = 'px-2'
 const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-blue-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-blue-400'
-const optionsContent = 'relative flex flex-col'
+const optionsContent = 'relative w-1/5 flex flex-col pr-2 pt-8 border-l'
 

@@ -37,7 +37,7 @@ const BagsSelect = ():React.ReactNode => {
 
     return (
         <div className={container} >
-            <h2 className=' absolute -top-11 text-red-500 self-end'>Maximum 10 items </h2>
+            <h2 className=' absolute  text-red-500 self-end'>Maximum 10 items </h2>
             <div className={toggle} onClick={()=>setOrder(!orders[id].weightType, 'weightType')}>
                 {orders[id].weightType? 'kg': 'lb'}
             </div>
@@ -78,8 +78,8 @@ const BagsSelect = ():React.ReactNode => {
 export default BagsSelect;
 
 const toggle = 'border-black ml-2 border rounded-lg w-6 h-6 cursor-pointer flex items-center justify-center'
-const passTitle = 'text-sm text-gray-600 mr-5 '
+const passTitle = 'text-sm text-gray-600  w-3/5'
 const passNumber = 'px-2'
 const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-blue-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-blue-400'
 const itemRow = 'p-2 flex items-center text-base w-full '
-const container = 'relative flex flex-col'
+const container = 'relative flex flex-col w-1/5 pt-2 pr-2 border-l'

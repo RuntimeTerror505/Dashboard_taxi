@@ -24,7 +24,7 @@ import Edit from './pages/Dashboard/Links/Edit.tsx';
 import Login from './pages/Dashboard/auth/Login.tsx';
 import Registration from './pages/Dashboard/auth/Registration.tsx';
 import AuthRouter from './pages/AuthRouter.tsx';
-
+import './i18n/i18n.ts';
 
 const router = createBrowserRouter([
   {
