@@ -64,7 +64,7 @@ const Calendar = (): React.ReactNode => {
     },[timeRange])
 
     const options = ['time', 'date', 'name', 'phone']
-    const colors:string[] =  ['bg-red-500  active:bg-red-400 ', 'bg-orange-500 active:bg-orange-400 ', 'bg-green-500 active:bg-green-400 ', 'bg-purple-500']
+    const colors:string[] =  ['bg-red-500  active:bg-red-400 ', 'bg-orange-500 active:bg-orange-400 ', 'bg-green-500 active:bg-green-400 ', 'bg-blue-500']
 
     const dates:{[key:number]: Date} = {
         1:moment().add(-1, 'days').toDate(),
@@ -299,15 +299,15 @@ const activeEventsList = '   rounded p-2 bg-white h-full'
 const tableItem = 'px-2'
 
 const clearButton = ' flex border-rose-500 border-2 rounded-full px-2 self-start -translate-y-6 text-rose-500 cursor-pointer ml-4 active:text-white active:bg-rose-500'
-const activeListItem = ' border-b bg-purple-500   cursor-pointer px-2 py-1 rounded-lg text-white'
-const listItem = ' border-b hover:bg-purple-300 hover:text-white cursor-pointer px-2 py-1 rounded-lg '
-const eventList = ' flex flex-col  p-2 overflow-y-scroll max-h-[500px] border border-purple-500 rounded-3xl mt-4'
+const activeListItem = ' border-b bg-blue-500   cursor-pointer px-2 py-1 rounded-lg text-white'
+const listItem = ' border-b hover:bg-blue-300 hover:text-white cursor-pointer px-2 py-1 rounded-lg '
+const eventList = ' flex flex-col  p-2 overflow-y-scroll max-h-[500px] border border-blue-500 rounded-3xl mt-4'
 const calendarContent =  'flex flex-col w-[70%] px-4'
 const datePicker = 'flex flex-col w-[30%]'
 
 const content = 'flex'
 
-const filterInput = 'border border-purple-500 rounded-full flex bg-white w-[300px] mx-auto'
+const filterInput = 'border border-blue-500 rounded-full flex bg-white w-[300px] mx-auto'
 
 const menuFilters = 'w-[320px]'
 const dateName = ' flex items-center px-4'

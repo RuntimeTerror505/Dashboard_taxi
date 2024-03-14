@@ -53,17 +53,17 @@ export default Dashboard;
 
 
 const icon =' p-1 bg-white rounded-lg shadow-lg mr-2 text-3xl'
-const activeIcon =' p-1 rounded-lg bg-purple-500 text-white text-3xl  mr-2'
+const activeIcon =' p-1 rounded-lg bg-blue-500 text-white text-3xl  mr-2'
 const navTitle= 'duration-1000 truncate '
 const menuContent = 'flex flex-col '
 
-const navItem = ' relative rounded duration-500 items-center py-2 flex px-4 font-bold cursor-pointer mb-2 hover:text-purple-500'
-const navItemClosed = ' relative duration-500 rounded items-center p-1 flex font-bold cursor-pointer mb-[16px] hover:text-purple-500'
-const navItemActive = ' relative duration-500 rounded items-center flex py-2 bg-white text-purple-500 rounded-xl shadow-xl px-4 font-bold cursor-pointer mb-2 hover:text-purple-500'
-const navItemActiveClosed = ' relative duration-500  rounded items-center flex p-1 bg-white text-purple-500 rounded-xl shadow-xl font-bold cursor-pointer mb-4 hover:text-purple-500'
+const navItem = ' relative rounded duration-500 items-center py-2 flex px-4 font-bold cursor-pointer mb-2 hover:text-blue-500'
+const navItemClosed = ' relative duration-500 rounded items-center p-1 flex font-bold cursor-pointer mb-[16px] hover:text-blue-500'
+const navItemActive = ' relative duration-500 rounded items-center flex py-2 bg-white text-blue-500 rounded-xl shadow-xl px-4 font-bold cursor-pointer mb-2 hover:text-blue-500'
+const navItemActiveClosed = ' relative duration-500  rounded items-center flex p-1 bg-white text-blue-500 rounded-xl shadow-xl font-bold cursor-pointer mb-4 hover:text-blue-500'
 
 const navMenu = 'px-4 py-10 flex flex-col fixed top-0 left-0 bottom-0 z-10 bg-white bg-opacity-75 overflow-hidden ease-linear duration-500 w-[200px] min-h-screen h-full shadow-lg '
 const navMenuClosed = 'px-1 py-10 flex flex-col fixed top-0 left-0 bottom-0 z-10 bg-white bg-opacity-75 overflow-hidden ease-linear duration-500 w-[55px] min-h-screen h-full shadow-lg '
 
-const menuIcon = 'absolute top-4 text-2xl right-2 cursor-pointer hover:text-purple-500'
+const menuIcon = 'absolute top-4 text-2xl right-2 cursor-pointer hover:text-blue-500'
 const screen =  'flex justify-center min-w-screen w-full bg-gray-50 min-h-screen '

@@ -80,6 +80,6 @@ export default BagsSelect;
 const toggle = 'border-black ml-2 border rounded-lg w-6 h-6 cursor-pointer flex items-center justify-center'
 const passTitle = 'text-sm text-gray-600 mr-5 '
 const passNumber = 'px-2'
-const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-purple-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-purple-400'
+const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-blue-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-blue-400'
 const itemRow = 'p-2 flex items-center text-base w-full '
 const container = 'relative flex flex-col'

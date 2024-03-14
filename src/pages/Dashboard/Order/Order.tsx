@@ -90,7 +90,7 @@ const Orders = (): React.ReactNode => {
 
                     <div className="flex space-x-2">
                         <div className={btnGreen} onClick={sendOrder}>confirm</div>
-                        <div className={btnPurple}>orders</div>
+                        <div className={btnblue}>orders</div>
                     </div>
                 </div>
             </div>
@@ -108,13 +108,13 @@ const textArea = 'flex border h-min w-full rounded-lg mb-4'
 
 
 const mainType = 'flex flex-col w-full  mb-2 text-xs items-start mb-6 mt-4'
-const mainTypeBox = "flex  border-2 border-purple-500 overflow-hidden cursor-pointer"
+const mainTypeBox = "flex  border-2 border-blue-500 overflow-hidden cursor-pointer"
 const mainTypeItem = ' px-2 py-1 font-bold duration-500'
-const mainTypeItemActive = ' px-2 py-1 font-bold bg-purple-400 text-white duration-500'
+const mainTypeItemActive = ' px-2 py-1 font-bold bg-blue-400 text-white duration-500'
 
 
 const btnGreen = ' border-2 px-2 py-1 rounded-full border-green-500 font-bold cursor-pointer hover:bg-green-300 self-start'
-const btnPurple = ' border-2 px-2 py-1 rounded-full border-purple-500 font-bold cursor-pointer hover:bg-purple-400'
+const btnblue = ' border-2 px-2 py-1 rounded-full border-blue-500 font-bold cursor-pointer hover:bg-blue-400'
 
 const optionsSection = 'flex flex-col w-[49%] bg-white rounded-xl mb-5 p-4 text-xs shadow-xl'
 

@@ -51,11 +51,11 @@ const OptionsSection = () => {
 export default OptionsSection;
 const passTitle = 'text-sm text-gray-600 mr-5 '
 const passNumber = 'px-2'
-const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-purple-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-purple-400'
+const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-blue-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-blue-400'
 const optionsContent = 'flex flex-col'
-const mainTypeBox = "flex  border-2 border-purple-500 overflow-hidden cursor-pointer"
+const mainTypeBox = "flex  border-2 border-blue-500 overflow-hidden cursor-pointer"
 const mainTypeItem = ' px-2 py-1 font-bold duration-500'
-const mainTypeItemActive = ' px-2 py-1 font-bold bg-purple-400 text-white duration-500'
+const mainTypeItemActive = ' px-2 py-1 font-bold bg-blue-400 text-white duration-500'
 
 
 const optionsSection = 'flex flex-col w-full bg-white rounded mb-5 p-4 text-xs border '

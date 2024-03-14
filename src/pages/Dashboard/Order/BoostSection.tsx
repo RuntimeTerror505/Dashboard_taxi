@@ -181,7 +181,7 @@ const BoostSection = () => {
                     />
                 </div>
                 {orders[0].icon === 1 &&
-                    <div className="border border-purple-500 flex items-center w-1/3 rounded-lg py-1">
+                    <div className="border border-blue-500 flex items-center w-1/3 rounded-lg py-1">
                         <Select
                             className='favorite truncate'
                             style={{ borderRadius: 5 }}
@@ -256,20 +256,20 @@ const BoostSection = () => {
 
 export default BoostSection;
 
-const iconCard = 'flex items-center justify-center w-8 h-8 bg-purple-500 shadow-xl text-white rounded-lg'
+const iconCard = 'flex items-center justify-center w-8 h-8 bg-blue-500 shadow-xl text-white rounded-lg'
 const iconItem = ' '
 const iconsType = 'flex items-center justify-between w-full sm:space-x-0 xl:space-x-4  lg:space-x-4 2xl:space-x-4'
-const flightCard = 'flex relative items-center border w-4/5  rounded-lg border-purple-500 py-1'
+const flightCard = 'flex relative items-center border w-4/5  rounded-lg border-blue-500 py-1'
 
 const locationBox = ' relative flex items-center border rounded-lg shadow-inner w-full mb-2'
 const locationCard = 'flex relative items-center w-full  space-x-2'
 const dateBox = 'flex relative border pr-3 rounded-lg py-1 cursor-pointer'
-const setDateBtn = ' border bg-purple-500 hover:bg-purple-400 active:bg-purple-600 shadow-lg cursor-pointer rounded-xl px-3 py-2 flex text-white items-center'
+const setDateBtn = ' border bg-blue-500 hover:bg-blue-400 active:bg-blue-600 shadow-lg cursor-pointer rounded-xl px-3 py-2 flex text-white items-center'
 const dateTimeSubmenu = 'absolute  flex flex-col item-star top-[102%] left-0 z-20 max-w-[300px] pb-2 bg-white shadow-xl rounded-xl sm:-left-[10px]'
 
-const mainTypeBox = "flex mb-4  border-2 border-purple-500 overflow-hidden cursor-pointer"
+const mainTypeBox = "flex mb-4  border-2 border-blue-500 overflow-hidden cursor-pointer"
 const mainTypeItem = ' px-2 py-1 font-bold duration-500'
-const mainTypeItemActive = ' px-2 py-1 font-bold bg-purple-400 text-white duration-500'
+const mainTypeItemActive = ' px-2 py-1 font-bold bg-blue-400 text-white duration-500'
 
 const trip = 'flex flex-col w-[49%] bg-white rounded mb-5 p-4 text-xs border'
 

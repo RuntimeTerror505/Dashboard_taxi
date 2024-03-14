@@ -463,11 +463,11 @@ button.rbc-input::-moz-focus-inner {
     font-size:12px;
     font-weight: bold;
     text-align: center;
-    color: #a855f7;
+    color: #3e4eff;
     vertical-align: middle;
     background: none;
     background-image: none;
-    border: 1px solid #a855f7;
+    border: 1px solid #3e4eff;
     padding: 4px 8px;
     border-radius: 10px;
     line-height: normal;
@@ -480,7 +480,7 @@ button.rbc-input::-moz-focus-inner {
     background-image: none;
     -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    background-color: #a855f7;
+    background-color: #3e4eff;
     color: white;
 }
 
@@ -489,7 +489,7 @@ button.rbc-input::-moz-focus-inner {
 .rbc-toolbar button.rbc-active:hover,
 .rbc-toolbar button.rbc-active:focus {
     color: #373a3c;
-    background-color: #a855f7;
+    background-color: #3e4eff;
     color: white;
 }
 
@@ -510,7 +510,7 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-btn-group>button:first-child:not(:last-child) {
-    border-left: 2px solid #a855f7;
+    border-left: 2px solid #3e4eff;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
@@ -559,7 +559,7 @@ button.rbc-input::-moz-focus-inner {
     box-shadow: none;
     margin: 0;
     padding: 2px 5px;
-    background-color: #a855f7;
+    background-color: #3e4eff;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
@@ -646,18 +646,18 @@ button.rbc-input::-moz-focus-inner {
     font-size: 85%;
     height: auto;
     line-height: normal;
-    color: #a855f7;
+    color: #3e4eff;
 }
 
 .rbc-show-more:hover,
 .rbc-show-more:focus {
-    color: #a855f7;
+    color: #3e4eff;
     text-decoration:underline;
 }
 
 .rbc-month-view {
     position: relative;
-    border: 1px solid #a855f7;
+    border: 1px solid #3e4eff;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -796,7 +796,7 @@ button.rbc-input::-moz-focus-inner {
 .rbc-agenda-view table.rbc-agenda-table {
     width: 100%;
     width: 100%;
-    border: 1px solid #a855f7;
+    border: 1px solid #3e4eff;
     border-radius: 20px;
     border-collapse: collapse;
 }
@@ -916,7 +916,7 @@ button.rbc-input::-moz-focus-inner {
 
 .rbc-day-slot .rbc-event,
 .rbc-day-slot .rbc-background-event {
-    border: 1px solid #a855f7;
+    border: 1px solid #3e4eff;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1045,7 +1045,7 @@ button.rbc-input::-moz-focus-inner {
     -ms-flex: 1;
     flex: 1;
     width: 100%;
-    border: 1px solid #a855f7;
+    border: 1px solid #3e4eff;
     border-radius: 20px;
     overflow: hidden;
     min-height: 0;

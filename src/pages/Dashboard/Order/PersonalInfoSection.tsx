@@ -22,7 +22,6 @@ const PersonalInfoSection = () => {
     const [phones, setPhones] = useState({ 1: false, 2: false })
     const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    
     return (
         <div className={personalInfo}>
         <div className='pb-2'>
@@ -137,4 +136,4 @@ const nameClose = ' absolute -top-2 -right-2 px-[6px] rotate-45 py-[2px] text-ce
 
 const personalInfo = 'flex flex-col w-full bg-white rounded border mb-5 p-4 text-xs  pb-10'
 const nameBox = 'relative flex items-center rounded-lg border '
-const addNameBtn = 'text-purple-500 cursor-pointer hover:text-purple-700 pl-4 w-[60px]'
+const addNameBtn = 'text-blue-500 cursor-pointer hover:text-blue-700 pl-4 w-[60px]'

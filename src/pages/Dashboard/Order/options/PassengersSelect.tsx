@@ -131,11 +131,11 @@ export default PassengersSelect;
 const itemRow = 'p-2 flex items-center text-base w-full '
 const passTitle = 'text-sm text-gray-600 mr-5 '
 const passNumber = 'px-2'
-const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-purple-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-purple-400'
+const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-blue-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-blue-400'
 const mainTypeItem = ' px-2 py-1 font-bold duration-500'
 
 const carTypeBox = "flex mb-2 items-center"
 const carTypeItem = ' mx-4 border-white border-b-2 cursor-pointer  font-bold duration-500'
-const carTypeItemActive = ' mx-4 font-bold border-b-2 border-purple-400 duration-500'
+const carTypeItemActive = ' mx-4 font-bold border-b-2 border-blue-400 duration-500'
 
 const optionsContent = 'relative w-1/4 flex flex-col border-r pr-2'

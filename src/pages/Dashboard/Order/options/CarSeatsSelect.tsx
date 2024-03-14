@@ -115,6 +115,6 @@ export default CarSeatsSelect;
 
 const passTitle = 'text-sm text-gray-600 mr-5 '
 const passNumber = 'px-2'
-const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-purple-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-purple-400'
+const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-blue-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-blue-400'
 const optionsContent = 'relative flex flex-col'
 
