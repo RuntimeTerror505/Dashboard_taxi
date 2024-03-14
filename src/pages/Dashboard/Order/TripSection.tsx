@@ -88,9 +88,9 @@ const TripSection = () => {
                 <span className={orders[0].dateNow ? mainTypeItemActive : mainTypeItem}>{isFrench ? 'Maintenant' : 'Now'}</span>
                 <span className={orders[0].dateNow ? mainTypeItem : mainTypeItemActive}>{isFrench ? 'Après' : 'Later'}</span>
             </div>
-            <div className={orders[id].isReturnTrip ? returnButtonActive : returnButton} onClick={() => setOrder(!orders[0].isReturnTrip, 'isReturnTrip')}>
+            {/* <div className={orders[id].isReturnTrip ? returnButtonActive : returnButton} onClick={() => setOrder(!orders[0].isReturnTrip, 'isReturnTrip')}>
                 return trip
-            </div>
+            </div> */}
         </div>
 
         <div className='relative flex justify-between mb-2'>
@@ -372,8 +372,8 @@ const TripSection = () => {
 
 export default TripSection;
 
-const returnButton = 'ml-auto px-2 py-1 text-white bg-green-500 self-start rounded-full border-b-2 border-green-300 border-r-2 active:border-r-[1px]'
-const returnButtonActive = 'ml-auto px-2 py-1 text-white bg-rose-500 self-start rounded-full border-b-2 border-rose-300 border-r-2 active:border-r-0'
+// const returnButton = 'ml-auto px-2 py-1 text-white bg-green-500 self-start rounded-full border-b-2 border-green-300 border-r-2 active:border-r-[1px]'
+// const returnButtonActive = 'ml-auto px-2 py-1 text-white bg-rose-500 self-start rounded-full border-b-2 border-rose-300 border-r-2 active:border-r-0'
 const iconCard = 'flex items-center justify-center w-8 h-8 bg-purple-500 shadow-xl text-white rounded-lg'
 const iconItem = ' '
 const iconsType = 'flex items-center justify-between w-full sm:space-x-0 xl:space-x-4  lg:space-x-4 2xl:space-x-4'

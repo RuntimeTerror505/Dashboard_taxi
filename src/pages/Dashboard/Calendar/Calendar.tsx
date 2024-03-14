@@ -4,9 +4,9 @@ import { Select, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import { GoSearch } from "react-icons/go";
 import { DateRange } from 'react-date-range';
-import { addMonths, addWeeks, subMonths, subWeeks, addDays, subDays } from 'date-fns';
-
-import { Calendar as CalendarContent, dayjsLocalizer, NavigateAction, ToolbarProps, View } from 'react-big-calendar'
+import {  addDays} from 'date-fns';
+import moment from 'moment';
+import { Calendar as CalendarContent, dayjsLocalizer, View } from 'react-big-calendar'
 import dayjs from 'dayjs'
 import { IEvent, IOrder, useDashboard } from '../../../Store/useDashboard';
 import OrderCard from './OrderCard';
@@ -18,46 +18,45 @@ interface FilterType {
     value:string,
 }
 
-interface CustomToolbarProps extends ToolbarProps {
-    onNavigate: (action: NavigateAction, newDate?: Date) => void;
-    onView: (view: View) => void; // Убедитесь, что вы добавили этот тип
-  }
+// interface CustomToolbarProps extends ToolbarProps {
+//     onNavigate: (action: NavigateAction, newDate?: Date) => void;
+//     onView: (view: View) => void; // Убедитесь, что вы добавили этот тип
+//   }
 
-const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate,onView, label, date }) => {
-  const navigate = (action: NavigateAction, newDate?: Date, newView?: View) => {
-    onNavigate(action, newDate);
-    if (newView) {
-        onView(newView);
-    }
-  };
+// const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate,onView, label, date }) => {
+//   const navigate = (action: NavigateAction, newDate?: Date, newView?: View) => {
+//     onNavigate(action, newDate);
+//     if (newView) {
+//         onView(newView);
+//     }
+//   };
 
-  return (
-  <div className='flex'>
-    <div className="rbc-toolbar">
-      <div className="rbc-btn-group">
-        <button type="button" onClick={() => navigate('DATE', subDays(date, 1), 'day')}>Yesterday</button>
-        <button type="button" onClick={() => navigate('TODAY', undefined, 'day')}>Today</button>
-        <button type="button" onClick={() => navigate('DATE', addDays(date, 1), 'day')}>Tomorrow</button>
-      </div>
-      <div className="rbc-btn-group">
-        <button type="button" onClick={() => navigate('DATE', subWeeks(date, 1), 'week')}>Last week</button>
-        <button type="button" onClick={() => navigate('DATE', date, 'week')}>This week</button>
-        <button type="button" onClick={() => navigate('DATE', addWeeks(date, 1), 'week')}>Next week</button>
-      </div>
-      <div className="rbc-btn-group">
-        <button type="button" onClick={() => navigate('DATE', subMonths(date, 1), 'month')}>Last month</button>
-        <button type="button" onClick={() => navigate('DATE', date, 'month')}>This month</button>
-        <button type="button" onClick={() => navigate('DATE', addMonths(date, 1), 'month')}>Next month</button>
-      </div>
-    </div>
-    <span className="ml-auto px-2 py-1">{label}</span>
-  </div>
-  );
-};
+//   return (
+//   <div className='flex'>
+//     <div className="rbc-toolbar">
+//       <div className="rbc-btn-group">
+//         <button type="button" onClick={() => navigate('DATE', subDays(date, 1), 'day')}>Yesterday</button>
+//         <button type="button" onClick={() => navigate('TODAY', undefined, 'day')}>Today</button>
+//         <button type="button" onClick={() => navigate('DATE', addDays(date, 1), 'day')}>Tomorrow</button>
+//       </div>
+//       <div className="rbc-btn-group">
+//         <button type="button" onClick={() => navigate('DATE', subWeeks(date, 1), 'week')}>Last week</button>
+//         <button type="button" onClick={() => navigate('DATE', date, 'week')}>This week</button>
+//         <button type="button" onClick={() => navigate('DATE', addWeeks(date, 1), 'week')}>Next week</button>
+//       </div>
+//       <div className="rbc-btn-group">
+//         <button type="button" onClick={() => navigate('DATE', subMonths(date, 1), 'month')}>Last month</button>
+//         <button type="button" onClick={() => navigate('DATE', date, 'month')}>This month</button>
+//         <button type="button" onClick={() => navigate('DATE', addMonths(date, 1), 'month')}>Next month</button>
+//       </div>
+//     </div>
+//     <span className="ml-auto px-2 py-1">{label}</span>
+//   </div>
+//   );
+// };
 
 const Calendar = (): React.ReactNode => {
     const { orders, activeEvents, setActiveEvents, getToken } = useDashboard()
-
     const createEvents = (data:IOrder[]) =>{
         return data.map((item)=>{
             const res:IEvent  = {
@@ -70,7 +69,6 @@ const Calendar = (): React.ReactNode => {
         })
     }
 
-    const [range, setRange] = useState(1)
     const [ timeRange, setTimeRange ] = useState({
         selection: {
             startDate: dayjs().toDate(),
@@ -79,10 +77,72 @@ const Calendar = (): React.ReactNode => {
         }
     });
 
+
+    const [activeTab, setActiveTab] = useState(2)
+
+    
     const [filter,setFilter]= useState<FilterType>({type:'date', value:''})
     const [calendarDate, setCalendarDate] = useState(dayjs().toDate())
     const [events, setEvents] = useState<IEvent[]>([])
     const [trigger, setTrigger] = useState(false)
+
+    const [view, setView] = useState<View | undefined>('month'); 
+
+    
+    
+    const goYesterday = () => {
+        setActiveTab(1)
+        setCalendarDate(moment().add(-1, 'days').toDate());
+        setView('day');
+    };
+    const goToday = () => {
+        setActiveTab(2)
+        setCalendarDate(new Date());
+        setView('day'); 
+    };
+    
+      const goTomorrow = () => {
+        setActiveTab(3)
+        setCalendarDate(moment().add(1, 'days').toDate());
+        setView('day');
+      };
+
+      const goLastWeek = () => {
+        setActiveTab(4)
+        setCalendarDate(moment().startOf('week').add(-1, 'weeks').toDate());
+        setView('week');
+      };
+    
+      const goThisWeek = () => {
+        setActiveTab(5)
+        setCalendarDate(moment().startOf('week').toDate());
+        setView('week');
+      };
+    
+      const goNextWeek = () => {
+        setActiveTab(6)
+        setCalendarDate(moment().startOf('week').add(1, 'weeks').toDate());
+        setView('week');
+      };
+
+      const goLastMonth = () => {
+        setActiveTab(7)
+        setCalendarDate(moment().startOf('month').add(-1, 'months').toDate());
+        setView('month');
+      };
+    
+      const goThisMonth = () => {
+        setActiveTab(8)
+        setCalendarDate(moment().startOf('month').toDate());
+        setView('month');
+      };
+    
+      const goNextMonth = () => {
+        setActiveTab(9)
+        setCalendarDate(moment().startOf('month').add(1, 'months').toDate());
+        setView('month');
+      };
+  
     
     useEffect(()=>{
         getToken()
@@ -115,46 +175,16 @@ const Calendar = (): React.ReactNode => {
         const res = dayjs(data).toDate()
         setCalendarDate(res)
     }
+
     return (
-        <div className={container}>
-            {/*_________________________________________________MENU_______________________________________________________________________________   */}
-            <div className={menu}>
-                {/* ___________________________________________________DATE__________________________________________________________________________ */}
+        <section className={container}>
+            <header className={header}>
                 <div className={dateName}>
                     Monday,
                     <Select className=' w-7 ml-1 dateSelect ' placeholder='d' options={days.map(item => ({ value: item, label: item, }))} />/
                     <Select className=' w-7 dateSelect ' placeholder='m' options={months.map(item => ({ value: item, label: item, }))} />/
                     <Select className=' w-[54px] dateSelect ' placeholder='year' options={years.map(item => ({ value: item, label: item, }))} />
                 </div>
-
-                {/* ___________________________________________________ TABS ________________________________________________________________________ */}
-                <div className={tabs}>
-                    <div className={range === 1 ? menuTabActive : menuTab} onClick={() => {
-                            setRange(1)
-                        }}>Range dates</div>
-                    <div className={range === 2 ? menuTabActive : menuTab} onClick={() => {
-                            setCalendarDate(dayjs().subtract(1, 'week').toDate())
-                            setRange(2)
-                        }}>Last 7 days</div>
-                    <div className={range === 3 ? menuTabActive : menuTab} onClick={() => {
-                            setCalendarDate(dayjs().subtract(1, 'day').toDate())
-                            setRange(3)
-                        }}>Yesterday</div>
-                    <div className={range === 4 ? menuTabActive : menuTab} onClick={() => {
-                            setCalendarDate(dayjs().toDate())
-                            setRange(4)
-                        }}>Today</div>
-                    <div className={range === 5 ? menuTabActive : menuTab} onClick={() => {
-                            setCalendarDate(dayjs().add(1, 'day').toDate())
-                            setRange(5)
-                        }}>Tomorrow</div>
-                    <div className={range === 6 ? menuTabActive : menuTab} onClick={() => {
-                            setCalendarDate(dayjs().add(1, 'week').toDate())
-                            setRange(6)
-                        }}>Next 7 days</div>
-                </div>
-                {/* _______________FILTERS________________________________________ */}
-
                 <div className={menuFilters}>
                     <div className={filterInput}>
                         <GoSearch className='text-3xl px-1' />
@@ -178,13 +208,28 @@ const Calendar = (): React.ReactNode => {
 
                     </div>
                 </div>
-
-            </div>
-
-            {/*_________________________________________________CALENDAR________________________________________________   */}
-            <div className={content}>
-                {/* _____________________________________________PICKER___________________________________________________ */}
-                <div className={calendarSection}>
+            </header>
+            
+            <main className={content}>
+                
+                <article className={datePicker}>
+                    <nav className={calendarNav}>
+                        <nav className={navItem}>
+                            <button onClick={goYesterday } className={activeTab===1? navButtonActive:navButton}>Yesterday</button>
+                            <button onClick={goToday} className={activeTab===2? navButtonActive:navButton}>Today</button>
+                            <button onClick={goTomorrow} className={activeTab===3? navButtonActive:navButton}>Tomorrow</button>
+                        </nav>
+                        <nav className={navItem}>
+                            <button onClick={goLastWeek} className={activeTab===4? navButtonActive:navButton}>Last Week</button>
+                            <button onClick={goThisWeek} className={activeTab===5? navButtonActive:navButton}>This Week</button>
+                            <button onClick={goNextWeek} className={activeTab===6? navButtonActive:navButton}>Next Month</button>
+                        </nav>
+                        <nav className={navItem}>
+                            <button onClick={goLastMonth} className={activeTab===7? navButtonActive:navButton}>Last Month</button>
+                            <button onClick={goThisMonth} className={activeTab===8? navButtonActive:navButton}>This Month</button>
+                            <button onClick={goNextMonth} className={activeTab===9? navButtonActive:navButton}>Next Month</button>
+                        </nav>
+                    </nav>
                     <DateRange
                         editableDateInputs={true}
                         onChange={item => {
@@ -219,10 +264,9 @@ const Calendar = (): React.ReactNode => {
                         }
                     </div>
 
-                </div>
+                </article>
 
-                {/* __________________________________________________CALENDAR_________________________________________________ */}
-                <div className={calendarContent}>
+                <article className={calendarContent}>
                     <CalendarContent
                         localizer={localizer}
                         events={events}
@@ -232,9 +276,10 @@ const Calendar = (): React.ReactNode => {
                         onSelectEvent={handleEvent}
                         date={calendarDate}
                         onNavigate={(event)=> setCalendarDate(dayjs(event).toDate())}
-                        components={{
-                            toolbar: CustomToolbar
-                          }}
+                        toolbar={false}
+                        view={view}
+                        onView={setView}
+                        
                     />
                     <div className={eventList}>
                         <h1 
@@ -277,16 +322,18 @@ const Calendar = (): React.ReactNode => {
                             </div>
                         ))}
                     </div>
-                </div>
-            </div>
-        </div>
+                </article>
+            </main>
+        </section>
     );
 };
 
 export default Calendar;
 
-
-
+const navButton = 'w-1/3  text-sm border '
+const navButtonActive = 'w-1/3 bg-purple-500 border-purple-800 text-white text-sm border'
+const navItem = 'flex justify-between cursor-pointer'
+const calendarNav = ' flex w-full flex-col space-y-2 mb-4'
 const activeEventsList = '   rounded p-2 bg-white h-full'
 const tableItem = 'px-2'
 
@@ -294,17 +341,14 @@ const clearButton = ' flex border-rose-500 border-2 rounded-full px-2 self-start
 const activeListItem = ' border-b bg-purple-500   cursor-pointer px-2 py-1 rounded-lg text-white'
 const listItem = ' border-b hover:bg-purple-300 hover:text-white cursor-pointer px-2 py-1 rounded-lg '
 const eventList = ' flex flex-col  p-2 overflow-y-scroll max-h-[500px] border border-purple-500 rounded-3xl mt-4'
-const calendarContent = 'w-full p-6 bg-white rounded-xl shadow-xl m-6 '
-const calendarSection = 'flex flex-col '
+const calendarContent =  'flex flex-col w-[70%] px-4'
+const datePicker = 'flex flex-col w-[30%]'
 
 const content = 'flex'
 
 const filterInput = 'border border-purple-500 rounded-full flex bg-white w-[300px] mx-auto'
 
 const menuFilters = 'w-[320px]'
-const menuTab = 'text-gray-400  px-2 pt-1 cursor-pointer '
-const menuTabActive = 'text-purple-500 border-b border-purple-500 px-2 pt-1 cursor-pointer '
-const tabs = 'flex'
 const dateName = ' flex items-center px-4'
-const menu = " flex min-w-[430px] pt-6 text-gray-400 text-xs justify-between items-center"
-const container = '  w-full ml-[100px] min-h-screen border'
+const header = " flex min-w-[430px] mb-6 pt-6 text-gray-400 text-xs justify-between items-center"
+const container = '  w-full pl-[60px] min-h-screen border'

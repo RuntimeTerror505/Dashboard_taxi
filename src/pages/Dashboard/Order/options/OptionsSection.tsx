@@ -21,10 +21,10 @@ const OptionsSection = () => {
                 <span className={option === 5 ? mainTypeItemActive : mainTypeItem} onClick={() => setOption(5)}>{isFrench ? 'Pets' : 'Pets'}</span>
             </div>
         </div>
-        {option === 1 && <PassengersSelect />        }
-        {option === 2 && <BagsSelect />}
-        {option === 3 && <CarSeatsSelect />}
-        {option === 4 && <div className={optionsContent}>
+        <PassengersSelect />
+        <BagsSelect />
+        <CarSeatsSelect />
+        <div className={optionsContent}>
             {orders[0].sport.map(item => (
                 <div className="p-2 flex items-center text-base w-full ">
                     <span className={passTitle}>{item.title}</span>
@@ -33,7 +33,7 @@ const OptionsSection = () => {
                     <span className={btnQuantity}>+</span>
                 </div>
             ))}
-        </div>}
+        </div>
         {option === 5 && <div className={optionsContent}>
             {orders[0].pets.map(item => (
                 <div className="p-2 flex items-center text-base w-full ">
@@ -58,5 +58,5 @@ const mainTypeItem = ' px-2 py-1 font-bold duration-500'
 const mainTypeItemActive = ' px-2 py-1 font-bold bg-purple-400 text-white duration-500'
 
 
-const optionsSection = 'flex flex-col w-[49%] bg-white rounded mb-5 p-4 text-xs border '
+const optionsSection = 'flex flex-col w-full bg-white rounded mb-5 p-4 text-xs border '
 

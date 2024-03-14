@@ -70,7 +70,7 @@ const Orders = (): React.ReactNode => {
 
             </div>
 
-            <div className='flex justify-between'>
+            <div className='flex flex-col'>
                 <OptionsSection />
 
                 <div className={optionsSection}>

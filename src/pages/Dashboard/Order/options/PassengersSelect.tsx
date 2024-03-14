@@ -35,7 +35,6 @@ const PassengersSelect = () => {
         <div className={optionsContent}>
             <h2 className=' absolute -top-11 text-red-500 self-end'>Maximum 10 items </h2>
             <div className={carTypeBox}>
-                Car type: 
                 <span className={orders[0].carType === 1 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(1, 'carType')}>{isFrench ? 'Sedan' : 'Sedan'}</span>
                 <span className={orders[0].carType === 2 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(2, 'carType')}>{isFrench ? 'SUV' : 'SUV'}</span>
                 <span className={orders[0].carType === 3 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(3, 'carType')}>{isFrench ? 'VAN' : 'VAN'}</span>
@@ -135,8 +134,8 @@ const passNumber = 'px-2'
 const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-purple-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-purple-400'
 const mainTypeItem = ' px-2 py-1 font-bold duration-500'
 
-const carTypeBox = "flex  mb-2 items-center"
+const carTypeBox = "flex mb-2 items-center"
 const carTypeItem = ' mx-4 border-white border-b-2 cursor-pointer  font-bold duration-500'
 const carTypeItemActive = ' mx-4 font-bold border-b-2 border-purple-400 duration-500'
 
-const optionsContent = 'relative flex flex-col'
+const optionsContent = 'relative w-1/4 flex flex-col border-r pr-2'

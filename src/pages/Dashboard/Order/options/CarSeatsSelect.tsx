@@ -56,12 +56,26 @@ const CarSeatsSelect = () => {
                 <span className={passNumber}>{orders[id].totalSeats}</span>
                 <span className={btnQuantity} onClick={addTotalSeats}>+</span>
             </div>
+
             {orders[id].carSeats.filter((_,index)=>  index < 3 ).map(item => (
                 <div className="p-2 flex items-center text-base w-full ">
                     <span className={passTitle}>{item.title}</span>
-                    <span className={btnQuantity + ' ml-auto'}>-</span>
+                    <button 
+                        className={btnQuantity + ' ml-auto'}
+                        onClick={()=>{
+                            if(item.quantity <= 0 ) return 
+                                setOrder(orders[id].carSeats.map(rem=>item.title === rem.title ? {...rem, quantity: rem.quantity - 1} : rem ), 'carSeats')
+                            }}
+                    >-</button>
                     <span className={passNumber}>{item.quantity}</span>
-                    <span className={btnQuantity}>+</span>
+                    <button 
+                        className={btnQuantity}
+                        onClick={()=>{
+                            if(maxStroll >= +orders[id].totalStroller) return;
+                            if(orders[id].carSeats[3].quantity >= 10) return;
+                            setOrder(orders[id].carSeats.map(rem=>item.title === rem.title ? {...rem, quantity: rem.quantity + 1} : rem ),'carSeats')
+                        }}
+                    >+</button>
                 </div>
             ))}
 
@@ -75,9 +89,22 @@ const CarSeatsSelect = () => {
             {orders[id].carSeats.filter((_,index)=>  index > 2  ).map(item => (
                 <div className="p-2 flex items-center text-base w-full ">
                     <span className={passTitle}>{item.title}</span>
-                    <span className={btnQuantity + ' ml-auto'}>-</span>
+                    <button 
+                        onClick={()=>{
+                            if(item.quantity <= 0 ) return ;
+                            setOrder(orders[id].carSeats.map(rem=>item.title === rem.title ? {...rem, quantity: rem.quantity - 1} : rem ), 'carSeats')
+                        }}  
+                        className={btnQuantity + ' ml-auto'}
+                    >-</button>
                     <span className={passNumber}>{item.quantity}</span>
-                    <span className={btnQuantity}>+</span>
+                    <button 
+                        className={btnQuantity}
+                        onClick={()=>{
+                            if(maxStroll >= +orders[id].totalStroller) return;
+                            if(item.quantity >= 10) return;
+                            setOrder(orders[id].carSeats.map(rem=>item.title === rem.title ? {...rem, quantity: rem.quantity + 1} : rem ),'carSeats')
+                        }}
+                    >+</button>
                 </div>
             ))}
         </div>

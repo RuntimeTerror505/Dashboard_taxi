@@ -89,7 +89,7 @@ const ReturnSection = () => {
         return newObj;
     }
     return (
-        <div className={(orders[0].type < 3 && orders[0].isReturnTrip) ? trip : 'hidden'}>
+        <div className={(orders[0].type < 3) ? trip : 'hidden'}>
         <div className='flex mb-5'>
             <div className='text-red-600 mr-2 '>return</div>
         </div>
