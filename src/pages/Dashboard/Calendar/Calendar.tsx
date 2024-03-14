@@ -18,43 +18,6 @@ interface FilterType {
     value:string,
 }
 
-// interface CustomToolbarProps extends ToolbarProps {
-//     onNavigate: (action: NavigateAction, newDate?: Date) => void;
-//     onView: (view: View) => void; // Убедитесь, что вы добавили этот тип
-//   }
-
-// const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate,onView, label, date }) => {
-//   const navigate = (action: NavigateAction, newDate?: Date, newView?: View) => {
-//     onNavigate(action, newDate);
-//     if (newView) {
-//         onView(newView);
-//     }
-//   };
-
-//   return (
-//   <div className='flex'>
-//     <div className="rbc-toolbar">
-//       <div className="rbc-btn-group">
-//         <button type="button" onClick={() => navigate('DATE', subDays(date, 1), 'day')}>Yesterday</button>
-//         <button type="button" onClick={() => navigate('TODAY', undefined, 'day')}>Today</button>
-//         <button type="button" onClick={() => navigate('DATE', addDays(date, 1), 'day')}>Tomorrow</button>
-//       </div>
-//       <div className="rbc-btn-group">
-//         <button type="button" onClick={() => navigate('DATE', subWeeks(date, 1), 'week')}>Last week</button>
-//         <button type="button" onClick={() => navigate('DATE', date, 'week')}>This week</button>
-//         <button type="button" onClick={() => navigate('DATE', addWeeks(date, 1), 'week')}>Next week</button>
-//       </div>
-//       <div className="rbc-btn-group">
-//         <button type="button" onClick={() => navigate('DATE', subMonths(date, 1), 'month')}>Last month</button>
-//         <button type="button" onClick={() => navigate('DATE', date, 'month')}>This month</button>
-//         <button type="button" onClick={() => navigate('DATE', addMonths(date, 1), 'month')}>Next month</button>
-//       </div>
-//     </div>
-//     <span className="ml-auto px-2 py-1">{label}</span>
-//   </div>
-//   );
-// };
-
 const Calendar = (): React.ReactNode => {
     const { orders, activeEvents, setActiveEvents, getToken } = useDashboard()
     const createEvents = (data:IOrder[]) =>{
@@ -76,74 +39,13 @@ const Calendar = (): React.ReactNode => {
             key: 'selection'
         }
     });
-
-
     const [activeTab, setActiveTab] = useState(2)
-
-    
     const [filter,setFilter]= useState<FilterType>({type:'date', value:''})
     const [calendarDate, setCalendarDate] = useState(dayjs().toDate())
     const [events, setEvents] = useState<IEvent[]>([])
     const [trigger, setTrigger] = useState(false)
-
     const [view, setView] = useState<View | undefined>('month'); 
 
-    
-    
-    const goYesterday = () => {
-        setActiveTab(1)
-        setCalendarDate(moment().add(-1, 'days').toDate());
-        setView('day');
-    };
-    const goToday = () => {
-        setActiveTab(2)
-        setCalendarDate(new Date());
-        setView('day'); 
-    };
-    
-      const goTomorrow = () => {
-        setActiveTab(3)
-        setCalendarDate(moment().add(1, 'days').toDate());
-        setView('day');
-      };
-
-      const goLastWeek = () => {
-        setActiveTab(4)
-        setCalendarDate(moment().startOf('week').add(-1, 'weeks').toDate());
-        setView('week');
-      };
-    
-      const goThisWeek = () => {
-        setActiveTab(5)
-        setCalendarDate(moment().startOf('week').toDate());
-        setView('week');
-      };
-    
-      const goNextWeek = () => {
-        setActiveTab(6)
-        setCalendarDate(moment().startOf('week').add(1, 'weeks').toDate());
-        setView('week');
-      };
-
-      const goLastMonth = () => {
-        setActiveTab(7)
-        setCalendarDate(moment().startOf('month').add(-1, 'months').toDate());
-        setView('month');
-      };
-    
-      const goThisMonth = () => {
-        setActiveTab(8)
-        setCalendarDate(moment().startOf('month').toDate());
-        setView('month');
-      };
-    
-      const goNextMonth = () => {
-        setActiveTab(9)
-        setCalendarDate(moment().startOf('month').add(1, 'months').toDate());
-        setView('month');
-      };
-  
-    
     useEffect(()=>{
         getToken()
         setEvents(createEvents(orders))
@@ -160,11 +62,42 @@ const Calendar = (): React.ReactNode => {
             setEvents(res)
         }
     },[timeRange])
+
     const options = ['time', 'date', 'name', 'phone']
+    const colors:string[] =  ['bg-red-500  active:bg-red-400 ', 'bg-orange-500 active:bg-orange-400 ', 'bg-green-500 active:bg-green-400 ', 'bg-purple-500']
+
+    const dates:{[key:number]: Date} = {
+        1:moment().add(-1, 'days').toDate(),
+        2:new Date(),
+        3:moment().add(1, 'days').toDate(),
+        4:moment().startOf('week').add(-1, 'weeks').toDate(),
+        5:moment().startOf('week').toDate(),
+        6:moment().startOf('week').add(1, 'weeks').toDate(),
+        7:moment().startOf('month').add(-1, 'months').toDate(),
+        8:moment().startOf('month').toDate(),
+        9:moment().startOf('month').add(1, 'months').toDate(),
+    }
+    const dayNames:{[key:number]: View | undefined} = {
+        1:'day',
+        2:'day',
+        3:'day',
+        4:'week',
+        5:'week',
+        6:'week',
+        7:'month',
+        8:'month',
+        9:'month',
+    }
+
 
     var days = Array.from({ length: 31 }, (_, index) => index + 1);
     var months = Array.from({ length: 12 }, (_, index) => index + 1);
     var years = Array.from({ length: 50 }, (_, index) => index + 2001);
+    const setCalendar = (number:number) =>{
+        setActiveTab(number)
+        setCalendarDate(dates[number]);
+        setView(dayNames[number]); 
+    } 
 
     const handleEvent =(event:IEvent) =>{
         if(activeEvents.find(item => item._id === event.data._id)) return setActiveEvents(activeEvents.filter(i => i._id !== event.data._id))
@@ -175,6 +108,7 @@ const Calendar = (): React.ReactNode => {
         const res = dayjs(data).toDate()
         setCalendarDate(res)
     }
+
 
     return (
         <section className={container}>
@@ -215,19 +149,46 @@ const Calendar = (): React.ReactNode => {
                 <article className={datePicker}>
                     <nav className={calendarNav}>
                         <nav className={navItem}>
-                            <button onClick={goYesterday } className={activeTab===1? navButtonActive:navButton}>Yesterday</button>
-                            <button onClick={goToday} className={activeTab===2? navButtonActive:navButton}>Today</button>
-                            <button onClick={goTomorrow} className={activeTab===3? navButtonActive:navButton}>Tomorrow</button>
+                            {
+                                ['Yesterday','Today','Tomorrow'].map((item, index) =>
+                                    <button 
+                                    onClick={()=>setCalendar(index+1)} 
+                                        className={
+                                            navButton +
+                                            (activeTab===index+1 
+                                            ?  colors[3]
+                                            : colors[index])
+                                        }
+                                    >{item}</button>)
+                            }
                         </nav>
                         <nav className={navItem}>
-                            <button onClick={goLastWeek} className={activeTab===4? navButtonActive:navButton}>Last Week</button>
-                            <button onClick={goThisWeek} className={activeTab===5? navButtonActive:navButton}>This Week</button>
-                            <button onClick={goNextWeek} className={activeTab===6? navButtonActive:navButton}>Next Month</button>
+                            {
+                                ['Last Week','This Week','Next Week'].map((item, index) =>
+                                    <button 
+                                        onClick={()=>setCalendar(index+4)} 
+                                        className={
+                                            navButton +
+                                            (activeTab===index+4 
+                                            ? colors[3]
+                                            : colors[index])
+                                        }
+                                    >{item}</button>)
+                                }
                         </nav>
                         <nav className={navItem}>
-                            <button onClick={goLastMonth} className={activeTab===7? navButtonActive:navButton}>Last Month</button>
-                            <button onClick={goThisMonth} className={activeTab===8? navButtonActive:navButton}>This Month</button>
-                            <button onClick={goNextMonth} className={activeTab===9? navButtonActive:navButton}>Next Month</button>
+                            {
+                                ['Last Month','This Month','Next Month'].map((item, index) =>
+                                    <button 
+                                        onClick={()=>setCalendar(index+7)} 
+                                        className={
+                                            navButton +
+                                            (activeTab===index+7
+                                            ? colors[3]
+                                            : colors[index])
+                                        }
+                                    >{item}</button>)
+                            }
                         </nav>
                     </nav>
                     <DateRange
@@ -330,8 +291,8 @@ const Calendar = (): React.ReactNode => {
 
 export default Calendar;
 
-const navButton = 'w-1/3  text-sm border '
-const navButtonActive = 'w-1/3 bg-purple-500 border-purple-800 text-white text-sm border'
+const navButton = 'w-[30%] rounded text-sm border-black border-[1px] text-white '
+
 const navItem = 'flex justify-between cursor-pointer'
 const calendarNav = ' flex w-full flex-col space-y-2 mb-4'
 const activeEventsList = '   rounded p-2 bg-white h-full'

@@ -19,7 +19,6 @@ const MailInput: React.FC<InputProps> = ({ onChange, placeholder, value, mainMai
         "yahoo.com",
         "icloud.com",
         "aol.com",
-        "yandex.ru",
         "mail.ru",
         "protonmail.com",
         "gmx.com",
@@ -29,12 +28,11 @@ const MailInput: React.FC<InputProps> = ({ onChange, placeholder, value, mainMai
         "hushmail.com",
         "mail.com",
         "godaddy.com",
-        "rambler.ru",
         "comcast.net",
         "verizon.net",
         "qq.com",
     ])
-    const [customDomain, setCustomDomain ] = useState('')
+    // const [customDomain, setCustomDomain ] = useState('')
     const filterOption = (input: string, option?: { label: string; value: string }) => 
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
     
@@ -57,10 +55,10 @@ const MailInput: React.FC<InputProps> = ({ onChange, placeholder, value, mainMai
                 value={value.split('@')[1] || null}
                 style={{minWidth:80, width:'100%', height: 40, fontWeight: 'bold', borderRadius: 10, borderLeft:'none', color: '#0066ff' }}
                 placeholder='gmail.com'
-                onSearch={(value) => {setCustomDomain( value)}}
+                // onSearch={(value) => {setCustomDomain( value)}}
                 onChange={(v) => onChange(value.split('@')[0]+'@'+(v || ''))}
                 filterOption={filterOption}
-                options={[customDomain, ...domains].map(item=>({ value: item, label: item,}))} 
+                options={[ ...domains].map(item=>({ value: item, label: item,}))} 
             />
             </div>
         </div>
