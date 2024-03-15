@@ -2,14 +2,20 @@ import { Select } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useMain } from '../../../Store/useMain';
 import { useStore } from '../../../Store';
+import axios, { AxiosResponse } from 'axios';
 
 const PaymentSection = () => {
-    const { orders, setOrder } = useMain()
+    const { orders, isFrench,  setOrder } = useMain()
     const { store } = useStore()
 
-    function sendOrder() {
-        alert('order sent')
-    }
+    const sendOrder = async (): Promise<AxiosResponse> => {
+
+        console.log(orders, ' - order sent')
+        const response = await axios.post("http://localhost:7010/order",{ list:orders, isFrench })
+        // const response = await axios.post("https://taxibeckend.onrender.com/order",{orders, isFrench})
+        console.log(response, 'response from server')
+        return response;
+    };
 
     return (
         <div className={optionsSection}>

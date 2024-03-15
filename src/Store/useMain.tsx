@@ -23,6 +23,7 @@ export interface ITaxi {
     type: number;
     validation:number;
     isEdit: boolean;
+    isReset: {[key:number]: boolean};
     weightType: boolean;
     totalPass: number | string;
     totalBags: number | string;
