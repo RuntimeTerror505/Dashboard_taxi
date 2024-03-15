@@ -80,7 +80,13 @@ const TripSection = () => {
     return (
         <div className={(orders[0].type < 3) ? trip : 'hidden'}>
         <div className='flex mb-2'>
-            <div className='text-red-600 mr-2'>one way</div>
+            <div className='text-red-600 mx-auto'>one way</div>
+            
+            
+        </div>
+
+        <div className='relative flex justify-between mb-2 items-stretch'>
+            <div className={orders[0].dateNow ? "absolute bg-white opacity-50  top-0 bottom-0 left-[90px] right-0  z-30" : 'hidden'}></div>
             <div className={ mainTypeBox} onClick={() => {
                 if (orders[0].dateNow) setOrder(0,'timeType')
                 setOrder(!orders[0].dateNow, 'dateNow')
@@ -88,13 +94,6 @@ const TripSection = () => {
                 <span className={orders[0].dateNow ? mainTypeItemActive : mainTypeItem}>{isFrench ? 'Maintenant' : 'Now'}</span>
                 <span className={orders[0].dateNow ? mainTypeItem : mainTypeItemActive}>{isFrench ? 'Après' : 'Later'}</span>
             </div>
-            {/* <div className={orders[id].isReturnTrip ? returnButtonActive : returnButton} onClick={() => setOrder(!orders[0].isReturnTrip, 'isReturnTrip')}>
-                return trip
-            </div> */}
-        </div>
-
-        <div className='relative flex justify-between mb-2'>
-            <div className={orders[0].dateNow ? "absolute bg-white opacity-50  top-0 bottom-0 left-0 w-full z-30" : 'hidden'}></div>
             <div className={(orders[0].date || orders[0].dateNow) ? dateBox : dateBox + ' border-red-500'} onClick={() => setIsDateOpen(true)} ref={ref}>
                 <span className='icon text-xl'><PiCalendarCheckLight /></span>
                 {orders[0].date ? <div className='flex items-center'>
@@ -394,11 +393,11 @@ const dateBox = 'flex relative border pr-3 rounded-lg py-1 cursor-pointer'
 const setDateBtn = ' border bg-blue-500 hover:bg-blue-400 active:bg-blue-600 shadow-lg cursor-pointer rounded-xl px-3 py-2 flex text-white items-center'
 const dateTimeSubmenu = 'absolute  flex flex-col item-star top-[102%] left-0 z-20 max-w-[300px] pb-2 bg-white shadow-xl rounded-xl sm:-left-[10px]'
 
-const mainTypeBox = "flex mb-4  border-2 border-blue-500 overflow-hidden cursor-pointer"
-const mainTypeItem = ' px-2 py-1 font-bold duration-500'
-const mainTypeItemActive = ' px-2 py-1 font-bold bg-blue-400 text-white duration-500'
+const mainTypeBox = "flex  border-2 border-blue-500 overflow-hidden cursor-pointer"
+const mainTypeItem = ' px-2 py-1 font-bold duration-500 flex  items-center '
+const mainTypeItemActive = ' px-2 py-1 flex items-center font-bold bg-blue-400 text-white duration-500'
 
-const trip = 'flex flex-col w-[49%] bg-white rounded mb-5 p-4 text-xs border'
+const trip = 'flex flex-col w-[49%] bg-white rounded mb-5 p-4 text-xs border border-gray-800 '
 
 
 

@@ -79,7 +79,7 @@ const CarSeatsSelect = () => {
                 </div>
             ))}
 
-            <div className="p-2 flex items-center text-base w-full border-b font-bold mt-6">
+            <div className="p-2 flex items-center text-base w-full border-b font-bold mt-[90px]">
                 <span className={passTitle}>Total Strollers: </span>
                 <span className={btnQuantity + ' ml-auto'} onClick={removeTotalStrollers}>-</span>
                 <span className={passNumber}>{orders[id].totalStroller}</span>
@@ -116,5 +116,5 @@ export default CarSeatsSelect;
 const passTitle = 'text-sm text-gray-600 w-3/5 '
 const passNumber = 'px-2'
 const btnQuantity = ' w-5 shadow h-5 font-black text-lg text-blue-400 rounded-full flex items-center justify-center font-bold cursor-pointer border-2 border-blue-400'
-const optionsContent = 'relative w-1/5 flex flex-col pr-2 pt-8 border-l'
+const optionsContent = 'relative w-1/3 flex flex-col pr-2 pt-8 border-l'
 

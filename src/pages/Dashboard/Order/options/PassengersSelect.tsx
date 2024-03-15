@@ -14,7 +14,6 @@ const PassengersSelect = () => {
         setMaxPass(orders[id].adults + orders[id].kids.length+ orders[id].babies)
     },[orders[id].adults, orders[id].kids, orders[id].babies])
 
-
     useEffect(()=>{
         const max = orders[id].adults + orders[id].kids.length+ orders[id].babies
         const newArray = [...orders[id].kids]
@@ -138,4 +137,4 @@ const carTypeBox = "flex mb-2 items-center"
 const carTypeItem = ' px-2 border-white border-b-2 cursor-pointer  font-bold duration-500'
 const carTypeItemActive = ' px-2 font-bold border-b-2 border-blue-400 duration-500'
 
-const optionsContent = 'relative w-1/5 flex flex-col  pr-2'
+const optionsContent = 'relative w-full flex flex-col  pr-2 h-[250px]'

@@ -139,7 +139,7 @@ interface IStore {
     id: number;
     orders: ITaxi[];
     //info methods
-    setOrder: (data: any, title:string) => void;
+    setOrder: (data: unknown, title:string) => void;
     setIsFrench: (value: boolean) => void;
     setAlert: (value: string) => void;
     setId: (value: number) => void;

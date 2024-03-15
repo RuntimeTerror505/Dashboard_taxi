@@ -89,8 +89,8 @@ const ReturnSection = () => {
         return newObj;
     }
     return (
-        <div className={(orders[0].type < 3) ? trip : 'hidden'}>
-        <div className='flex mb-5'>
+    <div className={(orders[0].type < 3) ? trip : 'hidden'}>
+        <div className='flex mx-auto'>
             <div className='text-red-600 mr-2 '>return</div>
         </div>
         <div className='flex justify-between mb-2 mt-4'>
@@ -395,5 +395,5 @@ const dateBox = 'flex relative border pr-3 rounded-lg py-1 cursor-pointer'
 const setDateBtn = ' border bg-blue-500 hover:bg-blue-400 active:bg-blue-600 shadow-lg cursor-pointer rounded-xl px-3 py-2 flex text-white items-center'
 const dateTimeSubmenu = 'absolute  flex flex-col item-star top-[102%] left-0 z-20 max-w-[300px] pb-2 bg-white shadow-xl rounded-xl sm:-left-[10px]'
 
-const trip = 'flex flex-col w-[49%] bg-white rounded mb-5 p-4 text-xs border'
+const trip = 'flex flex-col w-[49%] bg-white rounded mb-5 p-4 text-xs border border-gray-800 '
 

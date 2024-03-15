@@ -9,17 +9,22 @@ const OptionsSection = () => {
     
 
     return (
-        <div className={optionsSection}>
-            <PassengersSelect />
-            <BagsSelect />
+        <section className={optionsSection}>
+            <div className='flex flex-col w-1/3 '>
+                <PassengersSelect />
+                <SportSelect />
+            </div>
             <CarSeatsSelect />
-            <SportSelect />
-            <PetsSelect />
-        </div>
+
+            <div className='flex flex-col w-1/3 '>
+                <BagsSelect />
+                <PetsSelect />
+            </div>
+        </section>
     );
 };
 
 export default OptionsSection;
 
-const optionsSection = 'flex  w-full bg-white rounded mb-5 p-4 text-xs border '
+const optionsSection = 'flex w-full bg-white rounded mb-5 p-4 text-xs border border-gray-800'
 

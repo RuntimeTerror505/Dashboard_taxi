@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import { Select } from "antd";
 import { useMain } from "../../../Store/useMain";
 import { useStore } from '../../../Store/index';
-import TextArea from "antd/es/input/TextArea";
 import PersonalInfoSection from "./PersonalInfoSection";
 import TripSection from "./TripSection";
 import ReturnSection from "./ReturnSection";
 import BoostSection from "./BoostSection";
 import OptionsSection from "./options/OptionsSection";
+import PaymentSection from "./PaymentSection";
 
 
 const Orders = (): React.ReactNode => {
@@ -43,13 +42,6 @@ const Orders = (): React.ReactNode => {
 
     }, [orders[0].from, orders[0].to])
 
-    //___________________________________________________FUNCTIONS___________________________________________________________________
-
-    function sendOrder() {
-        alert('order sent')
-    }
-
-
     return (
         <div className={container}>
             <h1 className={mainHeader}>Create new order</h1>
@@ -67,34 +59,10 @@ const Orders = (): React.ReactNode => {
                 <TripSection />
                 <ReturnSection />
                 <BoostSection />
-
             </div>
 
-            <div className='flex flex-col'>
-                <OptionsSection />
-
-                <div className={optionsSection}>
-                    <div className='pb-2'>
-                        <div className='text-blue-600 w-1/3'>Payment method</div>
-                    </div>
-                    <div className='pb-2 flex space-x-2'>
-                        <span className='flex border h-min pl-3 w-[100px] rounded-lg'>
-                            <Select placeholder='Trip type' style={{ width: 200, height: 30, borderRadius: 10 }} value={orders[0].tripType} onChange={(value)=>setOrder(value,'tripType')} options={store.tripList.map(item => ({ value: item, label: item }))} /></span>
-                        <span className='flex border h-min pl-3 w-[100px] rounded-lg'>
-                            <Select placeholder='Payment method' style={{ width: 200, height: 30, borderRadius: 10 }} value={orders[0].paymentMethod} onChange={(value)=>setOrder(value,'maymentMethod')} options={store.paymentList.map(item => ({ value: item, label: item }))} /></span>
-                    </div>
-                    <span className={textArea}>
-                        <TextArea style={{ borderRadius: '10px' }} rows={2} placeholder='Additional information' onChange={(e) => {
-                            setOrder(e.target.value, 'additionalText')
-                        }} /></span>
-
-                    <div className="flex space-x-2">
-                        <div className={btnGreen} onClick={sendOrder}>confirm</div>
-                        <div className={btnblue}>orders</div>
-                    </div>
-                </div>
-            </div>
-
+            <OptionsSection />
+            <PaymentSection />
         </div>
     );
 };
@@ -103,20 +71,10 @@ export default Orders;
 
 const mainHeader = ' w-full text-center uppercase pt-10 mb-2'
 
-const textArea = 'flex border h-min w-full rounded-lg mb-4'
-
-
-
 const mainType = 'flex flex-col w-full  mb-2 text-xs items-start mb-6 mt-4'
 const mainTypeBox = "flex  border-2 border-blue-500 overflow-hidden cursor-pointer"
 const mainTypeItem = ' px-2 py-1 font-bold duration-500'
 const mainTypeItemActive = ' px-2 py-1 font-bold bg-blue-400 text-white duration-500'
-
-
-const btnGreen = ' border-2 px-2 py-1 rounded-full border-green-500 font-bold cursor-pointer hover:bg-green-300 self-start'
-const btnblue = ' border-2 px-2 py-1 rounded-full border-blue-500 font-bold cursor-pointer hover:bg-blue-400'
-
-const optionsSection = 'flex flex-col w-[49%] bg-white rounded-xl mb-5 p-4 text-xs shadow-xl'
 
 const container = 'flex flex-col w-full mx-[40px] min-h-screen px-6 '
 

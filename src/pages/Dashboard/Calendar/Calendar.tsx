@@ -31,6 +31,9 @@ const Calendar = (): React.ReactNode => {
             return res
         })
     }
+    const formats = {
+        timeGutterFormat: 'HH:mm',
+      };
 
     const [ timeRange, setTimeRange ] = useState({
         selection: {
@@ -233,14 +236,14 @@ const Calendar = (): React.ReactNode => {
                         events={events}
                         startAccessor="start"
                         endAccessor="end"
-                        style={{ height: 500 }}
+                        style={{ height: 500, backgroundColor: 'white' }}
                         onSelectEvent={handleEvent}
                         date={calendarDate}
                         onNavigate={(event)=> setCalendarDate(dayjs(event).toDate())}
                         toolbar={false}
                         view={view}
                         onView={setView}
-                        
+                        formats={formats}
                     />
                     <div className={eventList}>
                         <h1 
@@ -301,8 +304,8 @@ const tableItem = 'px-2'
 const clearButton = ' flex border-rose-500 border-2 rounded-full px-2 self-start -translate-y-6 text-rose-500 cursor-pointer ml-4 active:text-white active:bg-rose-500'
 const activeListItem = ' border-b bg-blue-500   cursor-pointer px-2 py-1 rounded-lg text-white'
 const listItem = ' border-b hover:bg-blue-300 hover:text-white cursor-pointer px-2 py-1 rounded-lg '
-const eventList = ' flex flex-col  p-2 overflow-y-scroll max-h-[500px] border border-blue-500 rounded-3xl mt-4'
-const calendarContent =  'flex flex-col w-[70%] px-4'
+const eventList = ' flex flex-col  p-2 overflow-y-scroll max-h-[500px] bg-white border border-blue-500 rounded-3xl mt-4'
+const calendarContent =  'flex flex-col w-[70%] px-4 '
 const datePicker = 'flex flex-col w-[30%]'
 
 const content = 'flex'
