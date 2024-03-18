@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import React, { useEffect, useState } from 'react';
 import { IoMdTime } from 'react-icons/io';
 import useOnclickOutside from "react-cool-onclickoutside";
-import { useMain } from "../../Store/useMain";
+import { useMain } from "../Store/useMain";
 
 
 interface InputProps {

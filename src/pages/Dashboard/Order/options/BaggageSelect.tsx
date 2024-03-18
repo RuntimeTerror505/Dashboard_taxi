@@ -46,13 +46,13 @@ const BagsSelect = ():React.ReactNode => {
                 
                 <span className={passTitle}>Total Bags:</span>
                 <span className={btnQuantity + ' ml-auto'} onClick={() => {
-                    if (!Number(orders[0].totalBags)) return;
-                    setOrder(Number(orders[0].totalBags) - 1,'totalBags')
+                    if (!Number(orders[id].totalBags)) return;
+                    setOrder(Number(orders[id].totalBags) - 1,'totalBags')
                 }}>-</span>
-                <span className={passNumber}>{orders[0].totalBags}</span>
+                <span className={passNumber}>{orders[id].totalBags}</span>
                 <span className={btnQuantity} onClick={() => {
-                    if (Number(orders[0].totalBags) >= 10) return
-                    setOrder(Number(orders[0].totalBags) + 1,'totalBags')
+                    if (Number(orders[id].totalBags) >= 10) return
+                    setOrder(Number(orders[id].totalBags) + 1,'totalBags')
                 }}>+</span>
             </div>
 

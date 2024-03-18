@@ -26,13 +26,13 @@ const SportSelect = () => {
             <div className={itemRow+ ' border-b font-bold' }>
                 <span className={passTitle}>Total Sport:</span>
                 <span className={btnQuantity + ' ml-auto'} onClick={() => {
-                    if (!Number(orders[0].totalSport)) return;
-                    setOrder(Number(orders[0].totalSport) - 1,'totalSport')
+                    if (!Number(orders[id].totalSport)) return;
+                    setOrder(Number(orders[id].totalSport) - 1,'totalSport')
                 }}>-</span>
-                <span className={passNumber}>{orders[0].totalSport}</span>
+                <span className={passNumber}>{orders[id].totalSport}</span>
                 <span className={btnQuantity} onClick={() => {
-                    if (Number(orders[0].totalSport) >= 10) return
-                    setOrder(Number(orders[0].totalSport) + 1,'totalSport')
+                    if (Number(orders[id].totalSport) >= 10) return
+                    setOrder(Number(orders[id].totalSport) + 1,'totalSport')
                 }}>+</span>
             </div>
 

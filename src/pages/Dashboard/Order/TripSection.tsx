@@ -1,11 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useMain } from '../../../Store/useMain';
-import GoogleAddressInput from '../../../UI/components/GoogleAddressInput';
+import GoogleAddressInput from '../../../UI/GoogleAddressInput';
 import { Input, Select } from 'antd';
 import dayjs from 'dayjs';
 import { PiCalendarCheckLight } from 'react-icons/pi';
-import DatePicker from '../../../UI/components/DatePicker';
-import TimePicker from '../../../UI/components/TimePicker';
+import DatePicker from '../../../UI/DatePicker';
+import TimePicker from '../../../UI/TimePicker';
 import { MdFlightLand, MdFlightTakeoff, MdLocalHotel } from 'react-icons/md';
 import { FaBus, FaRegCircleCheck } from 'react-icons/fa6';
 
@@ -23,7 +23,7 @@ const TripSection = () => {
     const ref = useOnclickOutside(() => setIsDateOpen(false));
     
     const [fullDate, setFullDate] = useState(dayjs())
-    const [localStops, setLocalStops] = useState<{ [key: number]: string }>(orders[0].stops)
+    const [localStops, setLocalStops] = useState<{ [key: number]: string }>(orders[id].stops)
     const [isDateOpen, setIsDateOpen] = useState(false)
     const [stop, setStop] = useState(0)
     const prefixes: { [key: string]: string } = {
@@ -60,7 +60,7 @@ const TripSection = () => {
     }
 
     useEffect(() => {
-        setStop(Object.values(orders[0].stops).filter(i => i.length > 0).length)
+        setStop(Object.values(orders[id].stops).filter(i => i.length > 0).length)
     }, [])
     useEffect(() => {
         setOrder(localStops, 'stops')
@@ -78,7 +78,7 @@ const TripSection = () => {
     const isFrench = false;
 
     return (
-        <div className={(orders[0].type < 3) ? trip : 'hidden'}>
+        <div className={(orders[id].type < 3) ? trip : 'hidden'}>
         <div className='flex mb-2'>
             <div className='text-red-600 mx-auto'>one way</div>
             
@@ -86,17 +86,17 @@ const TripSection = () => {
         </div>
 
         <div className='relative flex justify-between mb-2 items-stretch'>
-            <div className={orders[0].dateNow ? "absolute bg-white opacity-50  top-0 bottom-0 left-[90px] right-0  z-30" : 'hidden'}></div>
+            <div className={orders[id].dateNow ? "absolute bg-white opacity-50  top-0 bottom-0 left-[90px] right-0  z-30" : 'hidden'}></div>
             <div className={ mainTypeBox} onClick={() => {
-                if (orders[0].dateNow) setOrder(0,'timeType')
-                setOrder(!orders[0].dateNow, 'dateNow')
+                if (orders[id].dateNow) setOrder(0,'timeType')
+                setOrder(!orders[id].dateNow, 'dateNow')
             }}>
-                <span className={orders[0].dateNow ? mainTypeItemActive : mainTypeItem}>{isFrench ? 'Maintenant' : 'Now'}</span>
-                <span className={orders[0].dateNow ? mainTypeItem : mainTypeItemActive}>{isFrench ? 'Après' : 'Later'}</span>
+                <span className={orders[id].dateNow ? mainTypeItemActive : mainTypeItem}>{isFrench ? 'Maintenant' : 'Now'}</span>
+                <span className={orders[id].dateNow ? mainTypeItem : mainTypeItemActive}>{isFrench ? 'Après' : 'Later'}</span>
             </div>
-            <div className={(orders[0].date || orders[0].dateNow) ? dateBox : dateBox + ' border-red-500'} onClick={() => setIsDateOpen(true)} ref={ref}>
+            <div className={(orders[id].date || orders[id].dateNow) ? dateBox : dateBox + ' border-red-500'} onClick={() => setIsDateOpen(true)} ref={ref}>
                 <span className='icon text-xl'><PiCalendarCheckLight /></span>
-                {orders[0].date ? <div className='flex items-center'>
+                {orders[id].date ? <div className='flex items-center'>
                     {fullDate.format('dddd') === 'Monday' ? isFrench ? 'Lundi' : 'Monday'
                         : fullDate.format('dddd') === 'Tuesday' ? isFrench ? 'Mardi' : 'Tuesday'
                         : fullDate.format('dddd') === 'Wednesday' ? isFrench ? 'Merceredi' : 'Wednesday'
@@ -120,7 +120,7 @@ const TripSection = () => {
 
 
                 {isDateOpen && <div className={dateTimeSubmenu}>
-                    <DatePicker value={orders[0].date || ''} time={orders[0].time} onChange={(value)=>setOrder(value, 'date')} getFullDate={setFullDate} />
+                    <DatePicker value={orders[id].date || ''} time={orders[id].time} onChange={(value)=>setOrder(value, 'date')} getFullDate={setFullDate} />
                     <div className="flex justify-between pl-8">
                         <div className={setDateBtn} onClick={(e) => {
                             e.stopPropagation();
@@ -129,26 +129,26 @@ const TripSection = () => {
                     </div>
                 </div>}
             </div>
-            <TimePicker time={orders[0].dateNow ? dayjs().add(30, 'minutes').format('HH:mm') : orders[0].time} onChange={(value)=>setOrder(value, 'time')} date={orders[0].date} />
+            <TimePicker time={orders[id].dateNow ? dayjs().add(30, 'minutes').format('HH:mm') : orders[id].time} onChange={(value)=>setOrder(value, 'time')} date={orders[id].date} />
         </div>
 
         <div className="flex flex-col space-y-2 ">
-            <div className={orders[0].icon > 0 ? iconsType : 'hidden'}>
+            <div className={orders[id].icon > 0 ? iconsType : 'hidden'}>
                 <span className={iconCard}>
-                    {orders[0].icon === 1
+                    {orders[id].icon === 1
                         ? <MdFlightLand className={iconItem + 'text-xl '} />
-                        : orders[0].icon === 2
+                        : orders[id].icon === 2
                         ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                        : orders[0].icon === 3
+                        : orders[id].icon === 3
                         ? <FaBus className={iconItem} />
-                        : orders[0].icon === 4
+                        : orders[id].icon === 4
                         ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
                         : <MdLocalHotel className={iconItem + ' text-lg'} />
                     }
                 </span>
 
                 <div className={flightCard}>
-                    {orders[0].icon === 1 &&
+                    {orders[id].icon === 1 &&
                         <Select
                             className='favorite w-1/2 max-h-[30px]'
                             style={{ borderRadius: 5 }}
@@ -156,36 +156,36 @@ const TripSection = () => {
                                 { value: item, label: item }
                             ))}
                             onChange={(e) => {
-                                setOrder({ ...orders[0].flight, title: e }, 'setFlight')
+                                setOrder({ ...orders[id].flight, title: e }, 'setFlight')
                             }}
                             placeholder='Airlines'
                         />}
 
-                    {orders[0].icon === 1
+                    {orders[id].icon === 1
                         ? <MdFlightLand className='text-xl mx-1 e' />
-                        : orders[0].icon === 2
+                        : orders[id].icon === 2
                         ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                        : orders[0].icon === 3
+                        : orders[id].icon === 3
                         ? <FaBus className=' mx-1 sm:text-sm' />
-                        : orders[0].icon === 4
+                        : orders[id].icon === 4
                         ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
-                        : orders[0].icon === 5
+                        : orders[id].icon === 5
                         ? <MdLocalHotel className='mx-1 ' />
                         : <MdFlightTakeoff className='text-xl mx-1 ' />
                     }
-                    {orders[0].icon === 1 && <div className='text-sm pl-1 text-gray-500 translate-y-[0.5px] pr-[1px]'>
-                        {prefixes[orders[0].flight.title]}
+                    {orders[id].icon === 1 && <div className='text-sm pl-1 text-gray-500 translate-y-[0.5px] pr-[1px]'>
+                        {prefixes[orders[id].flight.title]}
                     </div>}
                     <Input
-                        value={orders[0].flight.number}
+                        value={orders[id].flight.number}
                         maxLength={4}
-                        placeholder={orders[0].icon === 1 ? '####' : orders[0].icon === 2 ? 'Train#' : orders[0].icon === 3 ? "Bus#" : orders[0].icon === 4 ? 'Boat#' : 'Room#'}
+                        placeholder={orders[id].icon === 1 ? '####' : orders[id].icon === 2 ? 'Train#' : orders[id].icon === 3 ? "Bus#" : orders[id].icon === 4 ? 'Boat#' : 'Room#'}
                         style={{ width: 65, paddingLeft: 0, paddingRight: 0, borderRadius: 0, height: 30 }}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                            setOrder({ ...orders[0].flight, number: e.target.value.replace(/\D/g, '') },'flight')
+                            setOrder({ ...orders[id].flight, number: e.target.value.replace(/\D/g, '') },'flight')
                         }}
                     />
-                    {orders[0].flight.number.length < 3 && orders[0].flight.number.length > 0 && <div className='absolute right-0 -bottom-4 text-[10px] text-red-500'>from 3 to 4 digits</div>}
+                    {orders[id].flight.number.length < 3 && orders[id].flight.number.length > 0 && <div className='absolute right-0 -bottom-4 text-[10px] text-red-500'>from 3 to 4 digits</div>}
                 </div>
             </div>
             <div className={locationCard}>
@@ -193,12 +193,12 @@ const TripSection = () => {
                     <span className='icon text-green-500 '><SlLocationPin /></span>
                     <GoogleAddressInput
                         style='w-full'
-                        defaultLocation={orders[0].from || ''}
+                        defaultLocation={orders[id].from || ''}
                         onChange={(value)=>setOrder(value, 'from')}
                         placeholder={isFrench ? store.locationListF[0] : store.locationList[0]}
                     />
                 </div>
-                {orders[0].icon === 1 &&
+                {orders[id].icon === 1 &&
                     <div className="border border-blue-500 flex items-center w-1/3 rounded-lg py-1">
                         <Select
                             className='favorite truncate'
@@ -230,8 +230,8 @@ const TripSection = () => {
                             placeholder={isFrench ? store.locationListF[2] : store.locationList[2]}
                         />
                         <div className={nameClose} onClick={() => {
-                            setLocalStops(sort({ ...orders[0].stops, 1: '' }))
-                            setOrder({ ...orders[0].stops, 1: '' },'stops')
+                            setLocalStops(sort({ ...orders[id].stops, 1: '' }))
+                            setOrder({ ...orders[id].stops, 1: '' },'stops')
                             setStop(stop - 1)
                         }}>+</div>
                     </div>
@@ -246,8 +246,8 @@ const TripSection = () => {
                             placeholder={isFrench ? store.locationListF[3] : store.locationList[3]}
                         />
                         <div className={nameClose} onClick={() => {
-                            setLocalStops(sort({ ...orders[0].stops, 2: '' }))
-                            setOrder({ ...orders[0].stops, 2: '' },'stops')
+                            setLocalStops(sort({ ...orders[id].stops, 2: '' }))
+                            setOrder({ ...orders[id].stops, 2: '' },'stops')
                             setStop(stop - 1)
                         }}>+</div>
                     </div>
@@ -262,8 +262,8 @@ const TripSection = () => {
                             placeholder={isFrench ? store.locationListF[4] : store.locationList[4]}
                         />
                         <div className={nameClose} onClick={() => {
-                            setLocalStops(sort({ ...orders[0].stops, 3: '' }))
-                            setOrder({ ...orders[0].stops, 3: '' },'stops')
+                            setLocalStops(sort({ ...orders[id].stops, 3: '' }))
+                            setOrder({ ...orders[id].stops, 3: '' },'stops')
                             setStop(stop - 1)
                         }}>+</div>
                     </div>
@@ -278,8 +278,8 @@ const TripSection = () => {
                             placeholder={isFrench ? store.locationListF[5] : store.locationList[5]}
                         />
                         <div className={nameClose} onClick={() => {
-                            setLocalStops(sort({ ...orders[0].stops, 4: '' }))
-                            setOrder({ ...orders[0].stops, 4: '' },'stops')
+                            setLocalStops(sort({ ...orders[id].stops, 4: '' }))
+                            setOrder({ ...orders[id].stops, 4: '' },'stops')
                             setStop(stop - 1)
                         }}>+</div>
                     </div>
@@ -290,12 +290,12 @@ const TripSection = () => {
                     <span className='icon text-green-500 '><SlLocationPin /></span>
                     <GoogleAddressInput
                         style='w-full'
-                        defaultLocation={orders[0].to || ''}
+                        defaultLocation={orders[id].to || ''}
                         onChange={(value)=> setOrder(value,'to')}
                         placeholder={isFrench ? store.locationListF[0] : store.locationList[0]}
                     />
                 </div>
-                {orders[0].icon2 === 1 &&
+                {orders[id].icon2 === 1 &&
                     <div className="border border-blue-500 flex items-center w-1/3 rounded-lg py-1">
                         <Select
                             className='favorite truncate'
@@ -309,22 +309,22 @@ const TripSection = () => {
                     </div>}
             </div>
 
-            <div className={orders[0].icon2 > 0 ? iconsType : 'hidden'}>
+            <div className={orders[id].icon2 > 0 ? iconsType : 'hidden'}>
                 <span className={iconCard}>
-                    {orders[0].icon2 === 1
+                    {orders[id].icon2 === 1
                         ? <MdFlightTakeoff className={iconItem + 'text-xl '} />
-                        : orders[0].icon2 === 2
+                        : orders[id].icon2 === 2
                             ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                            : orders[0].icon2 === 3
+                            : orders[id].icon2 === 3
                                 ? <FaBus className={iconItem} />
-                                : orders[0].icon2 === 4
+                                : orders[id].icon2 === 4
                                     ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
                                     : <MdLocalHotel className={iconItem + ' text-lg'} />
                     }
                 </span>
 
                 <div className={flightCard}>
-                    {orders[0].icon2 === 1 &&
+                    {orders[id].icon2 === 1 &&
                         <Select
                             className='favorite w-1/2 max-h-[30px]'
                             style={{ borderRadius: 5 }}
@@ -332,34 +332,34 @@ const TripSection = () => {
                                 { value: item, label: item }
                             ))}
                             onChange={(e) => {
-                                setOrder({ ...orders[0].flight2, title: e },'flight2')
+                                setOrder({ ...orders[id].flight2, title: e },'flight2')
                             }}
                             placeholder='Airlines'
                         />}
 
-                    {orders[0].icon2 === 1
+                    {orders[id].icon2 === 1
                         ? <MdFlightTakeoff className='text-xl mx-1 e' />
-                        : orders[0].icon2 === 2
+                        : orders[id].icon2 === 2
                         ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                        : orders[0].icon2 === 3
+                        : orders[id].icon2 === 3
                         ? <FaBus className=' mx-1 sm:text-sm' />
-                        : orders[0].icon2 === 4
+                        : orders[id].icon2 === 4
                         ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
                         : <MdLocalHotel className='mx-1 ' />
                     }
-                    {orders[0].icon2 === 1 && <div className='text-sm pl-1 text-gray-500 translate-y-[0.5px] pr-[1px]'>
-                        {prefixes[orders[0].flight2.title]}
+                    {orders[id].icon2 === 1 && <div className='text-sm pl-1 text-gray-500 translate-y-[0.5px] pr-[1px]'>
+                        {prefixes[orders[id].flight2.title]}
                     </div>}
                     <Input
-                        value={orders[0].flight2.number}
+                        value={orders[id].flight2.number}
                         maxLength={4}
-                        placeholder={orders[0].icon2 === 1 ? '####' : orders[0].icon2 === 2 ? 'Train#' : orders[0].icon2 === 3 ? "Bus#" : orders[0].icon2 === 4 ? 'Boat#' : 'Room#'}
+                        placeholder={orders[id].icon2 === 1 ? '####' : orders[id].icon2 === 2 ? 'Train#' : orders[id].icon2 === 3 ? "Bus#" : orders[id].icon2 === 4 ? 'Boat#' : 'Room#'}
                         style={{ width: 65, paddingLeft: 0, paddingRight: 0, borderRadius: 0, height: 30 }}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                            setOrder({ ...orders[0].flight2, number: e.target.value.replace(/\D/g, '') }, 'flight')
+                            setOrder({ ...orders[id].flight2, number: e.target.value.replace(/\D/g, '') }, 'flight')
                         }}
                     />
-                    {orders[0].flight2.number.length < 3 && orders[0].flight2.number.length > 0 && <div className='absolute right-0 -bottom-4 text-[10px] text-red-500'>from 3 to 4 digits</div>}
+                    {orders[id].flight2.number.length < 3 && orders[id].flight2.number.length > 0 && <div className='absolute right-0 -bottom-4 text-[10px] text-red-500'>from 3 to 4 digits</div>}
                 </div>
             </div>
 

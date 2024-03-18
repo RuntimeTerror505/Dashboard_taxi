@@ -15,7 +15,6 @@ const CarSeatsSelect = () => {
     useEffect(()=>{
         const seats = orders[id].carSeats.filter((_,index)=> index <3)
         const strollers = orders[id].carSeats.filter((_,index)=> index >2)
-        console.log(seats)
         if(Number(orders[id].totalSeats) < maxSeats) {
             const index =  seats.map(item => item.quantity > 0).lastIndexOf(true)
             seats[index].quantity -= 1

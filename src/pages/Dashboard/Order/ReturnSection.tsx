@@ -2,61 +2,32 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useStore } from '../../../Store';
 import { useMain } from '../../../Store/useMain';
 import { PiCalendarCheckLight } from 'react-icons/pi';
-import GoogleAddressInput from '../../../UI/components/GoogleAddressInput';
+import GoogleAddressInput from '../../../UI/GoogleAddressInput';
 import { SlLocationPin } from 'react-icons/sl';
 import { MdFlightTakeoff, MdLocalHotel } from 'react-icons/md';
 import { FaBus, FaRegCircleCheck } from 'react-icons/fa6';
 import { MdFlightLand } from 'react-icons/md';
 import { Input, Select } from 'antd';
-import TimePicker from '../../../UI/components/TimePicker';
-import DatePicker from '../../../UI/components/DatePicker';
+import TimePicker from '../../../UI/TimePicker';
+import DatePicker from '../../../UI/DatePicker';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import dayjs from 'dayjs';
 import train from '../../../assets/train.png'
 import boat from '../../../assets/boat.png'
 import { FaRegQuestionCircle } from 'react-icons/fa';
+import { AirportPrefixes } from '../../../Store/variables';
+import { useTranslation } from 'react-i18next';
 
 interface IObj { [key: number]: string }
 
 const ReturnSection = () => {
+    const { t } = useTranslation();
     const { store } = useStore()
-    const {orders, setOrder} = useMain()
+    const {orders,id, setOrder} = useMain()
     const [isDate] = useState(true)
 
-    const prefixes: { [key: string]: string } = {
-        'AIR CANADA': "AC",
-        'Air Transat': "AT",
-        'PAL airlines': "PA",
-        'Air Inuit': "AI",
-        'Porter': "PO",
-        'UNITED': "UN",
-        'CANADIAN NORTH': "CN",
-        'American Airlines': "AA",
-        'Emirates': "EM",
-        'arajet': "AR",
-        'DELTA': "DE",
-        'flair': "FL",
-        'AIR ALGERIE': "AL",
-        'TUNISAIR': "TU",
-        'SWISS': "SW",
-        'Austrian': "AU",
-        'Air Saint-Pierre': "SP",
-        'AIRFRANCE': "AF",
-        'KLM': "KLM",
-        'Lufthansa': "LU",
-        'Royal Air MAroc(RAM)': "MA",
-        'BRITISH AIRWAYS': "BA",
-        'AeroMexico': "AM",
-        'CopaAirlines': "CO",
-        'Lynx': "LY",
-        'SUNWING': "SNW",
-        'QATAR': "QT",
-        'RAM': "RAM",
-        'Another': "",
-        "": '',
-    }
     const [stopR, setStopR] = useState(0)
-    const [returnStops, setReturnStops] = useState<{ [key: number]: string }>(orders[0].stopsR)
+    const [returnStops, setReturnStops] = useState<{ [key: number]: string }>(orders[id].stopsR)
     const [fullDateR, setFullDateR] = useState(dayjs())
     const [isDateOpenR, setIsDateOpenR] = useState(false)
     const [stopTrigger, setStopTrigger] = useState(false)
@@ -69,18 +40,18 @@ const ReturnSection = () => {
 
     useEffect(() => {
         if (!stopTrigger) {
-            const values = Object.values(orders[0].stops).filter(value => value).reverse()
+            const values = Object.values(orders[id].stops).filter(value => value).reverse()
             const data: IObj = {}
             values.map((item, index) => {
                 const number = index + 1;
                 data[number] = item;
                 if (item) { setReturnStops(data) }
             })
-            setOrder(orders[0].to,'toR')
-            setOrder(orders[0].from,'fromR')
+            setOrder(orders[id].to,'toR')
+            setOrder(orders[id].from,'fromR')
             setOrder(values.length,'stopsR')
         }
-    }, [orders[0].stops, orders[0].from, orders[0].to])
+    }, [orders[id].stops, orders[id].from, orders[id].to])
     const getLength = (data: { [key: string]: string }) => Object.values(data).filter(item => item.length).length
 
     const sort = (data: { [key: string]: string }) => {
@@ -88,15 +59,20 @@ const ReturnSection = () => {
         Object.values(data).filter(i => i.length).map((item, index) => newObj[index + 1] = item)
         return newObj;
     }
+
     return (
-    <div className={(orders[0].type < 3) ? trip : 'hidden'}>
-        <div className='flex mx-auto'>
-            <div className='text-red-600 mr-2 '>return</div>
+    <div className={(orders[id].type < 3) ? trip : 'hidden'}>
+        <div className='flex w-full '>
+            <span 
+                className={orders[id].isReturnTrip? returnButton :returnButtonGreen}
+                onClick={()=>setOrder(!orders[id].isReturnTrip, 'isReturnTrip')}
+            >{orders[id].isReturnTrip?t('returnOff'):  t('returnOn')}</span>
+            <div className='text-red-600  mx-auto'>return</div>
         </div>
         <div className='flex justify-between mb-2 mt-4'>
             <div className={isDate ? dateBox : dateBox + ' border-red-500'} onClick={() => setIsDateOpenR(true)} ref={refR}>
                 <span className='icon text-xl'><PiCalendarCheckLight /></span>
-                {orders[0].dateR ? <div className='flex items-center'>
+                {orders[id].dateR ? <div className='flex items-center'>
                     {fullDateR.format('dddd') === 'Monday' ? isFrench ? 'Lundi' : 'Monday'
                     : fullDateR.format('dddd') === 'Tuesday' ? isFrench ? 'Mardi' : 'Tuesday'
                     : fullDateR.format('dddd') === 'Wednesday' ? isFrench ? 'Merceredi' : 'Wednesday'
@@ -116,11 +92,8 @@ const ReturnSection = () => {
                     {' ' + fullDateR.format('YYYY')}
                 </div>
                     : <div className='flex items-center'>{isFrench ? 'Date Requise' : 'Required date '}</div>}
-
-
-
                 {isDateOpenR && <div className={dateTimeSubmenu}>
-                    <DatePicker value={orders[0].dateR || ''} time={orders[0].timeR} onChange={(value)=>setOrder(value,'dateR')} getFullDate={setFullDateR} />
+                    <DatePicker value={orders[id].dateR || ''} time={orders[id].timeR} onChange={(value)=>setOrder(value,'dateR')} getFullDate={setFullDateR} />
                     <div className="flex justify-between pl-8">
                         <div className={setDateBtn} onClick={(e) => {
                             e.stopPropagation();
@@ -129,26 +102,26 @@ const ReturnSection = () => {
                     </div>
                 </div>}
             </div>
-            <TimePicker  time={orders[0].timeR} onChange={(value)=>setOrder(value,'timeR')} date={orders[0].dateR} />
+            <TimePicker  time={orders[id].timeR} onChange={(value)=>setOrder(value,'timeR')} date={orders[id].dateR} />
         </div>
 
         <div className="flex flex-col space-y-2 ">
-            <div className={orders[0].iconR > 0 ? iconsType : 'hidden'}>
+            <div className={orders[id].iconR > 0 ? iconsType : 'hidden'}>
                 <span className={iconCard}>
-                    {orders[0].iconR === 1
+                    {orders[id].iconR === 1
                         ? <MdFlightLand className={iconItem + 'text-xl '} />
-                        : orders[0].iconR === 2
+                        : orders[id].iconR === 2
                             ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                            : orders[0].iconR === 3
+                            : orders[id].iconR === 3
                                 ? <FaBus className={iconItem} />
-                                : orders[0].iconR === 4
+                                : orders[id].iconR === 4
                                     ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
                                     : <MdLocalHotel className={iconItem + ' text-lg'} />
                     }
                 </span>
 
                 <div className={flightCard}>
-                    {orders[0].iconR === 1 &&
+                    {orders[id].iconR === 1 &&
                         <Select
                             className='favorite w-1/2 max-h-[30px]'
                             style={{ borderRadius: 5 }}
@@ -156,50 +129,53 @@ const ReturnSection = () => {
                                 { value: item, label: item }
                             ))}
                             onChange={(e) => {
-                                setOrder({ ...orders[0].flightR, title: e },'flightR')
+                                setOrder({ ...orders[id].flightR, title: e },'flightR')
                             }}
                             placeholder='Airlines'
                         />}
 
-                    {orders[0].iconR === 1
+                    {orders[id].iconR === 1
                         ? <MdFlightLand className='text-xl mx-1 e' />
-                        : orders[0].iconR === 2
+                        : orders[id].iconR === 2
                             ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                            : orders[0].iconR === 3
+                            : orders[id].iconR === 3
                                 ? <FaBus className=' mx-1 sm:text-sm' />
-                                : orders[0].iconR === 4
+                                : orders[id].iconR === 4
                                     ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
-                                    : orders[0].iconR === 5
+                                    : orders[id].iconR === 5
                                         ? <MdLocalHotel className='mx-1 ' />
                                         : <MdFlightTakeoff className='text-xl mx-1 ' />
                     }
-                    {orders[0].iconR === 1 && <div className='text-sm pl-1 text-gray-500 translate-y-[0.5px] pr-[1px]'>
-                        {prefixes[orders[0].flightR.title]}
+                    {orders[id].iconR === 1 && <div className='text-sm pl-1 text-gray-500 translate-y-[0.5px] pr-[1px]'>
+                        {AirportPrefixes[orders[id].flightR.title]}
                     </div>}
                     <Input
-                        value={orders[0].flightR.number}
+                        value={orders[id].flightR.number}
                         maxLength={4}
-                        placeholder={orders[0].iconR === 1 ? '####' : orders[0].iconR === 2 ? 'Train#' : orders[0].iconR === 3 ? "Bus#" : orders[0].iconR === 4 ? 'Boat#' : 'Room#'}
+                        placeholder={orders[id].iconR === 1 ? '####' : orders[id].iconR === 2 ? 'Train#' : orders[id].iconR === 3 ? "Bus#" : orders[id].iconR === 4 ? 'Boat#' : 'Room#'}
                         style={{ width: 65, paddingLeft: 0, paddingRight: 0, borderRadius: 0, height: 30 }}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                            setOrder({ ...orders[0].flightR, number: e.target.value.replace(/\D/g, '') },'flightR')
+                            setOrder({ ...orders[id].flightR, number: e.target.value.replace(/\D/g, '') },'flightR')
                         }}
                     />
-                    {orders[0].flightR.number.length < 3 && orders[0].flightR.number.length > 0 && <div className='absolute right-0 -bottom-4 text-[10px] text-red-500'>from 3 to 4 digits</div>}
+                    {orders[id].flightR.number.length < 3 && orders[id].flightR.number.length > 0 && <div className='absolute right-0 -bottom-4 text-[10px] text-red-500'>from 3 to 4 digits</div>}
                 </div>
             </div>
             <div className={locationCard}>
-                <div className={orders[0].fromR ? locationBox : locationBox + ' border-red-500'}>
+                <div className={orders[id].fromR ? locationBox : locationBox + ' border-red-500'}>
                     <span className='icon text-green-500 '><SlLocationPin /></span>
                     <GoogleAddressInput
                         style='w-full'
-                        defaultLocation={orders[0].to || ''}
-                        onChange={(value) => { setStopTrigger(true); setOrder(value,'fromR') }}
+                        defaultLocation={orders[id].to || ''}
+                        onChange={(value) => {
+                            setStopTrigger(true); 
+                            setOrder(value,'fromR');
+                        }}
                         placeholder={isFrench ? store.locationListF[0] : store.locationList[0]}
                     />
                 </div>
 
-                {orders[0].iconR === 1 &&
+                {orders[id].iconR === 1 &&
                     <div className="border border-blue-500 flex items-center w-1/3 rounded-lg py-1">
                         <Select
                             className='favorite truncate'
@@ -231,8 +207,8 @@ const ReturnSection = () => {
                             placeholder={isFrench ? store.locationListF[2] : store.locationList[2]}
                         />
                         <div className={nameClose} onClick={() => {
-                            setReturnStops(sort({ ...orders[0].stopsR, 1: '' }))
-                            setOrder({ ...orders[0].stopsR, 1: '' },'stopsR')
+                            setReturnStops(sort({ ...orders[id].stopsR, 1: '' }))
+                            setOrder({ ...orders[id].stopsR, 1: '' },'stopsR')
                             setStopR(stopR - 1)
                         }}>+</div>
                     </div>
@@ -247,8 +223,8 @@ const ReturnSection = () => {
                             placeholder={isFrench ? store.locationListF[3] : store.locationList[3]}
                         />
                         <div className={nameClose} onClick={() => {
-                            setReturnStops(sort({ ...orders[0].stopsR, 2: '' }))
-                            setOrder({ ...orders[0].stopsR, 2: '' },'stopsR')
+                            setReturnStops(sort({ ...orders[id].stopsR, 2: '' }))
+                            setOrder({ ...orders[id].stopsR, 2: '' },'stopsR')
                             setStopR(stopR - 1)
                         }}>+</div>
                     </div>
@@ -263,8 +239,8 @@ const ReturnSection = () => {
                             placeholder={isFrench ? store.locationListF[4] : store.locationList[4]}
                         />
                         <div className={nameClose} onClick={() => {
-                            setReturnStops(sort({ ...orders[0].stopsR, 3: '' }))
-                            setOrder({ ...orders[0].stopsR, 3: '' },'stopsR')
+                            setReturnStops(sort({ ...orders[id].stopsR, 3: '' }))
+                            setOrder({ ...orders[id].stopsR, 3: '' },'stopsR')
                             setStopR(stopR - 1)
                         }}>+</div>
                     </div>
@@ -279,8 +255,8 @@ const ReturnSection = () => {
                             placeholder={isFrench ? store.locationListF[5] : store.locationList[5]}
                         />
                         <div className={nameClose} onClick={() => {
-                            setReturnStops(sort({ ...orders[0].stopsR, 4: '' }))
-                            setOrder({ ...orders[0].stopsR, 4: '' },'stopsR')
+                            setReturnStops(sort({ ...orders[id].stopsR, 4: '' }))
+                            setOrder({ ...orders[id].stopsR, 4: '' },'stopsR')
                             setStopR(stopR - 1)
                         }}>+</div>
                     </div>
@@ -288,16 +264,16 @@ const ReturnSection = () => {
             </div>
 
             <div className={locationCard}>
-                <div className={orders[0].toR ? locationBox : locationBox + ' border-red-500'}>
+                <div className={orders[id].toR ? locationBox : locationBox + ' border-red-500'}>
                     <span className='icon text-green-500 '><SlLocationPin /></span>
                     <GoogleAddressInput
                         style='w-full'
-                        defaultLocation={orders[0].from || ''}
+                        defaultLocation={orders[id].from || ''}
                         onChange={(e) => { setStopTrigger(true); setOrder(e,'toR') }}
                         placeholder={isFrench ? store.locationListF[0] : store.locationList[0]}
                     />
                 </div>
-                {orders[0].icon2 === 1 &&
+                {orders[id].icon2 === 1 &&
                     <div className="border border-blue-500 flex items-center w-1/3 rounded-lg py-1">
                         <Select
                             className='favorite truncate'
@@ -311,22 +287,22 @@ const ReturnSection = () => {
                     </div>}
             </div>
 
-            <div className={orders[0].icon2R > 0 ? iconsType : 'hidden'}>
+            <div className={orders[id].icon2R > 0 ? iconsType : 'hidden'}>
                 <span className={iconCard}>
-                    {orders[0].icon2R === 1
+                    {orders[id].icon2R === 1
                         ? <MdFlightLand className={iconItem + 'text-xl '} />
-                        : orders[0].icon2R === 2
+                        : orders[id].icon2R === 2
                         ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                        : orders[0].icon2R === 3
+                        : orders[id].icon2R === 3
                         ? <FaBus className={iconItem} />
-                        : orders[0].icon2R === 4
+                        : orders[id].icon2R === 4
                         ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
                         : <MdLocalHotel className={iconItem + ' text-lg'} />
                     }
                 </span>
 
                 <div className={flightCard}>
-                    {orders[0].icon2R === 1 &&
+                    {orders[id].icon2R === 1 &&
                         <Select
                             className='favorite w-1/2 max-h-[30px]'
                             style={{ borderRadius: 5 }}
@@ -334,36 +310,36 @@ const ReturnSection = () => {
                                 { value: item, label: item }
                             ))}
                             onChange={(e) => {
-                                setOrder({ ...orders[0].flight2, title: e },'flight2')
+                                setOrder({ ...orders[id].flight2, title: e },'flight2')
                             }}
                             placeholder='Airlines'
                         />}
 
-                    {orders[0].icon2R === 1
+                    {orders[id].icon2R === 1
                         ? <MdFlightLand className='text-xl mx-1 e' />
-                        : orders[0].icon2R === 2
+                        : orders[id].icon2R === 2
                         ? <div style={{ backgroundImage: `url(${train})` }} className="w-8 h-8 bg-contain bg-no-repeat bg-center"></div>
-                        : orders[0].icon2R === 3
+                        : orders[id].icon2R === 3
                         ? <FaBus className=' mx-1 sm:text-sm' />
-                        : orders[0].icon2R === 4
+                        : orders[id].icon2R === 4
                         ? <div style={{ backgroundImage: `url(${boat})` }} className="w-5 h-5 bg-cover bg-no-repeat bg-center"></div>
-                        : orders[0].icon2R === 5
+                        : orders[id].icon2R === 5
                         ? <MdLocalHotel className='mx-1 ' />
                         : <MdFlightTakeoff className='text-xl mx-1 ' />
                     }
-                    {orders[0].icon2R === 1 && <div className='text-sm pl-1 text-gray-500 translate-y-[0.5px] pr-[1px]'>
-                        {prefixes[orders[0].flight2.title]}
+                    {orders[id].icon2R === 1 && <div className='text-sm pl-1 text-gray-500 translate-y-[0.5px] pr-[1px]'>
+                        {AirportPrefixes[orders[id].flight2.title]}
                     </div>}
                     <Input
-                        value={orders[0].flight2.number}
+                        value={orders[id].flight2.number}
                         maxLength={4}
-                        placeholder={orders[0].icon2R === 1 ? '####' : orders[0].icon2R === 2 ? 'Train#' : orders[0].icon2R === 3 ? "Bus#" : orders[0].icon2R === 4 ? 'Boat#' : 'Room#'}
+                        placeholder={orders[id].icon2R === 1 ? '####' : orders[id].icon2R === 2 ? 'Train#' : orders[id].icon2R === 3 ? "Bus#" : orders[id].icon2R === 4 ? 'Boat#' : 'Room#'}
                         style={{ width: 65, paddingLeft: 0, paddingRight: 0, borderRadius: 0, height: 30 }}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                            setOrder({ ...orders[0].flight2, number: e.target.value.replace(/\D/g, '') },'flightr2')
+                            setOrder({ ...orders[id].flight2, number: e.target.value.replace(/\D/g, '') },'flightr2')
                         }}
                     />
-                    {orders[0].flight2.number.length < 3 && orders[0].flight2.number.length > 0 && <div className='absolute right-0 -bottom-4 text-[10px] text-red-500'>from 3 to 4 digits</div>}
+                    {orders[id].flight2.number.length < 3 && orders[id].flight2.number.length > 0 && <div className='absolute right-0 -bottom-4 text-[10px] text-red-500'>from 3 to 4 digits</div>}
                 </div>
             </div>
 
@@ -374,6 +350,8 @@ const ReturnSection = () => {
 
 export default ReturnSection;
 
+const returnButton = 'bg-red-500 text-white px-2  rounded cursor-pointer py-1 max-w-[100px]'
+const returnButtonGreen = 'bg-green-400 text-white px-2  rounded cursor-pointer py-1 max-w-[100px]'
 const iconCard = 'flex items-center justify-center w-8 h-8 bg-blue-500 shadow-xl text-white rounded-lg'
 const iconItem = ' '
 const iconsType = 'flex items-center justify-between w-full sm:space-x-0 xl:space-x-4  lg:space-x-4 2xl:space-x-4'

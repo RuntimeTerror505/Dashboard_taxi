@@ -17,20 +17,11 @@ interface IItem {
 
 export interface ITaxi {
     id: number;
-    filled: boolean;
     timeType: number;
     timeTypeR: number;
     type: number;
-    validation:number;
     isEdit: boolean;
-    isReset: {[key:number]: boolean};
     weightType: boolean;
-    totalPass: number | string;
-    totalBags: number | string;
-    totalSport: number | string;
-    totalPets: number | string;
-    totalSeats: number | string;
-    totalStroller: number | string;
 
     name: string;
     name2: string;
@@ -77,13 +68,12 @@ export interface ITaxi {
 
     departure: string;
     departure2: string;
-    tripType: string;
 
+    tripType: string;
     paymentMethod: string;
     additionalText: string;
 
     //return trip information
-    isReturnStatus: boolean;
     isReturnTrip: boolean;
 
     fromR: string;
@@ -115,6 +105,13 @@ export interface ITaxi {
     departure2R: string;
 
     //options information
+    totalPass: number | string;
+    totalBags: number | string;
+    totalSport: number | string;
+    totalPets: number | string;
+    totalSeats: number | string;
+    totalStroller: number | string;
+
     carType: number;
     adults: number;
     kids: number[],
@@ -130,14 +127,8 @@ interface IStore {
     submit: boolean;
     alert: string;
     isFrench: boolean;
-    isCars: {
-        1: boolean,
-        2: boolean,
-        3: boolean,
-        4: boolean,
-        5: boolean,
-    }
     id: number;
+    order:ITaxi | null;
     orders: ITaxi[];
     //info methods
     setOrder: (data: unknown, title:string) => void;
@@ -168,27 +159,18 @@ export const useMain = create<IStore>()(
     persist(
     (set) => ({
         alert: '',
-        isCars: { 1: false, 2: false, 3: false, 4: false, 5: false, },
         id: 0,
         isFrench: false,
         submit: false,
+        order: null,
         orders: [
             {
                 id: 1,
                 type: 1,
                 timeType: dayjs().isBefore(dayjs().set('hour', 12).set('minute', 0).set('second', 0))? 1: 2,
                 timeTypeR: dayjs().isBefore(dayjs().set('hour', 12).set('minute', 0).set('second', 0))? 1: 2,
-                filled: false,
-                validation:1,
                 isEdit: false,
-                isReset: {1:false, 2:false, 3:false, 4:false, 5:false, 6:false },
                 weightType: true,
-                totalPass: 1,
-                totalBags: 0,
-                totalSport: 0,
-                totalPets: 0,
-                totalSeats: 0,
-                totalStroller: 0,
 
                 name: '',
                 name2: '',
@@ -211,15 +193,18 @@ export const useMain = create<IStore>()(
                 dateNow: true,
 
                 //trip information
-                from: '', to: '',
+                from: '',
+                to: '',
 
                 stops: {
                     1: '', 2: '', 3: '', 4: '',
                 },
 
-                icon: 0, icon2: 0,
+                icon: 0, 
+                icon2: 0,
 
-                airlines: '', airlinesBack: '',
+                airlines: '', 
+                airlinesBack: '',
                 flight: {
                     title: '',
                     prefix: '',
@@ -231,7 +216,8 @@ export const useMain = create<IStore>()(
                     number: '',
                 },
 
-                departure: '', departure2: '',
+                departure: '', 
+                departure2: '',
 
                 tripType: 'Vacation',
                 paymentMethod: 'Cash',
@@ -239,17 +225,19 @@ export const useMain = create<IStore>()(
 
                 //return trip information
                 isReturnTrip: false,
-                isReturnStatus:false,
 
-                fromR: '', toR: '',
+                fromR: '', 
+                toR: '',
 
                 stopsR: {
                     1: '', 2: '', 3: '', 4: '',
                 },
 
-                dateR: '', timeR: '',
+                dateR: '', 
+                timeR: '',
 
-                iconR: 0, icon2R: 0,
+                iconR: 0, 
+                icon2R: 0,
                 flightR: {
                     title: '',
                     prefix: '',
@@ -261,13 +249,23 @@ export const useMain = create<IStore>()(
                     number: '',
                 },
 
-                airlinesR: '', airlinesBackR: '',
-                departureR: '', departure2R: '',
+                airlinesR: '', 
+                airlinesBackR: '',
+                departureR: '', 
+                departure2R: '',
 
                 //options information
+                totalPass: 1,
+                totalBags: 0,
+                totalSport: 0,
+                totalPets: 0,
+                totalSeats: 0,
+                totalStroller: 0,
                 carType: 1,
 
-                adults: 1, kids: [], babies: 0,
+                adults: 1, 
+                kids: [], 
+                babies: 0,
 
                 baggage: [
                     { type: 1,title: '', quantity: 0, },
@@ -321,16 +319,32 @@ export const useMain = create<IStore>()(
             }
         ],
         setOrder: (data, title) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id+1 ? {...item,  [title] : data } : item ) })), 
-        setIsFrench: (data) => set((state) => ({ ...state, isFrench: data})), 
+        setIsFrench: (data) => set((state) => ({ ...state, isFrench: data })), 
         
-
         addNewCar:() => {
-            set((state)=>({
+            
+            set((state)=>{
+                if(state.orders.length===5) return state;
+
+                return ({
                 ...state,
-                orders:[...state.orders, {...state.orders[state.orders.length-1], id: (state.orders[state.orders.length-1].id+1), isEdit: false, filled: false, validation: 1 } ]
-            }))
+                orders:[
+                    ...state.orders, 
+                    {
+                        ...state.orders[state.orders.length-1], 
+                        id: (state.orders.length + 1), 
+                        isEdit: false,
+                    } 
+                ]
+                })
+            })
         },
-        removeCar:(id) =>  set((state)=>({...state, orders:state.orders.filter(item => item.id !== id)})),
+        
+        removeCar:(id) =>  set((state)=>{
+            const newOrders = state.orders.filter(item => item.id !== id+1).map((item,index)=> ({...item, id:index+1 }) )
+
+            return ({...state, orders:newOrders})
+        }),
 
         setOrders:(data) => {
             const res = data.map((item,index)=> { return {...item, id: (index+1)} })

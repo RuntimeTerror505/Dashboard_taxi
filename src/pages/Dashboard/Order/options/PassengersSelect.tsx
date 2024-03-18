@@ -34,9 +34,9 @@ const PassengersSelect = () => {
         <div className={optionsContent}>
             <h2 className=' absolute top-6 text-red-500 self-end'>Maximum 10 items </h2>
             <div className={carTypeBox}>
-                <button className={orders[0].carType === 1 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(1, 'carType')}>{isFrench ? 'Sedan' : 'Sedan'}</button>
-                <button className={orders[0].carType === 2 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(2, 'carType')}>{isFrench ? 'SUV' : 'SUV'}</button>
-                <button className={orders[0].carType === 3 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(3, 'carType')}>{isFrench ? 'VAN' : 'VAN'}</button>
+                <button className={orders[id].carType === 1 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(1, 'carType')}>{isFrench ? 'Sedan' : 'Sedan'}</button>
+                <button className={orders[id].carType === 2 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(2, 'carType')}>{isFrench ? 'SUV' : 'SUV'}</button>
+                <button className={orders[id].carType === 3 ? carTypeItemActive : carTypeItem} onClick={() => setOrder(3, 'carType')}>{isFrench ? 'VAN' : 'VAN'}</button>
                 <span className={mainTypeItem + ' flex items-center text-gray-400'}><MdDoNotDisturbAlt />{isFrench ? 'Limo' : 'Limo'}</span>
             </div>
 
@@ -44,13 +44,13 @@ const PassengersSelect = () => {
                 
                 <span className={passTitle}>Total Passengers:</span>
                 <button className={btnQuantity + ' ml-auto'} onClick={() => {
-                    if (!Number(orders[0].totalPass)) return;
-                    setOrder(Number(orders[0].totalPass) - 1,'totalPass')
+                    if (!Number(orders[id].totalPass)) return;
+                    setOrder(Number(orders[id].totalPass) - 1,'totalPass')
                 }}>-</button>
-                <span className={passNumber}>{orders[0].totalPass}</span>
+                <span className={passNumber}>{orders[id].totalPass}</span>
                 <button className={btnQuantity} onClick={() => {
-                    if (Number(orders[0].totalPass) >= 7) return
-                    setOrder(Number(orders[0].totalPass) + 1,'totalPass')
+                    if (Number(orders[id].totalPass) >= 7) return
+                    setOrder(Number(orders[id].totalPass) + 1,'totalPass')
                 }}>+</button>
             </div>
 
@@ -58,39 +58,39 @@ const PassengersSelect = () => {
 
                 <span className={passTitle}>Adults</span>
                 <button className={btnQuantity + ' ml-auto'} onClick={() => {
-                    if (!orders[0].adults) return;
-                    setOrder(orders[0].adults - 1,'adults')
+                    if (!orders[id].adults) return;
+                    setOrder(orders[id].adults - 1,'adults')
                 }}>-</button>
-                <span className={passNumber}>{orders[0].adults}</span>
+                <span className={passNumber}>{orders[id].adults}</span>
 
                 <button className={btnQuantity} onClick={() => {
                     if(maxPass >= +orders[id].totalPass) return;
                     if((orders[id].kids.length + orders[id].adults + orders[id].babies) >=4) setOrder(3, 'carType')
                     if((orders[id].kids.length + orders[id].adults + orders[id].babies)  >= 7) return;
-                    setOrder(orders[0].adults + 1,'adults')
+                    setOrder(orders[id].adults + 1,'adults')
                 }}>+</button>
             </div>
             <div className={itemRow}>
                 <span className={passTitle}>Kids</span>
                 <button className={btnQuantity + ' ml-auto'} onClick={() => {
-                    if (!orders[0].kids.length) return;
-                    const newArray = [...orders[0].kids]
+                    if (!orders[id].kids.length) return;
+                    const newArray = [...orders[id].kids]
                     newArray.pop()
                     setOrder(newArray, 'kids')
                 }}>-</button>
-                <span className={passNumber}>{orders[0].kids.length}</span>
+                <span className={passNumber}>{orders[id].kids.length}</span>
                 <button className={btnQuantity} onClick={() => {
                     if(maxPass >= +orders[id].totalPass) return;
                     if(!orders[id].adults) return;
                     if((orders[id].kids.length + orders[id].adults) >=4) setOrder(3, 'carType')
                     if((orders[id].kids.length + orders[id].adults) >= 7 ) return;
                     const newKid = 0
-                    setOrder([...orders[0].kids, newKid], 'kids')
+                    setOrder([...orders[id].kids, newKid], 'kids')
                 }}>+</button>
             </div>
 
-            {orders[0].kids.length>0 && <div className="flex w-full border shadow-inner rounded-lg bg-gray-50 flex-wrap px-2 py-1">
-                {orders[0].kids.map((_,index) => (
+            {orders[id].kids.length>0 && <div className="flex w-full border shadow-inner rounded-lg bg-gray-50 flex-wrap px-2 py-1">
+                {orders[id].kids.map((_,index) => (
                     <div className='flex items-center bg-white rounded-lg shadow px-1 mb-1 mr-1' key={index} onClick={(e) => e.stopPropagation()}>
                         <span >Kid </span>
                         <div className=' flex items-center  px-1 rounded'>
@@ -100,7 +100,7 @@ const PassengersSelect = () => {
                                 className='yearsSelect'
                                 options={years.map(item => ({ value: item, label: `${item} years ` }))}
                                 onChange={(e) => {
-                                    setOrder(orders[0].kids.map((child, i) => i === index ? Number(e) : child), 'kids')
+                                    setOrder(orders[id].kids.map((child, i) => i === index ? Number(e) : child), 'kids')
                                 }}
                             />
                         </div>
@@ -111,13 +111,13 @@ const PassengersSelect = () => {
             <div className={itemRow}>
                 <span className={passTitle}>Babies</span>
                 <button className={btnQuantity + ' ml-auto'}>-</button>
-                <span className={passNumber}>{orders[0].babies}</span>
+                <span className={passNumber}>{orders[id].babies}</span>
                 <button className={btnQuantity} onClick={()=>{
                     if(maxPass >= +orders[id].totalPass) return;
                     if(orders[id].babies >= 2) return;
                     if(orders[id].babies >= 1 && orders[id].adults >5) return;
 
-                    setOrder(orders[0].babies + 1, 'babies')
+                    setOrder(orders[id].babies + 1, 'babies')
                 }}>+</button>
             </div>
         </div>

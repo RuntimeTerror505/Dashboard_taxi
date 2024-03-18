@@ -116,6 +116,9 @@
 
     "checkedBag": "Bagages en soute",
     "carryOnBag": "Bagages à main",
-    "backpacks": "Sacs à dos"
+    "backpacks": "Sacs à dos",
+
+    "returnOn": "Activer Retour",
+    "returnOff": "Activate Return"
 
 }

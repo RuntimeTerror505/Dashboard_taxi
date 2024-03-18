@@ -116,8 +116,9 @@
 
     "checkedBag": "Checked baggage",
     "carryOnBag": "Carry-on baggage",
-    "backpacks":"Backpacks"
+    "backpacks":"Backpacks",
 
-
+    "returnOn": "Activate Return",
+    "returnOff": "Disable Return"
 
 }

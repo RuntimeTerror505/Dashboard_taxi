@@ -2,8 +2,8 @@ import React, {  useState } from 'react';
 import { useMain } from '../../../Store/useMain';
 import { BsPeople } from 'react-icons/bs';
 import { Input, Select } from 'antd';
-import MailInput from '../../../UI/components/MailInput';
-import PhoneNumberInput from '../../../UI/components/PhoneInput';
+import MailInput from '../../../UI/MailInput';
+import PhoneNumberInput from '../../../UI/PhoneInput';
 import { useStore } from '../../../Store';
 import { useTranslation } from 'react-i18next';
 
@@ -42,7 +42,7 @@ const PersonalInfoSection = () => {
 
     const closeName = (index: number) => {
         if(index === 2) {
-            if (orders[id].name3.length > 2 || orders[0].title3) {
+            if (orders[id].name3.length > 2 || orders[id].title3) {
                 setOrder(orders[id].name3, 'name2')
                 setOrder(orders[id].title3, 'title2')
                 setOrder('','title3')
@@ -62,7 +62,7 @@ const PersonalInfoSection = () => {
     }
     const closeEmails = (index: number) => {
         if(index === 2) {
-            if (pattern.test(orders[0].email3)) {
+            if (pattern.test(orders[id].email3)) {
                 setOrder(orders[id].email3,'email2')
                 setOrder('@','email3')
                 return setEmails(emails-1)
@@ -106,7 +106,7 @@ const PersonalInfoSection = () => {
 
                     <div className={names === 2? nameBox: 'hidden'}>
                         <span className='icon'><BsPeople /></span>
-                        <Select allowClear placeholder={t('Title')} style={{ width: 110, height: 40 }} onChange={(value)=> setOrder(value, 'title3')} options={options1} value={orders[0].title3 || null} />
+                        <Select allowClear placeholder={t('Title')} style={{ width: 110, height: 40 }} onChange={(value)=> setOrder(value, 'title3')} options={options1} value={orders[id].title3 || null} />
                         <Input allowClear value={orders[id].name3} placeholder={t('name_placeholder3')} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setOrder(e.target.value, 'name3')} style={{ maxWidth: 180, borderRadius: 5, height: 30, paddingLeft: 0 }} />
                         <div className={nameClose} onClick={() => closeName(3)}>+</div>
                     </div>
@@ -116,7 +116,7 @@ const PersonalInfoSection = () => {
 
                 <section className={section}>
                     <div className={emailBox}>
-                        <MailInput value={orders[0].email} mainMail={true} noMail={pattern.test(orders[0].email)} onChange={(value)=> setOrder(value, 'email')} placeholder={t('email_placeholder')} />
+                        <MailInput value={orders[id].email} mainMail={true} noMail={pattern.test(orders[id].email)} onChange={(value)=> setOrder(value, 'email')} placeholder={t('email_placeholder')} />
                     </div>
 
                     <div className={emails>0 ? emailBox: 'hidden'}>

@@ -7,8 +7,8 @@ import { BsTelephone } from "react-icons/bs";
 import { SlEarphonesAlt } from "react-icons/sl";
 import { Select } from 'antd';
 import React from 'react';
-import { useMain } from '../../Store/useMain';
-import { useStore } from '../../Store';
+import { useMain } from '../Store/useMain';
+import { useStore } from '../Store';
 import { IoIosArrowUp,IoIosArrowDown } from "react-icons/io";
 
 const countries = [

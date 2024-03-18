@@ -4,7 +4,7 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import React from 'react';
-import { useMain } from '../../Store/useMain';
+import { useMain } from '../Store/useMain';
 interface IDate {
     onChange:(date:string) => void;
     getFullDate?: (date: dayjs.Dayjs) => void;
