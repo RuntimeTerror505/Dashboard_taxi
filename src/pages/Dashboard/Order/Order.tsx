@@ -36,12 +36,11 @@ const Orders = (): React.ReactNode => {
         store.hotelArray.map(item => { if (orders[id].to.split(' ').filter((word) => word.toLowerCase() === item.toLowerCase()).length > 0) setOrder(5,'icon2') })
 
     }, [orders[id].from, orders[id].to])
-    
     return (
         <div className={container}>
             <header className={header}>
-                <h1 className={mainHeader}>Create new order</h1>
-                <nav className={carSelect}>
+                <h1 className={mainHeader}>{orders[id].isEdit? "Edit order" : 'Create new order' }</h1>
+                <nav className={orders[id].isEdit? 'hidden' : carSelect}>
                     {orders.map((item,index) => <div onClick={()=>setId(index)} className={index===id? carSelectItemActive: carSelectItem}>CAR {item.id}</div>)}
                     <div 
                         className={orders.length<5 ?carSelectItem: 'hidden'}

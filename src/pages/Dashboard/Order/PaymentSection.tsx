@@ -5,7 +5,7 @@ import { useStore } from '../../../Store';
 import axios, { AxiosResponse } from 'axios';
 
 const PaymentSection = () => {
-    const { orders,id, isFrench,  setOrder } = useMain()
+    const { orders,id, isFrench,  setOrder ,resetForm} = useMain()
     const { store } = useStore()
 
     const sendOrder = async (): Promise<AxiosResponse> => {
@@ -16,6 +16,10 @@ const PaymentSection = () => {
         console.log(response, 'response from server')
         return response;
     };
+
+    const sendEditOrder = async () => {
+        
+    }
 
     return (
         <div className={optionsSection}>
@@ -34,8 +38,13 @@ const PaymentSection = () => {
             }} /></span>
 
         <div className="flex space-x-2">
-            <div className={btnGreen} onClick={sendOrder}>confirm</div>
-            <div className={btnblue}>orders</div>
+
+            <button className={orders[id].isEdit ?  'hidden': btnGreen } onClick={sendOrder}>send order</button>
+            <button className={orders[id].isEdit?  ' hidden' : btnblue}>orders</button>
+
+
+            <button className={orders[id].isEdit ? btnGreen : 'hidden' } onClick={sendEditOrder}>Save</button>
+            <button className={orders[id].isEdit? btnblue : 'hidden'} onClick={resetForm}>cancel</button>
         </div>
     </div>
     );

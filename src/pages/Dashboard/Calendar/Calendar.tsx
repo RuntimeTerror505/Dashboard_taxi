@@ -19,7 +19,7 @@ interface FilterType {
 }
 
 const Calendar = (): React.ReactNode => {
-    const { orders, activeEvents, setActiveEvents, getToken } = useDashboard()
+    const { orders, activeEvents, setActiveEvents,getOrders } = useDashboard()
     const createEvents = (data:IOrder[]) =>{
         return data.map((item)=>{
             const res:IEvent  = {
@@ -33,7 +33,7 @@ const Calendar = (): React.ReactNode => {
     }
     const formats = {
         timeGutterFormat: 'HH:mm',
-      };
+    };
 
     const [ timeRange, setTimeRange ] = useState({
         selection: {
@@ -50,7 +50,11 @@ const Calendar = (): React.ReactNode => {
     const [view, setView] = useState<View | undefined>('month'); 
 
     useEffect(()=>{
-        getToken()
+        getOrders()
+    },[])
+    
+    useEffect(()=>{
+        // getToken()
         setEvents(createEvents(orders))
     },[orders])
 
@@ -65,6 +69,8 @@ const Calendar = (): React.ReactNode => {
             setEvents(res)
         }
     },[timeRange])
+
+
 
     const options = ['time', 'date', 'name', 'phone']
     const colors:string[] =  ['bg-red-500  active:bg-red-400 ', 'bg-orange-500 active:bg-orange-400 ', 'bg-green-500 active:bg-green-400 ', 'bg-blue-500']
@@ -103,6 +109,7 @@ const Calendar = (): React.ReactNode => {
     } 
 
     const handleEvent =(event:IEvent) =>{
+        console.log(event.data, 'work')
         if(activeEvents.find(item => item._id === event.data._id)) return setActiveEvents(activeEvents.filter(i => i._id !== event.data._id))
         setActiveEvents([event.data,...activeEvents])
     }
@@ -110,6 +117,13 @@ const Calendar = (): React.ReactNode => {
     const handleClickEvent = (data:string) => {
         const res = dayjs(data).toDate()
         setCalendarDate(res)
+    }
+
+    const selectEvent = (item:IEvent)=> {
+        if(activeEvents.find(i => i._id === item.data._id)) return setActiveEvents(activeEvents.filter(i => i._id !== item.data._id))
+        setActiveEvents([item.data,...activeEvents])
+        
+        handleClickEvent(item.data.date)
     }
 
 
@@ -155,7 +169,8 @@ const Calendar = (): React.ReactNode => {
                             {
                                 ['Yesterday','Today','Tomorrow'].map((item, index) =>
                                     <button 
-                                    onClick={()=>setCalendar(index+1)} 
+                                        key={item}
+                                        onClick={()=>setCalendar(index+1)} 
                                         className={
                                             navButton +
                                             (activeTab===index+1 
@@ -169,6 +184,7 @@ const Calendar = (): React.ReactNode => {
                             {
                                 ['Last Week','This Week','Next Week'].map((item, index) =>
                                     <button 
+                                        key={item}
                                         onClick={()=>setCalendar(index+4)} 
                                         className={
                                             navButton +
@@ -183,6 +199,7 @@ const Calendar = (): React.ReactNode => {
                             {
                                 ['Last Month','This Month','Next Month'].map((item, index) =>
                                     <button 
+                                        key={item}
                                         onClick={()=>setCalendar(index+7)} 
                                         className={
                                             navButton +
@@ -223,7 +240,7 @@ const Calendar = (): React.ReactNode => {
                     <div className={activeEventsList}>
                         {
                             activeEvents.map(item=>(
-                                <OrderCard item={item} />
+                                <OrderCard item={item} key={item._id} />
                             ))
                         }
                     </div>
@@ -265,12 +282,7 @@ const Calendar = (): React.ReactNode => {
                             .filter(item => item.data[filter.type].toLowerCase().includes(filter.value.toLowerCase()) )
                             .map(item=>(
                             <div 
-                                onClick={()=> {
-                                    if(activeEvents.find(i => i._id === item.data._id)) return setActiveEvents(activeEvents.filter(i => i._id !== item.data._id))
-                                    setActiveEvents([item.data,...activeEvents])
-                                    
-                                    handleClickEvent(item.data.date)
-                                }}
+                                onClick={()=> selectEvent(item)}
                                 key={item.title+item.data._id} 
                                 className={ activeEvents.find(i=>item.data._id ===i._id) ? activeListItem :listItem}
                             >

@@ -1,6 +1,8 @@
 import React from 'react';
 import {  Modal } from 'antd';
 import { IOrder, useDashboard } from '../../../Store/useDashboard';
+import { useNavigate } from 'react-router-dom';
+import { useMain } from '../../../Store/useMain';
 
 const cars: { [keys: number]:string} =  {
     1:'Sedan',
@@ -9,9 +11,10 @@ const cars: { [keys: number]:string} =  {
     4:'Limo',
 }
 const OrderModal = ({ item, setIsModalOpen, open}:{setIsModalOpen:(data:boolean)=>void, open:boolean , item:IOrder} ): React.ReactNode => {
-    const { orders, setOrders, setActiveEvents, activeEvents, sendOrder,sendOrderToDriver, driverNumber, setDriverNumber } = useDashboard()
+    const { orders,  setOrders, setActiveEvents, activeEvents, sendOrder,sendOrderToDriver, driverNumber, setDriverNumber } = useDashboard()
+    const { getOrder, setModify } = useMain()
+    const nav = useNavigate()
     const changeStatus = (status: string) => {
-        
         setOrders(orders.map(i => i._id === item._id? { ...i, data: { ...item, status }}: i))
         setActiveEvents(activeEvents.map(i => i._id === item._id? {...item, status }: i))
     }
@@ -25,9 +28,12 @@ const OrderModal = ({ item, setIsModalOpen, open}:{setIsModalOpen:(data:boolean)
     setIsModalOpen(false);
   };
 
-
-
-console.log(item)
+  const modifyOrder = async  () => {
+    const res = await getOrder(item._id)
+    setModify(res)
+    nav('/order')
+  }
+  
   return (
     
       <Modal 
@@ -55,11 +61,12 @@ console.log(item)
             <button onClick={()=>changeStatus('pending')} className={item.status === 'pending' ? buttonToggleCActive : buttonToggleC }>Pending</button>
             <button onClick={()=>changeStatus('confirmed')} className={item.status === 'confirmed' ? buttonToggleRActive : buttonToggleR}>Confirmed</button>
 
-            <button className={button + ' rounded-full bg-blue-500 active:bg-blue-400 text-white mx-4 ml-auto'}>Modify</button>
-            <button className={button + ' rounded-full bg-gray-400 text-white'}>Hide</button>
+            <button 
+              className={buttonBlue}
+              onClick={modifyOrder}
+            >Modify</button>
+            <button className={buttonGray}>Hide</button>
         </div>
-
-
       </Modal>
   );
 };
@@ -75,9 +82,9 @@ const buttonToggleLActive = '  py-1 px-2 text-white rounded-l-full bg-red-500 ac
 const buttonToggleCActive = '  py-1 px-2 text-white bg-orange-400 border-orange-400 active:bg-orange-300'
 const buttonToggleRActive = '  py-1 px-2 text-white rounded-r-full bg-green-400 border-green-400 active:bg-green-300 '
 
-
 const driverInput = ' border py-[7px] rounded-r-full w-[80px] mr-6 outline-none px-2'
-const button = '  py-2 px-4 '
+const buttonGray = ' px-4 py-2 rounded-full bg-gray-400 text-white'
+const buttonBlue = '  py-2 px-4 rounded-full bg-blue-500 active:bg-blue-400 text-white mx-4 ml-auto'
 const buttonInput = '  py-2 px-4  rounded-l-full ml-4 bg-yellow-300 active:bg-yellow-200'
 const buttonYellow = '  py-2 px-4 rounded-full bg-yellow-300 active:bg-yellow-200'
 const buttons = 'flex mt-4 border-t pt-4 w-full items-center'

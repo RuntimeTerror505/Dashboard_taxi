@@ -1,6 +1,9 @@
 import dayjs from 'dayjs';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware'
+import axios from 'axios';
+import { IFullOrder } from './types';
+import { createOrder } from '../services/editOrderService';
 
 
 export interface IPet {
@@ -128,10 +131,12 @@ interface IStore {
     alert: string;
     isFrench: boolean;
     id: number;
-    order:ITaxi | null;
+    order: IFullOrder | null;
     orders: ITaxi[];
     //info methods
-    setOrder: (data: unknown, title:string) => void;
+    getOrder: (id: string) => Promise<any>;
+    setOrder: (data: unknown| boolean, title:string) => void;
+    setModify: (data: IFullOrder) => void;
     setIsFrench: (value: boolean) => void;
     setAlert: (value: string) => void;
     setId: (value: number) => void;
@@ -318,6 +323,18 @@ export const useMain = create<IStore>()(
                 steps:0,
             }
         ],
+        getOrder: async (id) => {
+            const res = await axios.get(`http://localhost:7010/order/${id}`).then(res => res.data[0])
+            set((state) => ({ ...state, order: res }))
+            return res;
+        },
+
+        setModify: (order) => {
+            const newOrder:ITaxi = createOrder(order)
+
+            return set((state) => ({ ...state, orders: [newOrder] }))
+            
+        },
         setOrder: (data, title) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id+1 ? {...item,  [title] : data } : item ) })), 
         setIsFrench: (data) => set((state) => ({ ...state, isFrench: data })), 
         
@@ -358,10 +375,10 @@ export const useMain = create<IStore>()(
         setIsCars: (data) => set((state) => ({ ...state, isCars: data })),
 
         resetForm: () => set((state) => ({
-            ...state, orders: state.orders.map(item => item.id === state.id++ 
+            ...state, orders: state.orders.map(item => item.id === state.id+1 
                 ? 
                 {   ...item,
-                    id: state.id++,
+                    id: state.id+1,
                     type: 1,
                     timeType: 0,
                     timeTypeR: 0,
@@ -518,10 +535,10 @@ export const useMain = create<IStore>()(
                     steps:0,
                 } : item)
         })),
-        restoreForm: () => set((state) => ({...state, orders: state.orders.map(item=> item.id === state.id++
+        restoreForm: () => set((state) => ({...state, orders: state.orders.map(item=> item.id === state.id+1
             ? {
                 ...state.orders[0],
-                id:state.id++,
+                id:state.id+1,
                 isReset: { 1:false, 2:false, 3:false, 4:false, 5:false, 6:false },
                 filled:false,
                 steps:  state.orders[state.id].steps,
@@ -563,7 +580,7 @@ export const useMain = create<IStore>()(
         setIsReturnStatus: (data) => set((state) => ({ ...state, orders: state.orders.map(item => item.id === state.id++ ? { ...item, isReturnStatus: data } : item) })),
 
         resetReturn: () => set((state) => ({
-            ...state, orders: state.orders.map(item => item.id === state.id++ ? {
+            ...state, orders: state.orders.map(item => item.id === state.id+1 ? {
                 ...item,
                 fromR: '', toR: '',
                 stopsR: {

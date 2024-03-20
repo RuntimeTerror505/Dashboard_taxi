@@ -85,8 +85,9 @@ export const useDashboard = create<Store>((set) => ({
     setOrders: (data) => set((state) => ({ ...state, orders: data})),
     setToken: (data) => set((state) => ({ ...state, accessToken: data})),
     getOrders: async  () => {
-        const res:IOrder[] = await axios.get('https://taxibeckend.onrender.com/order').then(res => res.data)
+        // const res:IOrder[] = await axios.get('https://taxibeckend.onrender.com/order').then(res => res.data)
         // const res:IOrder[] = await axios.get('https://server.taxi/order').then(res => res.data)
+        const res:IOrder[] = await axios.get('http://localhost:7010/order/').then(res => res.data)
         set((state) =>({...state, orders: res}))
     },
     getUsers: async  () => {

@@ -4,7 +4,6 @@ import { useMain } from "../../../../Store/useMain";
 const PetsSelect = () => {
     const { orders, id,setOrder } = useMain()
     const [max, setMax ] = useState(orders[id].pets.reduce((sum, item) => sum + item.quantity, 0))
-
     useEffect(()=>{
         setMax(orders[id].pets.reduce((sum, item) => sum + item.quantity, 0))
     },[orders[id].pets])
@@ -37,7 +36,7 @@ const PetsSelect = () => {
             </div>
 
         {orders[id].pets.map(item => (
-            <div className={itemRow}>
+            <div className={itemRow} key={item.title}>
                 
                 <span className={passTitle}>{item.title }</span>
                 <span className={btnQuantity + ' ml-auto'} onClick={() => {
